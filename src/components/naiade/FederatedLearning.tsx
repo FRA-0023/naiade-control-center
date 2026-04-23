@@ -15,7 +15,13 @@ export function FederatedLearning({ progress }: { progress: number }) {
     progress < 30 ? "Training local" : progress < 70 ? "Pushing weights" : "Aggregating round";
 
   return (
-    <BentoCard eyebrow="FEDERATED" title="Learning Sync" meta="round #2814" padded={false}>
+    <BentoCard
+      eyebrow="FEDERATED"
+      title="Learning Sync"
+      subtitle="Local models trained on edge. Pushing updated weights to Cloud while keeping raw data strictly local."
+      meta="round #2814"
+      padded={false}
+    >
       <div className="flex flex-col gap-5 p-6">
         {/* Diagram */}
         <div className="flex items-stretch gap-2">
