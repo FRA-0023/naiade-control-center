@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Area, AreaChart, ReferenceArea, ResponsiveContainer } from "recharts";
 import { BentoCard } from "./BentoCard";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle, Info } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import type { DPPoint } from "@/hooks/useMockData";
 
 function useCountdown(initialHours: number) {
@@ -28,12 +29,30 @@ export function PredictiveMaintenance({ dp }: { dp: DPPoint[] }) {
       padded={false}
     >
       <div className="p-6 pb-3">
+        <p className="mb-3 text-sm font-light leading-snug text-muted-foreground">
+          MobileNetV3 analysis of ΔP (differential pressure) trend to forecast membrane biofouling 48–72h in advance.
+        </p>
         <div className="flex items-baseline gap-2">
           <span className="font-mono text-4xl font-bold tracking-tight text-foreground">
             {last.toFixed(2)}
           </span>
           <span className="font-mono text-xs text-muted-foreground">bar · current ΔP</span>
-          <span className="ml-auto font-mono text-[10px] text-warning">DRIFT 0.3–0.5</span>
+          <TooltipProvider delayDuration={150}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  type="button"
+                  className="ml-auto flex items-center gap-1 font-mono text-[10px] text-warning transition-colors hover:text-warning/80"
+                >
+                  DRIFT 0.3–0.5
+                  <Info className="h-3 w-3 text-warning/70" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="left" className="max-w-[240px] text-xs font-normal">
+                A drift of 0.3–0.5 bar in differential pressure triggers the automated preventative wash cycle.
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
 
@@ -88,7 +107,7 @@ export function PredictiveMaintenance({ dp }: { dp: DPPoint[] }) {
           <span className="text-muted-foreground">model</span>
           <span className="text-right text-foreground">MobileNetV3-S</span>
           <span className="text-muted-foreground">params</span>
-          <span className="text-right text-foreground">2.5M · int8</span>
+          <span className="text-right text-foreground">1.2M · int8</span>
           <span className="text-muted-foreground">F1 (val)</span>
           <span className="text-right text-success">0.947</span>
           <span className="text-muted-foreground">last retrain</span>
