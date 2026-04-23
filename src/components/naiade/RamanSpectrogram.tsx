@@ -28,7 +28,7 @@ export function RamanSpectrogram({ data }: { data: SpectrogramPoint[] }) {
           </div>
         </div>
 
-        <div className="relative w-full min-h-[320px] flex-1">
+        <div className="relative w-full h-[320px] shrink-0">
           <div className="pointer-events-none absolute inset-0 overflow-hidden">
             <div className="absolute inset-y-0 w-32 bg-gradient-to-r from-transparent via-primary/8 to-transparent animate-scan" />
           </div>

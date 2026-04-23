@@ -21,7 +21,7 @@ const statusStyles: Record<string, { ring: string; dot: string; label: string }>
 export function SensorStrip() {
   return (
     <BentoCard padded={false} className="h-full">
-      <div className="flex flex-wrap items-center gap-3 px-5 py-3">
+      <div className="flex shrink-0 flex-wrap items-center gap-3 px-5 pb-6 pt-3">
         <div className="flex flex-col leading-tight">
           <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground/80">Channels</span>
           <span className="text-xs font-semibold text-foreground">Sensor Health</span>
