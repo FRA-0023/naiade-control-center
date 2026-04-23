@@ -12,11 +12,19 @@ export function RamanSpectrogram({ data }: { data: SpectrogramPoint[] }) {
       className="h-full"
     >
       <div className="flex h-full flex-col">
-        <div className="px-6 pb-1 pt-3">
+        <div className="px-6 pb-2 pt-1">
+          <p className="text-sm font-light leading-snug text-muted-foreground">
+            Real-time molecular certification capturing a chemical "photograph" every 50ms for high-dimensional data ingestion.
+          </p>
+        </div>
+        <div className="px-6 pb-1 pt-2">
           <div className="flex items-baseline gap-2">
             <span className="font-mono text-2xl font-semibold tracking-tight text-foreground">4</span>
             <span className="text-[11px] text-muted-foreground">peaks detected</span>
             <span className="ml-auto font-mono text-[10px] text-success">SPECTRAL MATCH</span>
+          </div>
+          <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground/70">
+            Comparison Engine: 1.2M chemical signatures database
           </div>
         </div>
 

@@ -39,10 +39,15 @@ const Index = () => {
                 <div className="col-span-12 min-h-[300px] lg:col-span-8 lg:row-span-1 lg:min-h-0">
                   <RamanSpectrogram data={data.raman} />
                 </div>
-                <div className="col-span-12 grid grid-cols-1 gap-4 md:grid-cols-3 lg:col-span-4 lg:row-span-1 lg:grid-cols-1 lg:grid-rows-3">
-                  <KPICard label="Pressure" unit="bar" data={data.pressure} icon={Gauge} target="Target: 8–12 bar" targetValue={10} />
-                  <KPICard label="Flow rate" unit="m³/h" data={data.flow} icon={Droplets} target="Target: 1.0–2.5 m³/h" targetValue={1.75} />
-                  <KPICard label="Conductivity" unit="μS/cm" data={data.conductivity} icon={Zap} decimals={0} target="Target: < 50 µS/cm" targetValue={50} />
+                <div className="col-span-12 flex flex-col gap-2 lg:col-span-4 lg:row-span-1 lg:min-h-0">
+                  <p className="text-sm font-light leading-snug text-muted-foreground">
+                    Continuous physical telemetry via LPWAN/5G mesh sensor network for system stability monitoring.
+                  </p>
+                  <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-1 lg:grid-rows-3">
+                    <KPICard label="Pressure" unit="bar" data={data.pressure} icon={Gauge} target="Target: 8–12 bar" targetValue={10} />
+                    <KPICard label="Flow rate" unit="m³/h" data={data.flow} icon={Droplets} target="Target: 1.0–2.5 m³/h" targetValue={1.75} />
+                    <KPICard label="Conductivity" unit="μS/cm" data={data.conductivity} icon={Zap} decimals={0} target="Target: < 50 µS/cm" targetValue={50} />
+                  </div>
                 </div>
                 <div className="col-span-12 lg:row-start-2">
                   <SensorStrip />
