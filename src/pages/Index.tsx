@@ -36,8 +36,20 @@ const Index = () => {
         <SidebarInset className="flex h-full flex-1 flex-col overflow-hidden">
           <TopBar anomaly={data.anomaly} tabs={tabs} activeTab={tab} onTabChange={setTab} />
 
-          <main className="flex-1 overflow-y-auto p-6 md:p-8">
-            <div className="mx-auto w-full max-w-[1600px]">
+          <main
+            className={
+              tab === "ingestion"
+                ? "flex-1 overflow-hidden p-4 md:p-5"
+                : "flex-1 overflow-y-auto p-6 md:p-8"
+            }
+          >
+            <div
+              className={
+                tab === "ingestion"
+                  ? "mx-auto flex h-full w-full max-w-[1600px] flex-col gap-3"
+                  : "mx-auto w-full max-w-[1600px]"
+              }
+            >
               {tab === "overview" && (
                 <SystemOverview
                   onNavigate={setTab}
@@ -48,32 +60,37 @@ const Index = () => {
               )}
 
               {tab === "ingestion" && (
-                <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
-                  {/* Left — Spectrogram + Sensor Health */}
-                  <div className="flex flex-col gap-4 xl:col-span-8">
-                    <div className="min-h-[420px]">
-                      <RamanSpectrogram data={data.raman} />
-                    </div>
-                    <SensorStrip />
+                <>
+                  {/* Page header with inline subtitle */}
+                  <div className="shrink-0">
+                    <h2 className="text-base font-semibold tracking-tight text-foreground">
+                      Live Ingestion
+                    </h2>
+                    <p className="mt-0.5 text-xs font-light leading-snug text-muted-foreground">
+                      Continuous physical telemetry via LPWAN/5G mesh sensor network for system stability monitoring.
+                    </p>
                   </div>
 
-                  {/* Right — Telemetry metrics */}
-                  <div className="flex flex-col gap-4 xl:col-span-4">
-                    <div className="rounded-xl border border-border/60 bg-card/30 px-4 py-3 backdrop-blur-sm">
-                      <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/80">
-                        Telemetry
+                  {/* Strict viewport grid — no scroll */}
+                  <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 xl:grid-cols-12">
+                    {/* Left — Spectrogram + Sensor Health */}
+                    <div className="flex min-h-0 flex-col gap-3 xl:col-span-8">
+                      <div className="min-h-0 flex-1">
+                        <RamanSpectrogram data={data.raman} />
                       </div>
-                      <p className="mt-1 text-xs font-light leading-snug text-muted-foreground">
-                        Continuous physical telemetry via LPWAN/5G mesh sensor network for system stability monitoring.
-                      </p>
+                      <div className="shrink-0">
+                        <SensorStrip />
+                      </div>
                     </div>
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-1">
-                      <KPICard label="Pressure" unit="bar" data={data.pressure} icon={Gauge} target="Target: 8–12 bar" targetValue={10} />
-                      <KPICard label="Flow rate" unit="m³/h" data={data.flow} icon={Droplets} target="Target: 1.0–2.5 m³/h" targetValue={1.75} />
-                      <KPICard label="Conductivity" unit="μS/cm" data={data.conductivity} icon={Zap} decimals={0} target="Target: < 50 µS/cm" targetValue={50} />
+
+                    {/* Right — Telemetry metrics, evenly distributed */}
+                    <div className="flex min-h-0 flex-col gap-3 xl:col-span-4">
+                      <KPICard label="Pressure" unit="bar" data={data.pressure} icon={Gauge} target="Target: 8–12 bar" targetValue={10} warnRange={[8, 12]} />
+                      <KPICard label="Flow rate" unit="m³/h" data={data.flow} icon={Droplets} target="Target: 1.0–2.5 m³/h" targetValue={1.75} warnRange={[1.0, 2.5]} />
+                      <KPICard label="Conductivity" unit="μS/cm" data={data.conductivity} icon={Zap} decimals={0} target="Target: < 50 µS/cm" targetValue={50} warnRange={[0, 50]} />
                     </div>
                   </div>
-                </div>
+                </>
               )}
 
               {tab === "edge" && (
