@@ -113,9 +113,9 @@ export function useMockData() {
   useEffect(() => {
     const id = setInterval(() => {
       const t = Date.now();
-      setPressure((p) => [...p, { t, v: 2.4 + Math.sin(t * 0.001) * 0.3 + rand(-0.05, 0.05) }].slice(-KPI_LEN));
-      setFlow((p) => [...p, { t, v: 1.8 + Math.cos(t * 0.0008) * 0.2 + rand(-0.04, 0.04) }].slice(-KPI_LEN));
-      setConductivity((p) => [...p, { t, v: 420 + Math.sin(t * 0.0005) * 30 + rand(-8, 8) }].slice(-KPI_LEN));
+      setPressure((p) => [...p, { t, v: 10 + Math.sin(t * 0.001) * 0.4 + rand(-0.1, 0.1) }].slice(-KPI_LEN));
+      setFlow((p) => [...p, { t, v: 2.0 + Math.cos(t * 0.0008) * 0.15 + rand(-0.05, 0.05) }].slice(-KPI_LEN));
+      setConductivity((p) => [...p, { t, v: 40 + Math.sin(t * 0.0005) * 4 + rand(-1.5, 1.5) }].slice(-KPI_LEN));
       setLatency((p) => [...p, { t, ms: 4 + rand(0, 4) + (Math.random() < 0.05 ? 2 : 0) }].slice(-LATENCY_LEN));
     }, 1000);
     return () => clearInterval(id);
