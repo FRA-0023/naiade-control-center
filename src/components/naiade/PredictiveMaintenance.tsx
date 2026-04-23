@@ -56,23 +56,34 @@ export function PredictiveMaintenance({ dp }: { dp: DPPoint[] }) {
         </div>
       </div>
 
-      <div className="relative h-[200px] px-2">
-        <ResponsiveContainer width="100%" height="100%">
+      <div className="relative h-[220px] min-h-[220px] w-full px-2">
+        <ResponsiveContainer width="100%" height="100%" minHeight={200}>
           <AreaChart data={dp} margin={{ top: 8, right: 16, bottom: 8, left: 8 }}>
             <defs>
               <linearGradient id="dpFill" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.4} />
                 <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0} />
               </linearGradient>
+              <linearGradient id="dpWarnZone" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="hsl(var(--warning))" stopOpacity={0.18} />
+                <stop offset="100%" stopColor="hsl(var(--warning))" stopOpacity={0.02} />
+              </linearGradient>
             </defs>
             <ReferenceArea
-              y1={1.5}
-              y2={2.0}
-              fill="hsl(var(--warning))"
-              fillOpacity={0.06}
+              y1={1.8}
+              y2={2.2}
+              fill="url(#dpWarnZone)"
               stroke="hsl(var(--warning))"
-              strokeOpacity={0.25}
+              strokeOpacity={0.3}
               strokeDasharray="3 3"
+              label={{
+                value: "WARNING ZONE",
+                position: "insideTopRight",
+                fill: "hsl(var(--warning))",
+                fontSize: 9,
+                fontFamily: "JetBrains Mono, monospace",
+                opacity: 0.7,
+              }}
             />
             <Area
               type="monotone"
