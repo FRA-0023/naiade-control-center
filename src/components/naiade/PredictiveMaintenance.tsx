@@ -59,9 +59,9 @@ export function PredictiveMaintenance({ dp }: { dp: DPPoint[] }) {
         </div>
 
         {/* MIDDLE: restricted-height chart */}
-        <div className="relative h-64 max-h-[280px] w-full">
-          <ResponsiveContainer width="100%" height="100%" minHeight={240}>
-            <AreaChart data={dp} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
+        <div className="relative w-full h-[240px] shrink-0">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={dp} margin={{ top: 10, right: 10, left: 10, bottom: 20 }}>
               <defs>
                 <linearGradient id="dpFill" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.4} />
@@ -102,7 +102,7 @@ export function PredictiveMaintenance({ dp }: { dp: DPPoint[] }) {
         </div>
 
         {/* BOTTOM: 2-col grid */}
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 shrink-0">
           <div className="rounded-lg border border-warning/40 bg-warning/5 p-4">
             <div className="flex items-center gap-2">
               <AlertTriangle className="h-4 w-4 text-warning" />

@@ -28,12 +28,12 @@ export function RamanSpectrogram({ data }: { data: SpectrogramPoint[] }) {
           </div>
         </div>
 
-        <div className="relative min-h-[250px] flex-1 w-full">
+        <div className="relative w-full min-h-[320px] flex-1">
           <div className="pointer-events-none absolute inset-0 overflow-hidden">
             <div className="absolute inset-y-0 w-32 bg-gradient-to-r from-transparent via-primary/8 to-transparent animate-scan" />
           </div>
-          <ResponsiveContainer width="100%" height="100%" minHeight={250}>
-            <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 20 }}>
+          <ResponsiveContainer width="100%" height="100%" minHeight={320}>
+            <AreaChart data={data} margin={{ top: 10, right: 10, left: 10, bottom: 20 }}>
               <defs>
                 <linearGradient id="ramanFill" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.45} />
