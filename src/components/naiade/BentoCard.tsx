@@ -5,11 +5,12 @@ interface BentoCardProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
   title?: ReactNode;
   eyebrow?: ReactNode;
   meta?: ReactNode;
+  subtitle?: ReactNode;
   padded?: boolean;
 }
 
 export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
-  ({ className, title, eyebrow, meta, padded = true, children, ...props }, ref) => {
+  ({ className, title, eyebrow, meta, subtitle, padded = true, children, ...props }, ref) => {
     return (
       <div
         ref={ref}
