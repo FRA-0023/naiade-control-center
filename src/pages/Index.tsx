@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Activity, Cloud, Cpu, Droplets, Gauge, Zap } from "lucide-react";
+import { Activity, Cloud, Cpu, Droplets, Gauge, LayoutGrid, Zap } from "lucide-react";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/naiade/AppSidebar";
 import { TopBar } from "@/components/naiade/TopBar";
@@ -12,11 +12,13 @@ import { FederatedLearning } from "@/components/naiade/FederatedLearning";
 import { WashOptimization } from "@/components/naiade/WashOptimization";
 import { RULPanel } from "@/components/naiade/RULPanel";
 import { BlockchainLog } from "@/components/naiade/BlockchainLog";
+import { SystemOverview } from "@/components/naiade/SystemOverview";
 import { useMockData } from "@/hooks/useMockData";
 
-export type TabId = "ingestion" | "edge" | "mlops";
+export type TabId = "overview" | "ingestion" | "edge" | "mlops";
 
 const tabs: { id: TabId; label: string; sub: string; icon: typeof Activity }[] = [
+  { id: "overview", label: "System Overview", sub: "Topology · Health · Impact", icon: LayoutGrid },
   { id: "ingestion", label: "Live Ingestion", sub: "Sensors & Spectrogram", icon: Activity },
   { id: "edge", label: "Edge-AI Diagnostics", sub: "Anomaly · CNN Maintenance", icon: Cpu },
   { id: "mlops", label: "Global MLOps", sub: "Federated · Blockchain", icon: Cloud },
