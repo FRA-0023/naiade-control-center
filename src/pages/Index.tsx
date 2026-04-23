@@ -74,8 +74,8 @@ const Index = () => {
                   {/* Strict 3-col viewport grid — no scroll, no collapse */}
                   <div className="grid min-h-0 flex-1 grid-cols-3 gap-6">
                     {/* Left — Spectrogram + Sensor Health (col-span-2) */}
-                    <div className="col-span-2 flex h-full min-h-0 flex-col gap-4">
-                      <div className="relative flex min-h-[260px] flex-1 flex-col">
+                    <div className="col-span-2 flex min-h-min flex-col gap-4 overflow-y-auto">
+                      <div className="relative flex min-h-[260px] flex-col">
                         <RamanSpectrogram data={data.raman} />
                       </div>
                       <div className="shrink-0">
