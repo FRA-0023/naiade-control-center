@@ -62,11 +62,11 @@ const Index = () => {
               {tab === "ingestion" && (
                 <>
                   {/* Page header with inline subtitle */}
-                  <div className="shrink-0">
+                  <div className="mb-6 shrink-0">
                     <h2 className="text-base font-semibold tracking-tight text-foreground">
                       Live Ingestion
                     </h2>
-                    <p className="mt-0.5 text-xs font-light leading-snug text-muted-foreground">
+                    <p className="mt-1 text-xs font-light leading-snug text-muted-foreground">
                       Continuous physical telemetry via LPWAN/5G mesh sensor network for system stability monitoring.
                     </p>
                   </div>
