@@ -1,4 +1,4 @@
-import { Activity, Cpu, Cloud, Waves, CircleDot } from "lucide-react";
+import { Activity, Cloud, Cpu, Waves, CircleDot } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -12,14 +12,22 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
+import type { TabId } from "@/pages/Index";
 
-const sections = [
-  { id: "ingestion", title: "Data Ingestion", icon: Activity, badge: "50ms" },
-  { id: "edge", title: "Edge-AI Ops", icon: Cpu, badge: "<10ms" },
-  { id: "mlops", title: "MLOps & Cloud", icon: Cloud, badge: "FED" },
+const sections: { id: TabId; title: string; icon: typeof Activity; badge: string }[] = [
+  { id: "ingestion", title: "Live Ingestion", icon: Activity, badge: "80ms" },
+  { id: "edge", title: "Edge-AI", icon: Cpu, badge: "<10ms" },
+  { id: "mlops", title: "Global MLOps", icon: Cloud, badge: "FED" },
 ];
 
-export function AppSidebar() {
+export function AppSidebar({
+  activeTab,
+  onTabChange,
+}: {
+  activeTab: TabId;
+  onTabChange: (t: TabId) => void;
+}) {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
 
@@ -27,13 +35,13 @@ export function AppSidebar() {
     <Sidebar collapsible="icon" className="border-r border-sidebar-border">
       <SidebarHeader className="border-b border-sidebar-border">
         <div className="flex items-center gap-3 px-2 py-2">
-          <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent shadow-[0_0_20px_hsl(var(--primary)/0.4)]">
-            <Waves className="h-5 w-5 text-primary-foreground" />
+          <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-primary/10 ring-1 ring-primary/40">
+            <Waves className="h-4 w-4 text-primary" />
           </div>
           {!collapsed && (
             <div className="flex flex-col leading-tight">
-              <span className="font-semibold tracking-wide text-foreground">NAIADE</span>
-              <span className="font-mono text-[10px] text-muted-foreground">MLOPS · v3.2.1</span>
+              <span className="text-sm font-semibold tracking-wide text-foreground">NAIADE</span>
+              <span className="font-mono text-[10px] text-muted-foreground">v3.2.1</span>
             </div>
           )}
         </div>
@@ -41,31 +49,50 @@ export function AppSidebar() {
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="font-mono text-[10px] uppercase tracking-widest">
+          <SidebarGroupLabel className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/80">
             Node #451
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {sections.map((s) => (
-                <SidebarMenuItem key={s.id}>
-                  <SidebarMenuButton asChild tooltip={s.title}>
-                    <a
-                      href={`#${s.id}`}
-                      className="group flex items-center gap-3"
-                    >
-                      <s.icon className="h-4 w-4 text-primary" />
-                      {!collapsed && (
-                        <>
-                          <span className="flex-1">{s.title}</span>
-                          <span className="rounded border border-border/60 bg-muted/40 px-1.5 py-0.5 font-mono text-[9px] text-muted-foreground">
-                            {s.badge}
-                          </span>
-                        </>
+              {sections.map((s) => {
+                const active = activeTab === s.id;
+                return (
+                  <SidebarMenuItem key={s.id}>
+                    <SidebarMenuButton
+                      asChild
+                      tooltip={s.title}
+                      isActive={active}
+                      className={cn(
+                        "transition-colors",
+                        active && "bg-primary/10 text-primary hover:bg-primary/15"
                       )}
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => onTabChange(s.id)}
+                        className="group flex w-full items-center gap-3"
+                      >
+                        <s.icon className={cn("h-4 w-4", active ? "text-primary" : "text-muted-foreground")} />
+                        {!collapsed && (
+                          <>
+                            <span className="flex-1 text-left text-sm">{s.title}</span>
+                            <span
+                              className={cn(
+                                "rounded border px-1.5 py-0.5 font-mono text-[9px]",
+                                active
+                                  ? "border-primary/40 bg-primary/10 text-primary"
+                                  : "border-border/60 bg-muted/40 text-muted-foreground"
+                              )}
+                            >
+                              {s.badge}
+                            </span>
+                          </>
+                        )}
+                      </button>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -73,18 +100,18 @@ export function AppSidebar() {
 
       <SidebarFooter className="border-t border-sidebar-border">
         {!collapsed ? (
-          <div className="flex flex-col gap-2 px-2 py-3">
+          <div className="flex flex-col gap-1.5 px-2 py-3">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-muted-foreground">System health</span>
-              <span className="flex items-center gap-1.5 font-mono text-success">
+              <span className="text-muted-foreground">Status</span>
+              <span className="flex items-center gap-1.5 font-mono text-[11px] text-success">
                 <CircleDot className="h-3 w-3 animate-tick" /> NOMINAL
               </span>
             </div>
-            <div className="flex items-center justify-between font-mono text-[10px] text-muted-foreground">
+            <div className="flex items-center justify-between font-mono text-[10px] text-muted-foreground/70">
               <span>uptime</span>
               <span>184d 06h</span>
             </div>
-            <div className="flex items-center justify-between font-mono text-[10px] text-muted-foreground">
+            <div className="flex items-center justify-between font-mono text-[10px] text-muted-foreground/70">
               <span>region</span>
               <span>EU-WEST · ZRH3</span>
             </div>

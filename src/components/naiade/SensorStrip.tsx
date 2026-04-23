@@ -1,4 +1,5 @@
-import { Card } from "@/components/ui/card";
+import { BentoCard } from "./BentoCard";
+import { cn } from "@/lib/utils";
 
 const sensors = [
   { id: "RM-04", label: "Raman", status: "ok" },
@@ -11,40 +12,35 @@ const sensors = [
   { id: "OX-01", label: "Dissolved O₂", status: "offline" },
 ];
 
-const statusStyles: Record<string, string> = {
-  ok: "border-success/40 bg-success/10 text-success",
-  drift: "border-warning/40 bg-warning/10 text-warning",
-  offline: "border-destructive/40 bg-destructive/10 text-destructive",
+const statusStyles: Record<string, { ring: string; dot: string; label: string }> = {
+  ok: { ring: "border-border/60", dot: "bg-success animate-tick", label: "text-muted-foreground" },
+  drift: { ring: "border-warning/40", dot: "bg-warning animate-tick", label: "text-warning" },
+  offline: { ring: "border-destructive/40", dot: "bg-destructive", label: "text-destructive" },
 };
 
 export function SensorStrip() {
   return (
-    <Card className="border-border/60 bg-card/60 p-3 backdrop-blur">
-      <div className="mb-2 flex items-center justify-between">
-        <span className="text-xs font-medium text-muted-foreground">Sensor health · 8 ingestion channels</span>
-        <span className="font-mono text-[10px] text-muted-foreground">last sweep · 200ms ago</span>
+    <BentoCard eyebrow="CHANNELS" title="Sensor Health" meta="last sweep · 200ms ago">
+      <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-8">
+        {sensors.map((s) => {
+          const sty = statusStyles[s.status];
+          return (
+            <div
+              key={s.id}
+              className={cn(
+                "flex items-center gap-2 rounded-lg border bg-background/40 px-3 py-2 font-mono text-[10px]",
+                sty.ring
+              )}
+            >
+              <span className={cn("h-1.5 w-1.5 shrink-0 rounded-full", sty.dot)} />
+              <div className="flex min-w-0 flex-col leading-tight">
+                <span className="truncate text-foreground">{s.id}</span>
+                <span className={cn("truncate text-[9px]", sty.label)}>{s.label}</span>
+              </div>
+            </div>
+          );
+        })}
       </div>
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-8">
-        {sensors.map((s) => (
-          <div
-            key={s.id}
-            className={`flex items-center gap-2 rounded-md border px-2 py-1.5 font-mono text-[10px] ${statusStyles[s.status]}`}
-          >
-            <span
-              className={`h-1.5 w-1.5 rounded-full ${
-                s.status === "ok"
-                  ? "bg-success animate-tick"
-                  : s.status === "drift"
-                  ? "bg-warning animate-tick"
-                  : "bg-destructive"
-              }`}
-            />
-            <span className="truncate">
-              {s.id} <span className="text-muted-foreground/70">{s.label}</span>
-            </span>
-          </div>
-        ))}
-      </div>
-    </Card>
+    </BentoCard>
   );
 }
