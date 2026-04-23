@@ -79,8 +79,8 @@ const Index = () => {
                       <SensorStrip />
                     </div>
 
-                    {/* Right — Metric cards (col-span-1, evenly distributed) */}
-                    <div className="col-span-1 flex min-h-0 flex-col gap-3 overflow-hidden">
+                    {/* Right — Metric cards (col-span-1, aligned to left block height) */}
+                    <div className="col-span-1 flex h-[calc(280px+120px)] flex-col justify-between gap-3 overflow-hidden">
                       <div className="flex-1 min-h-0">
                         <KPICard label="Pressure" unit="bar" data={data.pressure} icon={Gauge} target="Target: 8–12 bar" targetValue={10} warnRange={[8, 12]} />
                       </div>

@@ -11,7 +11,7 @@ export function RamanSpectrogram({ data }: { data: SpectrogramPoint[] }) {
       padded={false}
       className="h-full"
     >
-      <div className="flex flex-col gap-1.5 p-3">
+      <div className="flex flex-col gap-1.5 p-4">
         <p className="text-[11px] font-light leading-snug text-muted-foreground">
           Real-time molecular certification capturing a chemical "photograph" every 50ms.
         </p>
@@ -24,31 +24,33 @@ export function RamanSpectrogram({ data }: { data: SpectrogramPoint[] }) {
           1.2M chemical signatures · 50ms refresh
         </div>
 
-        <div className="relative w-full block h-[200px]">
-          <div className="pointer-events-none absolute inset-0 overflow-hidden">
-            <div className="absolute inset-y-0 w-32 bg-gradient-to-r from-transparent via-primary/8 to-transparent animate-scan" />
+        <div className="w-full h-[280px] mb-4 shrink-0">
+          <div className="relative h-full w-full">
+            <div className="pointer-events-none absolute inset-0 overflow-hidden">
+              <div className="absolute inset-y-0 w-32 bg-gradient-to-r from-transparent via-primary/8 to-transparent animate-scan" />
+            </div>
+            <ResponsiveContainer width="100%" height={280}>
+              <AreaChart data={data} margin={{ top: 6, right: 6, left: 6, bottom: 12 }}>
+                <defs>
+                  <linearGradient id="ramanFill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.45} />
+                    <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey="x" hide />
+                <YAxis hide domain={[0, 200]} />
+                <Area
+                  type="monotone"
+                  dataKey="y"
+                  stroke="hsl(var(--primary))"
+                  strokeWidth={1.4}
+                  fill="url(#ramanFill)"
+                  isAnimationActive={false}
+                  dot={false}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
-          <ResponsiveContainer width="100%" height={200}>
-            <AreaChart data={data} margin={{ top: 6, right: 6, left: 6, bottom: 12 }}>
-              <defs>
-                <linearGradient id="ramanFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.45} />
-                  <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <XAxis dataKey="x" hide />
-              <YAxis hide domain={[0, 200]} />
-              <Area
-                type="monotone"
-                dataKey="y"
-                stroke="hsl(var(--primary))"
-                strokeWidth={1.4}
-                fill="url(#ramanFill)"
-                isAnimationActive={false}
-                dot={false}
-              />
-            </AreaChart>
-          </ResponsiveContainer>
         </div>
 
         <div className="flex items-center justify-between font-mono text-[9px] uppercase tracking-widest text-muted-foreground/50">
