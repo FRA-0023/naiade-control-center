@@ -34,8 +34,8 @@ export function KPICard({
   const gradId = `kpi-${label.replace(/\s+/g, "-")}-${outOfRange ? "warn" : "ok"}`;
 
   return (
-    <BentoCard padded={false} className="h-full">
-      <div className="flex h-full flex-col justify-between p-4">
+    <BentoCard padded={false} className="h-[140px]">
+      <div className="flex h-full flex-col justify-between p-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5 text-muted-foreground">
             <Icon className={cn("h-3.5 w-3.5", outOfRange && "text-warning")} />
@@ -65,8 +65,8 @@ export function KPICard({
         )}
 
         <div className="w-full mt-1 block">
-          <ResponsiveContainer width="100%" height={80}>
-            <AreaChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 10 }}>
+          <ResponsiveContainer width="100%" height={40}>
+            <AreaChart data={data} margin={{ top: 2, right: 2, left: 2, bottom: 4 }}>
               <defs>
                 <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor={strokeColor} stopOpacity={0.4} />
