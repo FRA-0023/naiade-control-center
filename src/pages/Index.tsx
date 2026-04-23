@@ -38,12 +38,14 @@ const Index = () => {
 
           <main className="mx-auto w-full max-w-[1600px] flex flex-col gap-4 p-4 md:p-5 lg:p-6">
             {tab === "overview" && (
-              <SystemOverview
-                onNavigate={setTab}
-                totalRegenerated={2_840_000 + ledgerHeight * 12}
-                efficiencyMultiplier={5.4}
-                ledgerHeight={ledgerHeight}
-              />
+              <div className="h-[calc(100vh-3.5rem-2.5rem)] overflow-hidden">
+                <SystemOverview
+                  onNavigate={setTab}
+                  totalRegenerated={2_840_000 + ledgerHeight * 12}
+                  efficiencyMultiplier={5.4}
+                  ledgerHeight={ledgerHeight}
+                />
+              </div>
             )}
 
             {tab === "ingestion" && (
