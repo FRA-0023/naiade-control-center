@@ -22,7 +22,13 @@ export function RULPanel({ rul }: { rul: number }) {
   const critical = rul < 25;
 
   return (
-    <BentoCard eyebrow="LSTM" title="Remaining Useful Life" meta="membrane GO-04" padded={false}>
+    <BentoCard
+      eyebrow="LSTM"
+      title="Remaining Useful Life"
+      subtitle="Global time-series forecasting (LSTM) predicting structural degradation to automate supply chain."
+      meta="membrane GO-04"
+      padded={false}
+    >
       <div className="p-6 pb-3">
         <div className="flex items-baseline gap-2">
           <span
