@@ -20,26 +20,32 @@ const statusStyles: Record<string, { ring: string; dot: string; label: string }>
 
 export function SensorStrip() {
   return (
-    <BentoCard eyebrow="CHANNELS" title="Sensor Health" meta="last sweep · 200ms ago">
-      <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-8">
-        {sensors.map((s) => {
-          const sty = statusStyles[s.status];
-          return (
-            <div
-              key={s.id}
-              className={cn(
-                "flex items-center gap-2 rounded-lg border bg-background/40 px-3 py-2 font-mono text-[10px]",
-                sty.ring
-              )}
-            >
-              <span className={cn("h-1.5 w-1.5 shrink-0 rounded-full", sty.dot)} />
-              <div className="flex min-w-0 flex-col leading-tight">
-                <span className="truncate text-foreground">{s.id}</span>
-                <span className={cn("truncate text-[9px]", sty.label)}>{s.label}</span>
+    <BentoCard padded={false} className="h-full">
+      <div className="flex items-center gap-3 px-5 py-3">
+        <div className="flex flex-col leading-tight">
+          <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground/80">Channels</span>
+          <span className="text-xs font-semibold text-foreground">Sensor Health</span>
+        </div>
+        <div className="ml-auto grid flex-1 grid-cols-4 gap-1.5 sm:grid-cols-8">
+          {sensors.map((s) => {
+            const sty = statusStyles[s.status];
+            return (
+              <div
+                key={s.id}
+                className={cn(
+                  "flex items-center gap-1.5 rounded-md border bg-background/40 px-2 py-1.5 font-mono text-[10px]",
+                  sty.ring
+                )}
+              >
+                <span className={cn("h-1.5 w-1.5 shrink-0 rounded-full", sty.dot)} />
+                <div className="flex min-w-0 flex-col leading-tight">
+                  <span className="truncate text-foreground">{s.id}</span>
+                  <span className={cn("truncate text-[9px]", sty.label)}>{s.label}</span>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </BentoCard>
   );
