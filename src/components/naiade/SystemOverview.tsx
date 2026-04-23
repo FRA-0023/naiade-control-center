@@ -60,6 +60,7 @@ export function SystemOverview({
         subtitle="End-to-end water treatment chain — Edge-AI supervises the GO membrane while ERD recovers pressure energy."
         meta="click any node to inspect"
         padded={false}
+        className="!overflow-visible"
       >
         <ExecutiveSchema onNavigate={onNavigate} />
       </BentoCard>
@@ -152,13 +153,13 @@ const stages: Stage[] = [
 
 function ExecutiveSchema({ onNavigate }: { onNavigate: (t: TabId) => void }) {
   return (
-    <div className="relative w-full overflow-hidden px-5 py-16">
+    <div className="relative w-full px-5 py-24">
       {/* Blueprint grid background */}
       <div className="pointer-events-none absolute inset-0 opacity-[0.10] grid-bg" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
 
       {/* MAIN horizontal pipeline — GO Membrane is the absolute center anchor */}
-      <div className="relative z-10 flex w-full flex-row items-center justify-center gap-2 overflow-x-auto">
+      <div className="relative z-10 flex w-full flex-row items-center justify-center gap-2">
         {stages.map((s, i) => {
           const isCenter = s.label === "GO Membrane";
           return (
