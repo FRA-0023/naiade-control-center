@@ -65,29 +65,6 @@ export function TopBar({
         </div>
       </div>
 
-      {/* Row 2 — Tab nav */}
-      <nav className="flex items-center gap-1 px-3 pb-1">
-        {tabs.map((t) => {
-          const active = t.id === activeTab;
-          return (
-            <button
-              key={t.id}
-              type="button"
-              onClick={() => onTabChange(t.id)}
-              className={cn(
-                "relative flex items-center gap-2 px-3 py-2 text-xs font-medium transition-colors",
-                active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <t.icon className={cn("h-3.5 w-3.5", active ? "text-primary" : "")} />
-              {t.label}
-              {active && (
-                <span className="absolute inset-x-2 -bottom-px h-px bg-primary shadow-[0_0_8px_hsl(var(--primary))]" />
-              )}
-            </button>
-          );
-        })}
-      </nav>
     </header>
   );
 }
