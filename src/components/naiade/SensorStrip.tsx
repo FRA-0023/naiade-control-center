@@ -21,26 +21,26 @@ const statusStyles: Record<string, { ring: string; dot: string; label: string }>
 export function SensorStrip() {
   return (
     <BentoCard padded={false} className="h-full">
-      <div className="flex flex-col gap-1.5 p-3">
-        <div className="flex items-center justify-between leading-tight">
-          <span className="text-[11px] font-semibold text-foreground">Sensor Health</span>
-          <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground/80">8 channels</span>
+      <div className="flex flex-col gap-2 p-4">
+        <div className="flex flex-col leading-tight">
+          <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground/80">Channels</span>
+          <span className="text-xs font-semibold text-foreground">Sensor Health</span>
         </div>
-        <div className="grid grid-cols-4 gap-1.5 w-full shrink-0">
+        <div className="grid grid-cols-4 gap-2 mt-6 w-full shrink-0">
           {sensors.map((s) => {
             const sty = statusStyles[s.status];
             return (
               <div
                 key={s.id}
                 className={cn(
-                  "flex items-center gap-1 rounded-md border bg-background/40 px-1.5 py-1 font-mono text-[9px]",
+                  "flex items-center gap-1.5 rounded-md border bg-background/40 px-2 py-1 font-mono text-[10px]",
                   sty.ring
                 )}
               >
-                <span className={cn("h-1 w-1 shrink-0 rounded-full", sty.dot)} />
+                <span className={cn("h-1.5 w-1.5 shrink-0 rounded-full", sty.dot)} />
                 <div className="flex min-w-0 flex-col leading-tight">
-                  <span className="truncate text-[9px] text-foreground">{s.id}</span>
-                  <span className={cn("truncate text-[8px]", sty.label)}>{s.label}</span>
+                  <span className="truncate text-foreground">{s.id}</span>
+                  <span className={cn("truncate text-[9px]", sty.label)}>{s.label}</span>
                 </div>
               </div>
             );

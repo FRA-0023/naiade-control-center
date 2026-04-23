@@ -61,22 +61,22 @@ const Index = () => {
 
               {tab === "ingestion" && (
                 <>
-                  <div className="mb-1 shrink-0">
+                  <div className="mb-2 shrink-0">
                     <h2 className="text-base font-semibold tracking-tight text-foreground">
                       Live Ingestion
                     </h2>
-                    <p className="mt-0.5 text-[11px] font-light leading-snug text-muted-foreground">
-                      LPWAN/5G mesh telemetry · 50ms refresh
+                    <p className="mt-0.5 text-xs font-light leading-snug text-muted-foreground">
+                      Continuous physical telemetry via LPWAN/5G mesh sensor network · 50ms refresh.
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-12 gap-3">
-                    <div className="col-span-8 flex flex-col gap-3">
+                  <div className="grid grid-cols-12 gap-4">
+                    <div className="col-span-8 flex flex-col gap-4">
                       <RamanSpectrogram data={data.raman} />
                       <SensorStrip />
                     </div>
 
-                    <div className="col-span-4 flex flex-col gap-3">
+                    <div className="col-span-4 flex flex-col gap-4">
                       <KPICard label="Pressure" unit="bar" data={data.pressure} icon={Gauge} target="Target: 8–12 bar" targetValue={10} warnRange={[8, 12]} />
                       <KPICard label="Flow rate" unit="m³/h" data={data.flow} icon={Droplets} target="Target: 1.0–2.5 m³/h" targetValue={1.75} warnRange={[1.0, 2.5]} />
                       <KPICard label="Conductivity" unit="μS/cm" data={data.conductivity} icon={Zap} decimals={0} target="Target: < 50 µS/cm" targetValue={50} warnRange={[0, 50]} />
