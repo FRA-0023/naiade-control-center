@@ -122,12 +122,15 @@ export function useMockData() {
     return () => clearInterval(id);
   }, []);
 
-  // ΔP 5s + blockchain
+  // ΔP 5s + blockchain - shift window forward to keep ascending drift visible
   useEffect(() => {
     const id = setInterval(() => {
       setDp((p) => {
-        const last = p[p.length - 1]?.dp ?? 1.2;
-        return [...p, { t: (p[p.length - 1]?.t ?? 0) + 1, dp: Math.min(2.2, last + rand(-0.01, 0.03)) }].slice(-DP_LEN);
+        const shifted = p.slice(1).map((pt, i) => ({ t: i, dp: pt.dp }));
+        const lastT = shifted[shifted.length - 1]?.t ?? 0;
+        const lastDp = shifted[shifted.length - 1]?.dp ?? 1.5;
+        const next = Math.min(2.2, lastDp + rand(0.005, 0.025));
+        return [...shifted, { t: lastT + 1, dp: next }];
       });
       setBlocks((p) => {
         const last = p[p.length - 1];
