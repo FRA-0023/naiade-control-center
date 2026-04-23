@@ -35,7 +35,7 @@ export function KPICard({
 
   return (
     <BentoCard padded={false} className="h-full">
-      <div className="flex h-full flex-col justify-between p-3">
+      <div className="flex h-full flex-col justify-between p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5 text-muted-foreground">
             <Icon className={cn("h-3.5 w-3.5", outOfRange && "text-warning")} />
@@ -65,7 +65,7 @@ export function KPICard({
         )}
 
         <div className="w-full mt-1 block">
-          <ResponsiveContainer width="100%" height={40}>
+          <ResponsiveContainer width="100%" height={60}>
             <AreaChart data={data} margin={{ top: 4, right: 4, left: 4, bottom: 4 }}>
               <defs>
                 <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">

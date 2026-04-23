@@ -21,12 +21,12 @@ const statusStyles: Record<string, { ring: string; dot: string; label: string }>
 export function SensorStrip() {
   return (
     <BentoCard padded={false} className="h-full">
-      <div className="flex flex-col gap-2 p-3">
+      <div className="flex flex-col gap-2 p-4">
         <div className="flex flex-col leading-tight">
           <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground/80">Channels</span>
           <span className="text-xs font-semibold text-foreground">Sensor Health</span>
         </div>
-        <div className="grid grid-cols-4 gap-2 w-full">
+        <div className="grid grid-cols-4 gap-2 w-full mt-auto">
           {sensors.map((s) => {
             const sty = statusStyles[s.status];
             return (
