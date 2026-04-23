@@ -152,50 +152,53 @@ const stages: Stage[] = [
 
 function ExecutiveSchema({ onNavigate }: { onNavigate: (t: TabId) => void }) {
   return (
-    <div className="relative w-full overflow-hidden p-5">
+    <div className="relative w-full overflow-hidden px-5 py-16">
       {/* Blueprint grid background */}
       <div className="pointer-events-none absolute inset-0 opacity-[0.10] grid-bg" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
 
-      {/* TOP satellite — Edge-AI Brain */}
-      <div className="relative z-10 mb-2 flex justify-center">
-        <SatelliteNode
-          label="Edge-AI Brain"
-          sub="CNN Predictive · Raman"
-          icon={Brain}
-          tone="primary"
-          onClick={() => onNavigate("edge")}
-        />
-      </div>
+      {/* MAIN horizontal pipeline — GO Membrane is the absolute center anchor */}
+      <div className="relative z-10 flex w-full flex-row items-center justify-center gap-2 overflow-x-auto">
+        {stages.map((s, i) => {
+          const isCenter = s.label === "GO Membrane";
+          return (
+            <div key={s.label} className="flex flex-1 min-w-[120px] items-center gap-1.5">
+              {isCenter ? (
+                <div className="relative flex flex-1 flex-col items-center justify-center">
+                  {/* Vertical connector UP to Edge-AI Brain */}
+                  <span className="pointer-events-none absolute bottom-[calc(100%+0.25rem)] left-1/2 h-8 -translate-x-1/2 border-l border-dashed border-primary/40" />
+                  {/* Edge-AI Brain — absolutely centered above */}
+                  <div className="absolute bottom-[calc(100%+2rem)] left-1/2 -translate-x-1/2 whitespace-nowrap">
+                    <SatelliteNode
+                      label="Edge-AI Brain"
+                      sub="CNN Predictive · Raman"
+                      icon={Brain}
+                      tone="primary"
+                      onClick={() => onNavigate("edge")}
+                    />
+                  </div>
 
-      {/* Connector down to GO Membrane */}
-      <div className="relative z-10 flex justify-center">
-        <DashedConnector />
-      </div>
+                  <StageCard stage={s} onClick={s.tab ? () => onNavigate(s.tab!) : undefined} />
 
-      {/* MAIN horizontal pipeline (scrolls on tiny viewports) */}
-      <div className="relative z-10 flex w-full flex-row items-stretch justify-between gap-2 overflow-x-auto py-2">
-        {stages.map((s, i) => (
-          <div key={s.label} className="flex flex-1 min-w-[120px] items-center gap-1.5">
-            <StageCard stage={s} onClick={s.tab ? () => onNavigate(s.tab!) : undefined} />
-            {i < stages.length - 1 && <FlowArrow />}
-          </div>
-        ))}
-      </div>
-
-      {/* Connector down from GO Membrane */}
-      <div className="relative z-10 flex justify-center">
-        <DashedConnector />
-      </div>
-
-      {/* BOTTOM satellite — ERD Isobaric */}
-      <div className="relative z-10 mt-2 flex justify-center">
-        <SatelliteNode
-          label="ERD Isobaric"
-          sub="98% Energy Recovery"
-          icon={Recycle}
-          tone="success"
-        />
+                  {/* Vertical connector DOWN to ERD */}
+                  <span className="pointer-events-none absolute top-[calc(100%+0.25rem)] left-1/2 h-8 -translate-x-1/2 border-l border-dashed border-success/40" />
+                  {/* ERD Isobaric — absolutely centered below */}
+                  <div className="absolute top-[calc(100%+2rem)] left-1/2 -translate-x-1/2 whitespace-nowrap">
+                    <SatelliteNode
+                      label="ERD Isobaric"
+                      sub="98% Energy Recovery"
+                      icon={Recycle}
+                      tone="success"
+                    />
+                  </div>
+                </div>
+              ) : (
+                <StageCard stage={s} onClick={s.tab ? () => onNavigate(s.tab!) : undefined} />
+              )}
+              {i < stages.length - 1 && <FlowArrow />}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
