@@ -91,8 +91,8 @@ export function AnomalyPanel({
         </div>
 
         {/* Latency chart */}
-        <div className="h-16">
-          <ResponsiveContainer width="100%" height="100%">
+        <div className="h-16 min-h-[64px]">
+          <ResponsiveContainer width="100%" height="100%" minHeight={56}>
             <LineChart data={latency} margin={{ top: 4, right: 0, bottom: 0, left: 0 }}>
               <ReferenceLine y={10} stroke="hsl(var(--warning))" strokeDasharray="3 3" strokeOpacity={0.4} />
               <Line
