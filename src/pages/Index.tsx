@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Activity, Cloud, Cpu, Droplets, Gauge, Zap } from "lucide-react";
+import { Activity, Cloud, Cpu, Droplets, Gauge, LayoutGrid, Zap } from "lucide-react";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/naiade/AppSidebar";
 import { TopBar } from "@/components/naiade/TopBar";
@@ -12,11 +12,13 @@ import { FederatedLearning } from "@/components/naiade/FederatedLearning";
 import { WashOptimization } from "@/components/naiade/WashOptimization";
 import { RULPanel } from "@/components/naiade/RULPanel";
 import { BlockchainLog } from "@/components/naiade/BlockchainLog";
+import { SystemOverview } from "@/components/naiade/SystemOverview";
 import { useMockData } from "@/hooks/useMockData";
 
-export type TabId = "ingestion" | "edge" | "mlops";
+export type TabId = "overview" | "ingestion" | "edge" | "mlops";
 
 const tabs: { id: TabId; label: string; sub: string; icon: typeof Activity }[] = [
+  { id: "overview", label: "System Overview", sub: "Topology · Health · Impact", icon: LayoutGrid },
   { id: "ingestion", label: "Live Ingestion", sub: "Sensors & Spectrogram", icon: Activity },
   { id: "edge", label: "Edge-AI Diagnostics", sub: "Anomaly · CNN Maintenance", icon: Cpu },
   { id: "mlops", label: "Global MLOps", sub: "Federated · Blockchain", icon: Cloud },
@@ -24,7 +26,8 @@ const tabs: { id: TabId; label: string; sub: string; icon: typeof Activity }[] =
 
 const Index = () => {
   const data = useMockData();
-  const [tab, setTab] = useState<TabId>("ingestion");
+  const [tab, setTab] = useState<TabId>("overview");
+  const ledgerHeight = data.blocks[data.blocks.length - 1]?.height ?? 0;
 
   return (
     <SidebarProvider>
@@ -34,6 +37,15 @@ const Index = () => {
           <TopBar anomaly={data.anomaly} tabs={tabs} activeTab={tab} onTabChange={setTab} />
 
           <main className="mx-auto w-full max-w-[1600px] flex flex-col gap-4 p-4 md:p-5 lg:p-6">
+            {tab === "overview" && (
+              <SystemOverview
+                onNavigate={setTab}
+                totalRegenerated={2_840_000 + ledgerHeight * 12}
+                efficiencyMultiplier={5.4}
+                ledgerHeight={ledgerHeight}
+              />
+            )}
+
             {tab === "ingestion" && (
               <div className="grid grid-cols-12 gap-4 lg:h-[calc(100vh-9rem)] lg:grid-rows-[1fr_auto]">
                 <div className="col-span-12 min-h-[300px] lg:col-span-8 lg:row-span-1 lg:min-h-0">
