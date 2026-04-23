@@ -39,14 +39,14 @@ const Index = () => {
           <main
             className={
               tab === "ingestion"
-                ? "flex-1 overflow-hidden p-3 md:p-4"
+                ? "flex-1 overflow-y-auto p-6"
                 : "flex-1 overflow-y-auto p-6 md:p-8"
             }
           >
             <div
               className={
                 tab === "ingestion"
-                  ? "mx-auto flex h-full max-h-screen w-full max-w-[1600px] flex-col overflow-hidden"
+                  ? "mx-auto flex w-full max-w-[1600px] flex-col"
                   : "mx-auto w-full max-w-[1600px]"
               }
             >
@@ -61,7 +61,6 @@ const Index = () => {
 
               {tab === "ingestion" && (
                 <>
-                  {/* Page header — compact */}
                   <div className="mb-2 shrink-0">
                     <h2 className="text-base font-semibold tracking-tight text-foreground">
                       Live Ingestion
@@ -71,25 +70,16 @@ const Index = () => {
                     </p>
                   </div>
 
-                  {/* Strict 3-col viewport grid — compact, no scroll */}
-                  <div className="grid min-h-0 flex-1 grid-cols-3 gap-3 overflow-hidden">
-                    {/* Left — Spectrogram + Sensor Health (col-span-2) */}
-                    <div className="col-span-2 flex min-h-0 flex-col gap-3">
+                  <div className="grid grid-cols-12 gap-4">
+                    <div className="col-span-8 flex flex-col gap-4">
                       <RamanSpectrogram data={data.raman} />
                       <SensorStrip />
                     </div>
 
-                    {/* Right — Metric cards (col-span-1, aligned to left block height) */}
-                    <div className="col-span-1 flex h-[calc(280px+120px)] flex-col justify-between gap-3 overflow-hidden">
-                      <div className="flex-1 min-h-0">
-                        <KPICard label="Pressure" unit="bar" data={data.pressure} icon={Gauge} target="Target: 8–12 bar" targetValue={10} warnRange={[8, 12]} />
-                      </div>
-                      <div className="flex-1 min-h-0">
-                        <KPICard label="Flow rate" unit="m³/h" data={data.flow} icon={Droplets} target="Target: 1.0–2.5 m³/h" targetValue={1.75} warnRange={[1.0, 2.5]} />
-                      </div>
-                      <div className="flex-1 min-h-0">
-                        <KPICard label="Conductivity" unit="μS/cm" data={data.conductivity} icon={Zap} decimals={0} target="Target: < 50 µS/cm" targetValue={50} warnRange={[0, 50]} />
-                      </div>
+                    <div className="col-span-4 flex flex-col gap-4">
+                      <KPICard label="Pressure" unit="bar" data={data.pressure} icon={Gauge} target="Target: 8–12 bar" targetValue={10} warnRange={[8, 12]} />
+                      <KPICard label="Flow rate" unit="m³/h" data={data.flow} icon={Droplets} target="Target: 1.0–2.5 m³/h" targetValue={1.75} warnRange={[1.0, 2.5]} />
+                      <KPICard label="Conductivity" unit="μS/cm" data={data.conductivity} icon={Zap} decimals={0} target="Target: < 50 µS/cm" targetValue={50} warnRange={[0, 50]} />
                     </div>
                   </div>
                 </>
