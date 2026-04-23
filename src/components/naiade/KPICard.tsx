@@ -35,9 +35,9 @@ export function KPICard({
 
   return (
     <BentoCard padded={false} className="h-full">
-      <div className="flex h-full flex-col justify-between p-5 pb-4">
+      <div className="flex h-full flex-col justify-between p-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-muted-foreground">
+          <div className="flex items-center gap-1.5 text-muted-foreground">
             <Icon className={cn("h-3.5 w-3.5", outOfRange && "text-warning")} />
             <span className="text-[10px] font-medium uppercase tracking-wider">{label}</span>
           </div>
@@ -53,20 +53,20 @@ export function KPICard({
           </span>
         </div>
 
-        <div className="mt-1.5 flex items-baseline gap-1.5">
-          <span className={cn("font-mono text-2xl font-bold leading-none tracking-tight", valueClass)}>
+        <div className="mt-1 flex items-baseline gap-1.5">
+          <span className={cn("font-mono text-xl font-bold leading-none tracking-tight", valueClass)}>
             {last.toFixed(decimals)}
           </span>
-          <span className="font-mono text-[11px] text-muted-foreground">{unit}</span>
+          <span className="font-mono text-[10px] text-muted-foreground">{unit}</span>
         </div>
 
         {target && (
-          <span className="mt-0.5 font-mono text-[10px] text-muted-foreground/60">{target}</span>
+          <span className="mt-0.5 font-mono text-[9px] text-muted-foreground/60">{target}</span>
         )}
 
-        <div className="w-full mt-2 block">
-          <ResponsiveContainer width="100%" height={60}>
-            <AreaChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 15 }}>
+        <div className="w-full mt-1 block">
+          <ResponsiveContainer width="100%" height={40}>
+            <AreaChart data={data} margin={{ top: 4, right: 4, left: 4, bottom: 4 }}>
               <defs>
                 <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor={strokeColor} stopOpacity={0.4} />

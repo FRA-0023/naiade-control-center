@@ -11,25 +11,25 @@ export function RamanSpectrogram({ data }: { data: SpectrogramPoint[] }) {
       padded={false}
       className="h-full"
     >
-      <div className="flex flex-col gap-2 p-5">
-        <p className="text-xs font-light leading-snug text-muted-foreground">
-          Real-time molecular certification capturing a chemical "photograph" every 50ms for high-dimensional data ingestion.
+      <div className="flex flex-col gap-1.5 p-3">
+        <p className="text-[11px] font-light leading-snug text-muted-foreground">
+          Real-time molecular certification capturing a chemical "photograph" every 50ms.
         </p>
         <div className="flex items-baseline gap-2">
-          <span className="font-mono text-2xl font-semibold tracking-tight text-foreground">4</span>
-          <span className="text-[11px] text-muted-foreground">peaks detected</span>
+          <span className="font-mono text-xl font-semibold tracking-tight text-foreground">4</span>
+          <span className="text-[10px] text-muted-foreground">peaks detected</span>
           <span className="ml-auto font-mono text-[10px] text-success">SPECTRAL MATCH</span>
         </div>
-        <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/70">
-          Comparison Engine: 1.2M chemical signatures database
+        <div className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground/70">
+          1.2M chemical signatures · 50ms refresh
         </div>
 
-        <div className="relative w-full block mt-1">
+        <div className="relative w-full block h-[200px]">
           <div className="pointer-events-none absolute inset-0 overflow-hidden">
             <div className="absolute inset-y-0 w-32 bg-gradient-to-r from-transparent via-primary/8 to-transparent animate-scan" />
           </div>
-          <ResponsiveContainer width="100%" height={240}>
-            <AreaChart data={data} margin={{ top: 10, right: 10, left: 10, bottom: 20 }}>
+          <ResponsiveContainer width="100%" height={200}>
+            <AreaChart data={data} margin={{ top: 6, right: 6, left: 6, bottom: 12 }}>
               <defs>
                 <linearGradient id="ramanFill" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.45} />
