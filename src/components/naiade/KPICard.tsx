@@ -1,4 +1,4 @@
-import { Area, AreaChart, ResponsiveContainer } from "recharts";
+import { Area, AreaChart, ReferenceLine, ResponsiveContainer } from "recharts";
 import { BentoCard } from "./BentoCard";
 import { type LucideIcon, TrendingDown, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -10,12 +10,16 @@ export function KPICard({
   data,
   icon: Icon,
   decimals = 2,
+  target,
+  targetValue,
 }: {
   label: string;
   unit: string;
   data: KPIPoint[];
   icon: LucideIcon;
   decimals?: number;
+  target?: string;
+  targetValue?: number;
 }) {
   const last = data[data.length - 1]?.v ?? 0;
   const prev = data[data.length - 2]?.v ?? last;
@@ -24,11 +28,11 @@ export function KPICard({
 
   return (
     <BentoCard padded={false} className="h-full">
-      <div className="flex h-full flex-col p-6">
+      <div className="flex h-full flex-col px-5 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-muted-foreground">
             <Icon className="h-3.5 w-3.5" />
-            <span className="text-xs font-medium uppercase tracking-wider">{label}</span>
+            <span className="text-[10px] font-medium uppercase tracking-wider">{label}</span>
           </div>
           <span
             className={cn(
@@ -42,14 +46,18 @@ export function KPICard({
           </span>
         </div>
 
-        <div className="mt-4 flex items-baseline gap-2">
-          <span className="font-mono text-4xl font-bold tracking-tight text-foreground">
+        <div className="mt-2 flex items-baseline gap-1.5">
+          <span className="font-mono text-3xl font-bold leading-none tracking-tight text-foreground">
             {last.toFixed(decimals)}
           </span>
-          <span className="font-mono text-xs text-muted-foreground">{unit}</span>
+          <span className="font-mono text-[11px] text-muted-foreground">{unit}</span>
         </div>
 
-        <div className="mt-auto h-12 pt-4">
+        {target && (
+          <span className="mt-1 font-mono text-[10px] text-muted-foreground/60">{target}</span>
+        )}
+
+        <div className="mt-auto h-10 pt-2">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data} margin={{ top: 2, right: 0, bottom: 0, left: 0 }}>
               <defs>
@@ -58,6 +66,15 @@ export function KPICard({
                   <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0} />
                 </linearGradient>
               </defs>
+              {targetValue !== undefined && (
+                <ReferenceLine
+                  y={targetValue}
+                  stroke="hsl(var(--foreground))"
+                  strokeOpacity={0.1}
+                  strokeDasharray="3 3"
+                  ifOverflow="extendDomain"
+                />
+              )}
               <Area
                 type="monotone"
                 dataKey="v"
