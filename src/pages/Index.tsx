@@ -26,7 +26,8 @@ const tabs: { id: TabId; label: string; sub: string; icon: typeof Activity }[] =
 
 const Index = () => {
   const data = useMockData();
-  const [tab, setTab] = useState<TabId>("ingestion");
+  const [tab, setTab] = useState<TabId>("overview");
+  const ledgerHeight = data.blocks[data.blocks.length - 1]?.height ?? 0;
 
   return (
     <SidebarProvider>
@@ -36,6 +37,15 @@ const Index = () => {
           <TopBar anomaly={data.anomaly} tabs={tabs} activeTab={tab} onTabChange={setTab} />
 
           <main className="mx-auto w-full max-w-[1600px] flex flex-col gap-4 p-4 md:p-5 lg:p-6">
+            {tab === "overview" && (
+              <SystemOverview
+                onNavigate={setTab}
+                totalRegenerated={2_840_000 + ledgerHeight * 12}
+                efficiencyMultiplier={5.4}
+                ledgerHeight={ledgerHeight}
+              />
+            )}
+
             {tab === "ingestion" && (
               <div className="grid grid-cols-12 gap-4 lg:h-[calc(100vh-9rem)] lg:grid-rows-[1fr_auto]">
                 <div className="col-span-12 min-h-[300px] lg:col-span-8 lg:row-span-1 lg:min-h-0">
