@@ -1,4 +1,4 @@
-import { Activity, Cpu, Cloud, Droplets, Radio, ShieldCheck, Zap, Gauge, Layers, Database } from "lucide-react";
+import { Activity, Cpu, Cloud, Droplets, Radio, ShieldCheck, Zap, Gauge, Layers } from "lucide-react";
 import { BentoCard } from "./BentoCard";
 import { cn } from "@/lib/utils";
 import type { TabId } from "@/pages/Index";
