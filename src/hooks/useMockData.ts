@@ -105,7 +105,7 @@ export function useMockData() {
   useEffect(() => {
     const id = setInterval(() => {
       setRaman((prev) => genRamanFrame(prev));
-    }, 80);
+    }, 50);
     return () => clearInterval(id);
   }, []);
 

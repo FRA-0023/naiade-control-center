@@ -33,18 +33,18 @@ const Index = () => {
         <SidebarInset className="flex-1">
           <TopBar anomaly={data.anomaly} tabs={tabs} activeTab={tab} onTabChange={setTab} />
 
-          <main className="mx-auto w-full max-w-[1600px] flex flex-col gap-6 p-4 md:p-6 lg:p-8">
+          <main className="mx-auto w-full max-w-[1600px] flex flex-col gap-4 p-4 md:p-5 lg:p-6">
             {tab === "ingestion" && (
-              <div className="grid grid-cols-12 gap-4 md:gap-5">
-                <div className="col-span-12 lg:col-span-8">
+              <div className="grid grid-cols-12 gap-4 lg:h-[calc(100vh-9rem)] lg:grid-rows-[1fr_auto]">
+                <div className="col-span-12 min-h-[300px] lg:col-span-8 lg:row-span-1 lg:min-h-0">
                   <RamanSpectrogram data={data.raman} />
                 </div>
-                <div className="col-span-12 grid grid-cols-1 gap-4 md:grid-cols-3 lg:col-span-4 lg:grid-cols-1 lg:gap-5">
-                  <KPICard label="Pressure" unit="bar" data={data.pressure} icon={Gauge} />
-                  <KPICard label="Flow rate" unit="m³/h" data={data.flow} icon={Droplets} />
-                  <KPICard label="Conductivity" unit="μS/cm" data={data.conductivity} icon={Zap} decimals={0} />
+                <div className="col-span-12 grid grid-cols-1 gap-4 md:grid-cols-3 lg:col-span-4 lg:row-span-1 lg:grid-cols-1 lg:grid-rows-3">
+                  <KPICard label="Pressure" unit="bar" data={data.pressure} icon={Gauge} target="Target: 8–12 bar" targetValue={10} />
+                  <KPICard label="Flow rate" unit="m³/h" data={data.flow} icon={Droplets} target="Target: 1.0–2.5 m³/h" targetValue={1.75} />
+                  <KPICard label="Conductivity" unit="μS/cm" data={data.conductivity} icon={Zap} decimals={0} target="Target: < 50 µS/cm" targetValue={50} />
                 </div>
-                <div className="col-span-12">
+                <div className="col-span-12 lg:row-start-2">
                   <SensorStrip />
                 </div>
               </div>
