@@ -22,6 +22,7 @@ export function BlockchainLog({ blocks }: { blocks: Block[] }) {
     <BentoCard
       eyebrow="COMPLIANCE · APPEND-ONLY"
       title="Blockchain Audit Log"
+      subtitle="Immutable append-only ledger for sanitary authority compliance and water quality certification."
       meta={
         <span className="flex items-center gap-1.5">
           <Lock className="h-3 w-3" /> Sanitary Authority
