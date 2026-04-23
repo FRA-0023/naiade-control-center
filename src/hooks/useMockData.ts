@@ -64,10 +64,11 @@ export function useMockData() {
   const [latency, setLatency] = useState<LatencyPoint[]>([]);
   const [dp, setDp] = useState<DPPoint[]>(() => {
     const arr: DPPoint[] = [];
-    let v = 1.2;
     for (let i = 0; i < DP_LEN; i++) {
-      v += rand(-0.02, 0.035);
-      arr.push({ t: i, dp: Math.max(0.5, v) });
+      // Gradual upward trend from 1.5 → 2.2 with realistic jitter
+      const trend = 1.5 + (i / (DP_LEN - 1)) * 0.7;
+      const noise = rand(-0.04, 0.04);
+      arr.push({ t: i, dp: Math.max(0.5, trend + noise) });
     }
     return arr;
   });

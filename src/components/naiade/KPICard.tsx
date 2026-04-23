@@ -64,7 +64,7 @@ export function KPICard({
           <span className="mt-0.5 font-mono text-[10px] text-muted-foreground/60">{target}</span>
         )}
 
-        <div className="mt-auto h-8 min-h-[28px] pt-1">
+        <div className="mt-auto h-10 min-h-[36px] pt-1">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data} margin={{ top: 2, right: 0, bottom: 0, left: 0 }}>
               <defs>
