@@ -1,7 +1,7 @@
 import { forwardRef, type HTMLAttributes, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-interface BentoCardProps extends HTMLAttributes<HTMLDivElement> {
+interface BentoCardProps extends Omit<HTMLAttributes<HTMLDivElement>, "title"> {
   title?: ReactNode;
   eyebrow?: ReactNode;
   meta?: ReactNode;
