@@ -31,13 +31,13 @@ const Index = () => {
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full bg-background">
+      <div className="flex h-screen w-full overflow-hidden bg-background">
         <AppSidebar activeTab={tab} onTabChange={setTab} />
-        <SidebarInset className="flex h-screen flex-1 flex-col overflow-hidden">
+        <SidebarInset className="flex h-full flex-1 flex-col overflow-hidden">
           <TopBar anomaly={data.anomaly} tabs={tabs} activeTab={tab} onTabChange={setTab} />
 
-          <main className="flex-1 overflow-y-auto">
-            <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-4 p-4 md:p-5 lg:p-6">
+          <main className="flex-1 overflow-y-auto p-6 md:p-8">
+            <div className="mx-auto w-full max-w-[1600px]">
               {tab === "overview" && (
                 <SystemOverview
                   onNavigate={setTab}
@@ -48,33 +48,30 @@ const Index = () => {
               )}
 
               {tab === "ingestion" && (
-                <div className="grid grid-cols-12 gap-4 md:gap-6">
-                  {/* Left — Raman spectrogram */}
-                  <div className="col-span-12 min-h-[360px] lg:col-span-8 lg:h-[calc(100vh-7rem)]">
-                    <RamanSpectrogram data={data.raman} />
-                  </div>
-
-                  {/* Right — telemetry column */}
-                  <div className="col-span-12 lg:col-span-4 lg:h-[calc(100vh-7rem)]">
-                    <div className="flex h-full flex-col gap-3">
-                      <div className="rounded-xl border border-border/60 bg-card/30 px-4 py-3 backdrop-blur-sm">
-                        <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/80">
-                          Telemetry
-                        </div>
-                        <p className="mt-1 text-xs font-light leading-snug text-muted-foreground">
-                          Continuous physical telemetry via LPWAN/5G mesh sensor network for system stability monitoring.
-                        </p>
-                      </div>
-                      <div className="grid flex-1 grid-cols-1 gap-3 md:grid-cols-3 lg:grid-cols-1 lg:grid-rows-3">
-                        <KPICard label="Pressure" unit="bar" data={data.pressure} icon={Gauge} target="Target: 8–12 bar" targetValue={10} />
-                        <KPICard label="Flow rate" unit="m³/h" data={data.flow} icon={Droplets} target="Target: 1.0–2.5 m³/h" targetValue={1.75} />
-                        <KPICard label="Conductivity" unit="μS/cm" data={data.conductivity} icon={Zap} decimals={0} target="Target: < 50 µS/cm" targetValue={50} />
-                      </div>
+                <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
+                  {/* Left — Spectrogram + Sensor Health */}
+                  <div className="flex flex-col gap-4 xl:col-span-8">
+                    <div className="min-h-[420px]">
+                      <RamanSpectrogram data={data.raman} />
                     </div>
+                    <SensorStrip />
                   </div>
 
-                  <div className="col-span-12">
-                    <SensorStrip />
+                  {/* Right — Telemetry metrics */}
+                  <div className="flex flex-col gap-4 xl:col-span-4">
+                    <div className="rounded-xl border border-border/60 bg-card/30 px-4 py-3 backdrop-blur-sm">
+                      <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/80">
+                        Telemetry
+                      </div>
+                      <p className="mt-1 text-xs font-light leading-snug text-muted-foreground">
+                        Continuous physical telemetry via LPWAN/5G mesh sensor network for system stability monitoring.
+                      </p>
+                    </div>
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-3 xl:grid-cols-1">
+                      <KPICard label="Pressure" unit="bar" data={data.pressure} icon={Gauge} target="Target: 8–12 bar" targetValue={10} />
+                      <KPICard label="Flow rate" unit="m³/h" data={data.flow} icon={Droplets} target="Target: 1.0–2.5 m³/h" targetValue={1.75} />
+                      <KPICard label="Conductivity" unit="μS/cm" data={data.conductivity} icon={Zap} decimals={0} target="Target: < 50 µS/cm" targetValue={50} />
+                    </div>
                   </div>
                 </div>
               )}
@@ -107,7 +104,7 @@ const Index = () => {
                 </div>
               )}
 
-              <footer className="mt-2 border-t border-border/40 pt-4 text-center font-mono text-[10px] text-muted-foreground">
+              <footer className="mt-6 border-t border-border/40 pt-4 text-center font-mono text-[10px] text-muted-foreground">
                 NAIADE · Decentralized Water Filtration · Graphene Oxide × Edge-AI
               </footer>
             </div>

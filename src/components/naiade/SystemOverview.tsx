@@ -27,7 +27,7 @@ export function SystemOverview({
   ledgerHeight: number;
 }) {
   return (
-    <div className="flex w-full flex-col gap-4">
+    <div className="flex w-full flex-col gap-6">
       {/* TOP — KPI strip */}
       <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
         <HealthStat
