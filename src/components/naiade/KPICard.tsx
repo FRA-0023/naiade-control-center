@@ -12,6 +12,7 @@ export function KPICard({
   decimals = 2,
   target,
   targetValue,
+  warnRange,
 }: {
   label: string;
   unit: string;
@@ -20,18 +21,24 @@ export function KPICard({
   decimals?: number;
   target?: string;
   targetValue?: number;
+  warnRange?: [number, number];
 }) {
   const last = data[data.length - 1]?.v ?? 0;
   const prev = data[data.length - 2]?.v ?? last;
   const delta = last - prev;
   const up = delta >= 0;
 
+  const outOfRange = warnRange ? last < warnRange[0] || last > warnRange[1] : false;
+  const strokeColor = outOfRange ? "hsl(var(--warning))" : "hsl(var(--primary))";
+  const valueClass = outOfRange ? "text-warning" : "text-foreground";
+  const gradId = `kpi-${label.replace(/\s+/g, "-")}-${outOfRange ? "warn" : "ok"}`;
+
   return (
     <BentoCard padded={false} className="h-full">
-      <div className="flex h-full flex-col px-5 py-4">
+      <div className="flex h-full min-h-0 flex-col p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-muted-foreground">
-            <Icon className="h-3.5 w-3.5" />
+            <Icon className={cn("h-3.5 w-3.5", outOfRange && "text-warning")} />
             <span className="text-[10px] font-medium uppercase tracking-wider">{label}</span>
           </div>
           <span
@@ -46,24 +53,24 @@ export function KPICard({
           </span>
         </div>
 
-        <div className="mt-2 flex items-baseline gap-1.5">
-          <span className="font-mono text-3xl font-bold leading-none tracking-tight text-foreground">
+        <div className="mt-1.5 flex items-baseline gap-1.5">
+          <span className={cn("font-mono text-2xl font-bold leading-none tracking-tight", valueClass)}>
             {last.toFixed(decimals)}
           </span>
           <span className="font-mono text-[11px] text-muted-foreground">{unit}</span>
         </div>
 
         {target && (
-          <span className="mt-1 font-mono text-[10px] text-muted-foreground/60">{target}</span>
+          <span className="mt-0.5 font-mono text-[10px] text-muted-foreground/60">{target}</span>
         )}
 
-        <div className="mt-auto h-10 pt-2">
+        <div className="mt-auto h-8 min-h-[28px] pt-1">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data} margin={{ top: 2, right: 0, bottom: 0, left: 0 }}>
               <defs>
-                <linearGradient id={`kpi-${label}`} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.4} />
-                  <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+                <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={strokeColor} stopOpacity={0.4} />
+                  <stop offset="100%" stopColor={strokeColor} stopOpacity={0} />
                 </linearGradient>
               </defs>
               {targetValue !== undefined && (
@@ -78,9 +85,9 @@ export function KPICard({
               <Area
                 type="monotone"
                 dataKey="v"
-                stroke="hsl(var(--primary))"
+                stroke={strokeColor}
                 strokeWidth={1.5}
-                fill={`url(#kpi-${label})`}
+                fill={`url(#${gradId})`}
                 isAnimationActive={false}
                 dot={false}
               />
