@@ -171,7 +171,7 @@ export function useMockData() {
           setLogs((l) =>
             [
               ...l,
-              { t: nowStr(), level: "info", msg: "Inference cycle 8.2 ms · within target (<10 ms)" },
+              { t: nowStr(), level: "info" as const, msg: "Inference cycle 8.2 ms · within target (<10 ms)" },
             ].slice(-LOG_LEN)
           ),
       },
@@ -182,9 +182,9 @@ export function useMockData() {
           setLogs((l) =>
             [
               ...l,
-              { t: nowStr(), level: "error", msg: "ANOMALY · spectral signature deviates 4.2σ" },
-              { t: nowStr(), level: "warn", msg: "BYPASS_VALVE_03 → CLOSED in 9.4 ms" },
-              { t: nowStr(), level: "warn", msg: "Sample isolated · operator notified" },
+              { t: nowStr(), level: "error" as const, msg: "ANOMALY · spectral signature deviates 4.2σ" },
+              { t: nowStr(), level: "warn" as const, msg: "BYPASS_VALVE_03 → CLOSED in 9.4 ms" },
+              { t: nowStr(), level: "warn" as const, msg: "Sample isolated · operator notified" },
             ].slice(-LOG_LEN)
           );
         },
@@ -196,8 +196,8 @@ export function useMockData() {
           setLogs((l) =>
             [
               ...l,
-              { t: nowStr(), level: "ok", msg: "Stream stabilized · re-opening flow" },
-              { t: nowStr(), level: "info", msg: "Federated round #2814 · weights pushed (4.3 MB)" },
+              { t: nowStr(), level: "ok" as const, msg: "Stream stabilized · re-opening flow" },
+              { t: nowStr(), level: "info" as const, msg: "Federated round #2814 · weights pushed (4.3 MB)" },
             ].slice(-LOG_LEN)
           );
         },
@@ -208,7 +208,7 @@ export function useMockData() {
           setLogs((l) =>
             [
               ...l,
-              { t: nowStr(), level: "warn", msg: "RUL trending → supply chain dispatch armed" },
+              { t: nowStr(), level: "warn" as const, msg: "RUL trending → supply chain dispatch armed" },
             ].slice(-LOG_LEN)
           ),
       },
@@ -225,7 +225,7 @@ export function useMockData() {
       setLogs((l) =>
         [
           ...l,
-          { t: nowStr(), level: "ok", msg: `Inference #${tickRef.current.toString().padStart(5, "0")} · ${ms} ms · class=SAFE` },
+          { t: nowStr(), level: "ok" as const, msg: `Inference #${tickRef.current.toString().padStart(5, "0")} · ${ms} ms · class=SAFE` },
         ].slice(-LOG_LEN)
       );
     }, 4000);
