@@ -15,6 +15,7 @@ export function WashOptimization({ value }: { value: number }) {
     <BentoCard
       eyebrow="LIGHTGBM · XGBOOST"
       title="Wash Optimization"
+      subtitle="Tree-based regression analyzing historical telemetry to maximize membrane lifespan."
       meta="every 38h"
       padded={false}
     >
