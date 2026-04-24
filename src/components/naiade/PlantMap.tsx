@@ -298,8 +298,8 @@ function PlantSvg({
     <svg
       viewBox={`0 0 ${layout.viewBox.w} ${layout.viewBox.h}`}
       preserveAspectRatio="xMidYMid meet"
-      className="plant-interactive relative z-10 h-full w-full select-none"
-      style={{ shapeRendering: "geometricPrecision" }}
+      className="relative z-10 h-full w-full select-none"
+      style={{ shapeRendering: "geometricPrecision", touchAction: "none" }}
     >
       <defs>
         <filter id="line-glow" x="-20%" y="-20%" width="140%" height="140%">
