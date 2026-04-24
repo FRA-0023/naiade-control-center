@@ -14,6 +14,7 @@ import { RULPanel } from "@/components/naiade/RULPanel";
 import { BlockchainLog } from "@/components/naiade/BlockchainLog";
 import { SystemOverview } from "@/components/naiade/SystemOverview";
 import { useMockData } from "@/hooks/useMockData";
+import type { CompanyId } from "@/lib/companies";
 
 export type TabId = "overview" | "ingestion" | "edge" | "mlops";
 
@@ -36,14 +37,20 @@ const tabs: { id: TabId; label: string; sub: string; icon: typeof Activity }[] =
 ];
 
 const Index = () => {
-  const data = useMockData();
+  const [activeCompany, setActiveCompany] = useState<CompanyId>("acme");
+  const data = useMockData(activeCompany);
   const [tab, setTab] = useState<TabId>("overview");
   const ledgerHeight = data.blocks[data.blocks.length - 1]?.height ?? 0;
 
   return (
     <SidebarProvider>
       <div className="flex h-screen w-full overflow-hidden bg-background">
-        <AppSidebar activeTab={tab} onTabChange={setTab} />
+        <AppSidebar
+          activeTab={tab}
+          onTabChange={setTab}
+          activeCompany={activeCompany}
+          onCompanyChange={setActiveCompany}
+        />
         <SidebarInset className="flex h-full flex-1 flex-col overflow-hidden">
           <TopBar anomaly={data.anomaly} tabs={tabs} activeTab={tab} onTabChange={setTab} />
 
