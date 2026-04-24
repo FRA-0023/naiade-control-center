@@ -577,25 +577,37 @@ function Equipment({
 }
 
 /* Solid background capsule label — pipes will not strike through.
-   Theme-aware: white capsule on light, slate-900 on dark. */
+   Auto-centered with text-anchor="middle" + dominant-baseline="central".
+   If `maxWidth` is provided, the font auto-shrinks so the capsule never
+   overflows the host shape (fixes "GO MEMBRANE M-02" overhanging the
+   cylinder). */
 function CapsuleLabel({
   x,
   y,
   label,
   color,
   labelTheme,
+  maxWidth,
 }: {
   x: number;
   y: number;
   label: string;
   color: string;
   labelTheme: LabelTheme;
+  maxWidth?: number;
 }) {
   const padX = 8;
   const padY = 4;
-  const charW = 6.6;
-  const w = Math.max(40, label.length * charW + padX * 2);
-  const h = 16 + padY * 2;
+  let fontSize = 11;
+  let charW = 6.6;
+  let w = label.length * charW + padX * 2;
+  if (maxWidth && w > maxWidth) {
+    const scale = Math.max(0.62, (maxWidth - padX * 2) / (label.length * charW));
+    fontSize = Math.max(7.5, fontSize * scale);
+    charW = charW * scale;
+    w = Math.max(40, label.length * charW + padX * 2);
+  }
+  const h = fontSize + padY * 2 + 4;
   return (
     <g pointerEvents="none">
       <rect
@@ -611,10 +623,11 @@ function CapsuleLabel({
       />
       <text
         x={x}
-        y={y + 4}
+        y={y}
         textAnchor="middle"
+        dominantBaseline="central"
         fill={color}
-        style={{ font: "700 11px Inter, system-ui, sans-serif", letterSpacing: "0.06em" }}
+        style={{ font: `700 ${fontSize}px Inter, system-ui, sans-serif`, letterSpacing: "0.05em" }}
       >
         {label}
       </text>
@@ -638,6 +651,7 @@ function SubLabel({
       x={x}
       y={y}
       textAnchor="middle"
+      dominantBaseline="central"
       fill={labelTheme.sub}
       pointerEvents="none"
       style={{ font: "500 9px JetBrains Mono, ui-monospace, monospace", letterSpacing: "0.08em", textTransform: "uppercase" }}
@@ -654,6 +668,7 @@ function EquipmentLabel({
   sub,
   color,
   labelTheme,
+  maxWidth,
 }: {
   x: number;
   y: number;
@@ -661,10 +676,11 @@ function EquipmentLabel({
   sub?: string;
   color: string;
   labelTheme: LabelTheme;
+  maxWidth?: number;
 }) {
   return (
     <g>
-      <CapsuleLabel x={x} y={y} label={label} color={color} labelTheme={labelTheme} />
+      <CapsuleLabel x={x} y={y} label={label} color={color} labelTheme={labelTheme} maxWidth={maxWidth} />
       {sub && <SubLabel x={x} y={y + 18} text={sub} labelTheme={labelTheme} />}
     </g>
   );
