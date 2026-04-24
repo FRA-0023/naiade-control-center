@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { getCompany, type CompanyId } from "@/lib/companies";
 
 export type SpectrogramPoint = { x: number; y: number };
 export type KPIPoint = { t: number; v: number };
@@ -25,12 +26,12 @@ function rand(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
 
-function genRamanFrame(prev: SpectrogramPoint[] | null): SpectrogramPoint[] {
+function genRamanFrame(prev: SpectrogramPoint[] | null, shift: number): SpectrogramPoint[] {
   const peaks = [
-    { c: 30, w: 8, h: 60 },
-    { c: 70, w: 12, h: 90 },
-    { c: 110, w: 6, h: 50 },
-    { c: 145, w: 18, h: 75 },
+    { c: 30 + shift, w: 8, h: 60 },
+    { c: 70 + shift, w: 12, h: 90 },
+    { c: 110 + shift, w: 6, h: 50 },
+    { c: 145 + shift, w: 18, h: 75 },
   ];
   return Array.from({ length: RAMAN_LEN }, (_, i) => {
     const base = 8 + Math.sin(i * 0.05 + Date.now() * 0.0003) * 4;
@@ -56,80 +57,113 @@ function nowStr() {
   return d.toLocaleTimeString("en-GB", { hour12: false }) + "." + String(d.getMilliseconds()).padStart(3, "0");
 }
 
-export function useMockData() {
-  const [raman, setRaman] = useState<SpectrogramPoint[]>(() => genRamanFrame(null));
+function seedDp(start: number, end: number): DPPoint[] {
+  const arr: DPPoint[] = [];
+  for (let i = 0; i < DP_LEN; i++) {
+    const trend = start + (i / (DP_LEN - 1)) * (end - start);
+    const noise = rand(-0.04, 0.04);
+    arr.push({ t: i, dp: Math.max(0.5, trend + noise) });
+  }
+  return arr;
+}
+
+function seedBlocks(startHeight: number): Block[] {
+  const arr: Block[] = [];
+  let prev = shortHash(20);
+  for (let i = 0; i < 8; i++) {
+    const h = shortHash(20);
+    arr.push({
+      height: startHeight + i,
+      ts: new Date(Date.now() - (8 - i) * 5000).toISOString().split("T")[1].replace("Z", ""),
+      hash: h,
+      prev,
+      prediction: ["SAFE", "SAFE", "SAFE", "DRIFT_OK"][Math.floor(Math.random() * 4)],
+      signature: shortHash(12),
+    });
+    prev = h;
+  }
+  return arr;
+}
+
+export function useMockData(companyId: CompanyId = "acme") {
+  const company = getCompany(companyId);
+  const b = company.baseline;
+  // Keep a live ref to baseline so interval callbacks always read current company
+  const baselineRef = useRef(b);
+  baselineRef.current = b;
+
+  const [raman, setRaman] = useState<SpectrogramPoint[]>(() => genRamanFrame(null, b.ramanShift));
   const [pressure, setPressure] = useState<KPIPoint[]>([]);
   const [flow, setFlow] = useState<KPIPoint[]>([]);
   const [conductivity, setConductivity] = useState<KPIPoint[]>([]);
   const [latency, setLatency] = useState<LatencyPoint[]>([]);
-  const [dp, setDp] = useState<DPPoint[]>(() => {
-    const arr: DPPoint[] = [];
-    for (let i = 0; i < DP_LEN; i++) {
-      // Gradual upward trend from 1.5 → 2.2 with realistic jitter
-      const trend = 1.5 + (i / (DP_LEN - 1)) * 0.7;
-      const noise = rand(-0.04, 0.04);
-      arr.push({ t: i, dp: Math.max(0.5, trend + noise) });
-    }
-    return arr;
-  });
+  const [dp, setDp] = useState<DPPoint[]>(() => seedDp(b.dpStart, b.dpEnd));
   const [anomaly, setAnomaly] = useState(false);
   const [logs, setLogs] = useState<LogEntry[]>([
-    { t: nowStr(), level: "ok", msg: "Edge runtime online · MobileNetV3 loaded" },
+    { t: nowStr(), level: "ok", msg: `Edge runtime online · ${company.node} · MobileNetV3 loaded` },
     { t: nowStr(), level: "info", msg: "Anomaly detector armed · 1,243,891 signatures" },
   ]);
-  const [blocks, setBlocks] = useState<Block[]>(() => {
-    const arr: Block[] = [];
-    let prev = shortHash(20);
-    for (let i = 0; i < 8; i++) {
-      const h = shortHash(20);
-      arr.push({
-        height: 184_201 + i,
-        ts: new Date(Date.now() - (8 - i) * 5000).toISOString().split("T")[1].replace("Z", ""),
-        hash: h,
-        prev,
-        prediction: ["SAFE", "SAFE", "SAFE", "DRIFT_OK"][Math.floor(Math.random() * 4)],
-        signature: shortHash(12),
-      });
-      prev = h;
-    }
-    return arr;
-  });
+  const [blocks, setBlocks] = useState<Block[]>(() => seedBlocks(b.blockHeightStart));
   const [federatedProgress, setFederatedProgress] = useState(0);
-  const [rul, setRul] = useState(62);
-  const [washFreq, setWashFreq] = useState(74);
+  const [rul, setRul] = useState(b.rul);
+  const [washFreq, setWashFreq] = useState(b.washFreq);
 
-  const ramanRef = useRef(raman);
-  ramanRef.current = raman;
   const tickRef = useRef(0);
+
+  // Re-seed everything when the company changes (skip first mount; initial state already used baseline)
+  const firstRun = useRef(true);
+  useEffect(() => {
+    if (firstRun.current) {
+      firstRun.current = false;
+      return;
+    }
+    setRaman(genRamanFrame(null, b.ramanShift));
+    setPressure([]);
+    setFlow([]);
+    setConductivity([]);
+    setLatency([]);
+    setDp(seedDp(b.dpStart, b.dpEnd));
+    setBlocks(seedBlocks(b.blockHeightStart));
+    setRul(b.rul);
+    setWashFreq(b.washFreq);
+    setAnomaly(false);
+    setLogs([
+      { t: nowStr(), level: "ok", msg: `Switched context → ${company.name} · ${company.node}` },
+      { t: nowStr(), level: "info", msg: "Anomaly detector armed · 1,243,891 signatures" },
+    ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [companyId]);
 
   // Raman 50ms
   useEffect(() => {
     const id = setInterval(() => {
-      setRaman((prev) => genRamanFrame(prev));
+      setRaman((prev) => genRamanFrame(prev, baselineRef.current.ramanShift));
     }, 50);
     return () => clearInterval(id);
   }, []);
 
-  // KPIs + latency 1s
+  // KPIs + latency 1s — driven by company baseline
   useEffect(() => {
     const id = setInterval(() => {
       const t = Date.now();
-      setPressure((p) => [...p, { t, v: 10 + Math.sin(t * 0.001) * 0.4 + rand(-0.1, 0.1) }].slice(-KPI_LEN));
-      setFlow((p) => [...p, { t, v: 2.0 + Math.cos(t * 0.0008) * 0.15 + rand(-0.05, 0.05) }].slice(-KPI_LEN));
-      setConductivity((p) => [...p, { t, v: 40 + Math.sin(t * 0.0005) * 4 + rand(-1.5, 1.5) }].slice(-KPI_LEN));
-      setLatency((p) => [...p, { t, ms: 4 + rand(0, 4) + (Math.random() < 0.05 ? 2 : 0) }].slice(-LATENCY_LEN));
+      const bl = baselineRef.current;
+      setPressure((p) => [...p, { t, v: bl.pressure + Math.sin(t * 0.001) * 0.4 + rand(-0.1, 0.1) }].slice(-KPI_LEN));
+      setFlow((p) => [...p, { t, v: bl.flow + Math.cos(t * 0.0008) * 0.15 + rand(-0.05, 0.05) }].slice(-KPI_LEN));
+      setConductivity((p) => [...p, { t, v: bl.conductivity + Math.sin(t * 0.0005) * 4 + rand(-1.5, 1.5) }].slice(-KPI_LEN));
+      setLatency((p) => [...p, { t, ms: bl.latencyMs + rand(0, 4) + (Math.random() < 0.05 ? 2 : 0) }].slice(-LATENCY_LEN));
     }, 1000);
     return () => clearInterval(id);
   }, []);
 
-  // ΔP 5s + blockchain - shift window forward to keep ascending drift visible
+  // ΔP 5s + blockchain
   useEffect(() => {
     const id = setInterval(() => {
       setDp((p) => {
         const shifted = p.slice(1).map((pt, i) => ({ t: i, dp: pt.dp }));
         const lastT = shifted[shifted.length - 1]?.t ?? 0;
         const lastDp = shifted[shifted.length - 1]?.dp ?? 1.5;
-        const next = Math.min(2.2, lastDp + rand(0.005, 0.025));
+        const cap = baselineRef.current.dpEnd + 0.05;
+        const next = Math.min(cap, lastDp + rand(0.005, 0.025));
         return [...shifted, { t: lastT + 1, dp: next }];
       });
       setBlocks((p) => {
@@ -149,7 +183,7 @@ export function useMockData() {
     return () => clearInterval(id);
   }, []);
 
-  // Federated learning 100ms progress loop
+  // Federated learning progress loop
   useEffect(() => {
     const id = setInterval(() => {
       setFederatedProgress((p) => (p >= 100 ? 0 : p + 1.5));
@@ -166,66 +200,11 @@ export function useMockData() {
     return () => clearInterval(id);
   }, []);
 
-  // Scripted timeline: anomaly + log events
-  useEffect(() => {
-    const events: Array<{ at: number; run: () => void }> = [
-      {
-        at: 6000,
-        run: () =>
-          setLogs((l) =>
-            [
-              ...l,
-              { t: nowStr(), level: "info" as const, msg: "Inference cycle 8.2 ms · within target (<10 ms)" },
-            ].slice(-LOG_LEN)
-          ),
-      },
-      {
-        at: 12000,
-        run: () => {
-          setAnomaly(true);
-          setLogs((l) =>
-            [
-              ...l,
-              { t: nowStr(), level: "error" as const, msg: "ANOMALY · spectral signature deviates 4.2σ" },
-              { t: nowStr(), level: "warn" as const, msg: "BYPASS_VALVE_03 → CLOSED in 9.4 ms" },
-              { t: nowStr(), level: "warn" as const, msg: "Sample isolated · operator notified" },
-            ].slice(-LOG_LEN)
-          );
-        },
-      },
-      {
-        at: 22000,
-        run: () => {
-          setAnomaly(false);
-          setLogs((l) =>
-            [
-              ...l,
-              { t: nowStr(), level: "ok" as const, msg: "Stream stabilized · re-opening flow" },
-              { t: nowStr(), level: "info" as const, msg: "Federated round #2814 · weights pushed (4.3 MB)" },
-            ].slice(-LOG_LEN)
-          );
-        },
-      },
-      {
-        at: 32000,
-        run: () =>
-          setLogs((l) =>
-            [
-              ...l,
-              { t: nowStr(), level: "warn" as const, msg: "RUL trending → supply chain dispatch armed" },
-            ].slice(-LOG_LEN)
-          ),
-      },
-    ];
-    const timers = events.map((e) => setTimeout(e.run, e.at));
-    return () => timers.forEach(clearTimeout);
-  }, []);
-
   // Recurring inference log every 4s
   useEffect(() => {
     const id = setInterval(() => {
       tickRef.current++;
-      const ms = (4 + Math.random() * 4).toFixed(1);
+      const ms = (baselineRef.current.latencyMs + Math.random() * 4).toFixed(1);
       setLogs((l) =>
         [
           ...l,
@@ -249,5 +228,6 @@ export function useMockData() {
     federatedProgress,
     rul,
     washFreq,
+    company,
   };
 }

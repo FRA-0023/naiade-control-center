@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "./ThemeToggle";
+import { CompanySwitcher } from "./CompanySwitcher";
+import { getCompany, type CompanyId } from "@/lib/companies";
 import type { TabId } from "@/pages/Index";
 
 const sections: { id: TabId; title: string; icon: typeof Activity; badge: string }[] = [
@@ -26,16 +28,31 @@ const sections: { id: TabId; title: string; icon: typeof Activity; badge: string
 export function AppSidebar({
   activeTab,
   onTabChange,
+  activeCompany,
+  onCompanyChange,
 }: {
   activeTab: TabId;
   onTabChange: (t: TabId) => void;
+  activeCompany: CompanyId;
+  onCompanyChange: (id: CompanyId) => void;
 }) {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
+  const company = getCompany(activeCompany);
 
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border">
       <SidebarHeader className="border-b border-sidebar-border">
+        {/* Org switcher — premium Vercel/Linear style */}
+        <div className={cn("px-2 pt-2", collapsed ? "flex justify-center" : "")}>
+          <CompanySwitcher
+            activeCompany={activeCompany}
+            onChange={onCompanyChange}
+            collapsed={collapsed}
+          />
+        </div>
+
+        {/* Product identity */}
         <div className="flex items-center gap-3 px-2 py-2">
           <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-primary/10 ring-1 ring-primary/40">
             <Waves className="h-4 w-4 text-primary" />
@@ -52,7 +69,7 @@ export function AppSidebar({
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/80">
-            Node #451
+            {company.node}
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -116,7 +133,7 @@ export function AppSidebar({
             </div>
             <div className="flex items-center justify-between font-mono text-[10px] text-muted-foreground/70">
               <span>region</span>
-              <span>EU-WEST · ZRH3</span>
+              <span>{company.region}</span>
             </div>
           </div>
         ) : (
