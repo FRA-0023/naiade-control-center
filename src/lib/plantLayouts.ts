@@ -162,13 +162,14 @@ const acme: PlantLayout = {
   ],
   sensors: withDesc([
     { id: "PR-01", kind: "pressure",     label: "Inlet Pressure",     unit: "bar",    x: 170,  y: 290, anchor: "top" },
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks",  x: 385,  y: 240, anchor: "top" },
-    { id: "TM-09", kind: "temperature",  label: "Feed Temperature",   unit: "°C",     x: 545,  y: 180, anchor: "top" },
-    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure",  unit: "bar",    x: 700,  y: 290, anchor: "bottom" },
-    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",   x: 860,  y: 290, anchor: "bottom" },
-    { id: "PH-02", kind: "ph",           label: "pH",                 unit: "pH",     x: 1025, y: 240, anchor: "top" },
-    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm",  x: 1150, y: 250, anchor: "top" },
-    { id: "TB-05", kind: "turbidity",    label: "Turbidity",          unit: "NTU",    x: 545,  y: 400, anchor: "bottom" },
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks",  x: 385,  y: 230, anchor: "top" },
+    { id: "TM-09", kind: "temperature",  label: "Feed Temperature",   unit: "°C",     x: 545,  y: 170, anchor: "top" },
+    // Membrane pressure on the inlet pipe just before M-01 (off the label).
+    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure",  unit: "bar",    x: 615,  y: 290, anchor: "top" },
+    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",   x: 940,  y: 290, anchor: "top" },
+    { id: "PH-02", kind: "ph",           label: "pH",                 unit: "pH",     x: 1025, y: 230, anchor: "top" },
+    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm",  x: 1100, y: 240, anchor: "top" },
+    { id: "TB-05", kind: "turbidity",    label: "Turbidity",          unit: "NTU",    x: 545,  y: 410, anchor: "bottom" },
   ]),
 };
 
