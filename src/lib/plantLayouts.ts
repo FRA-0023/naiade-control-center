@@ -241,16 +241,27 @@ const aegis: PlantLayout = {
     { id: "edge",       kind: "controller", label: "EDGE-AI",        sub: "Node #104",         x: 1000, y: 60,  w: 160, h: 70,  tone: "primary" },
   ]),
   pipes: [
+    // Main horizontal feed line at y=310
     { d: "M 140 310 H 200", flow: true },
     { d: "M 280 310 H 320", flow: true },
-    { d: "M 450 310 V 190 H 500", flow: true },
-    { d: "M 820 190 V 240 H 700", flow: true },
-    { d: "M 700 305 H 740", flow: true },
-    { d: "M 810 305 V 410 H 820 M 810 410 H 500", flow: true },
-    { d: "M 820 410 V 310 H 880", flow: true },
+    // Prefilter out → up & over to M-01 (left cap @ cx=518, cy=190)
+    { d: "M 450 310 V 190 H 518", flow: true },
+    // M-01 right cap (cx=802, cy=190) → down to buffer top
+    { d: "M 802 190 V 240 H 700", flow: true },
+    // Buffer right (700, 300) → P-02 inlet (775, 305)
+    { d: "M 700 300 H 740", flow: true },
+    // P-02 outlet (810, 305) → down to M-02 inlet (left cap cx=518, cy=410)
+    { d: "M 810 305 V 410 H 518", flow: true },
+    // M-02 right cap (cx=802, cy=410) → up to spine then to UV inlet (880, 310)
+    { d: "M 802 410 V 310 H 880", flow: true },
+    // UV outlet → output
     { d: "M 1010 310 H 1080", flow: true },
-    { d: "M 140 130 V 200", width: 1.2 },
-    { d: "M 1080 130 V 260", width: 1.2 },
+    // ERD ARRAY signal/recovery line — bottom-center (140, 130)
+    // routes orthogonally down to the main spine at y=310 (lands left of P-01).
+    { d: "M 140 130 V 280 H 170 V 310", width: 1.2 },
+    // EDGE-AI signal line — bottom-center (1080, 130) routes down to UV top (945, 260)
+    // then onto the UV vessel inlet area (avoids floating endpoint).
+    { d: "M 1080 130 V 220 H 945 V 260", width: 1.2 },
   ],
   sensors: withDesc([
     { id: "PR-01", kind: "pressure",     label: "Pump Discharge",     unit: "bar",   x: 170, y: 310, anchor: "bottom" },
