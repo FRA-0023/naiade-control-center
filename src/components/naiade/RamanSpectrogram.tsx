@@ -13,11 +13,11 @@ export function RamanSpectrogram({ data }: { data: SpectrogramPoint[] }) {
     >
       <div className="flex flex-col gap-2 p-3">
         <div className="flex items-baseline gap-2">
-          <span className="font-mono text-lg font-semibold tracking-tight text-foreground">4</span>
-          <span className="text-[10px] text-muted-foreground">peaks detected</span>
-          <span className="ml-auto font-mono text-[10px] text-success">SPECTRAL MATCH</span>
+          <span className="font-mono text-xl font-semibold tracking-tight text-foreground">4</span>
+          <span className="text-xs text-muted-foreground">peaks detected</span>
+          <span className="ml-auto font-mono text-[11px] text-success">SPECTRAL MATCH</span>
         </div>
-        <div className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground/70">
+        <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/70">
           1.2M signatures · 50ms refresh
         </div>
 
@@ -48,7 +48,7 @@ export function RamanSpectrogram({ data }: { data: SpectrogramPoint[] }) {
           </ResponsiveContainer>
         </div>
 
-        <div className="flex shrink-0 items-center justify-between font-mono text-[9px] uppercase tracking-widest text-muted-foreground/50">
+        <div className="flex shrink-0 items-center justify-between font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50">
           <span>200 cm⁻¹</span>
           <span className="hidden sm:inline">1000</span>
           <span className="hidden sm:inline">2000</span>

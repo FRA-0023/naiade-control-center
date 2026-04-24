@@ -116,11 +116,11 @@ function HealthStat({
         <Icon className={cn("h-4 w-4", toneClass)} />
       </div>
       <div className="min-w-0 flex-1">
-        <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/80">
+        <div className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground/80">
           {label}
         </div>
-        <div className={cn("font-mono text-base font-semibold tracking-tight", toneClass)}>{value}</div>
-        <div className="font-mono text-[10px] text-muted-foreground/70">{sub}</div>
+        <div className={cn("font-mono text-lg font-semibold tracking-tight", toneClass)}>{value}</div>
+        <div className="font-mono text-[11px] text-muted-foreground/70">{sub}</div>
       </div>
     </div>
   );
@@ -242,8 +242,8 @@ function StageCard({ stage, onClick }: { stage: Stage; onClick?: () => void }) {
       >
         <Icon className={cn("h-4 w-4", toneIcon)} />
       </div>
-      <div className="text-xs font-semibold tracking-tight text-foreground">{stage.label}</div>
-      <div className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/80">
+      <div className="text-sm font-semibold tracking-tight text-foreground">{stage.label}</div>
+      <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground/80">
         {stage.sub}
       </div>
     </Wrapper>
@@ -283,8 +283,8 @@ function SatelliteNode({
         <Icon className={cn("h-3.5 w-3.5", text)} />
       </span>
       <span className="flex flex-col text-left leading-tight">
-        <span className={cn("text-xs font-semibold tracking-tight", text)}>{label}</span>
-        <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/80">
+        <span className={cn("text-sm font-semibold tracking-tight", text)}>{label}</span>
+        <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground/80">
           {sub}
         </span>
       </span>
@@ -332,12 +332,12 @@ function ImpactCard({
       onClick={onClick}
       className="group flex flex-col gap-1.5 rounded-xl border border-border/60 bg-card/40 p-4 text-left backdrop-blur-sm transition-all hover:border-primary/50 hover:bg-card/60"
     >
-      <div className="font-mono text-[10px] uppercase tracking-widest text-primary/80">
+      <div className="font-mono text-[11px] uppercase tracking-widest text-primary/80">
         {eyebrow}
       </div>
-      <div className="text-sm font-semibold tracking-tight text-foreground">{title}</div>
-      <p className="text-xs font-light leading-relaxed text-muted-foreground">{body}</p>
-      <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground transition-colors group-hover:text-primary">
+      <div className="text-base font-semibold tracking-tight text-foreground">{title}</div>
+      <p className="text-sm font-light leading-relaxed text-muted-foreground">{body}</p>
+      <div className="mt-1 font-mono text-[11px] uppercase tracking-widest text-muted-foreground transition-colors group-hover:text-primary">
         {cta} →
       </div>
     </button>
