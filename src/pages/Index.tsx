@@ -17,6 +17,17 @@ import { useMockData } from "@/hooks/useMockData";
 
 export type TabId = "overview" | "ingestion" | "edge" | "mlops";
 
+function PageHeader({ title, subtitle }: { title: string; subtitle: string }) {
+  return (
+    <div className="mb-5 shrink-0">
+      <h1>{title}</h1>
+      <p className="mt-1 text-sm font-light leading-snug text-muted-foreground">
+        {subtitle}
+      </p>
+    </div>
+  );
+}
+
 const tabs: { id: TabId; label: string; sub: string; icon: typeof Activity }[] = [
   { id: "overview", label: "System Overview", sub: "Topology · Health · Impact", icon: LayoutGrid },
   { id: "ingestion", label: "Live Ingestion", sub: "Sensors & Spectrogram", icon: Activity },
@@ -51,24 +62,26 @@ const Index = () => {
               }
             >
               {tab === "overview" && (
-                <SystemOverview
+                <>
+                  <PageHeader
+                    title="System Overview"
+                    subtitle="Topology, health, and global impact across all NAIADE nodes."
+                  />
+                  <SystemOverview
                   onNavigate={setTab}
                   totalRegenerated={2_840_000 + ledgerHeight * 12}
                   efficiencyMultiplier={5.4}
                   ledgerHeight={ledgerHeight}
-                />
+                  />
+                </>
               )}
 
               {tab === "ingestion" && (
                 <>
-                  <div className="mb-2 shrink-0">
-                    <h2 className="text-base font-semibold tracking-tight text-foreground">
-                      Live Ingestion
-                    </h2>
-                    <p className="text-xs font-light leading-snug text-muted-foreground">
-                      Continuous physical telemetry via LPWAN/5G mesh · 50ms refresh.
-                    </p>
-                  </div>
+                  <PageHeader
+                    title="Live Ingestion"
+                    subtitle="Continuous physical telemetry via LPWAN/5G mesh · 50ms refresh."
+                  />
 
                   <div className="grid grid-cols-12 items-start gap-3">
                     <div className="col-span-8 flex flex-col gap-2 self-start">
@@ -86,18 +99,29 @@ const Index = () => {
               )}
 
               {tab === "edge" && (
-                <div className="grid grid-cols-12 gap-4 md:gap-5">
+                <>
+                  <PageHeader
+                    title="Edge-AI Diagnostics"
+                    subtitle="On-device anomaly detection and CNN-based predictive maintenance."
+                  />
+                  <div className="grid grid-cols-12 gap-4 md:gap-5">
                   <div className="col-span-12 lg:col-span-5">
                     <AnomalyPanel anomaly={data.anomaly} latency={data.latency} logs={data.logs} />
                   </div>
                   <div className="col-span-12 lg:col-span-7">
                     <PredictiveMaintenance dp={data.dp} />
                   </div>
-                </div>
+                  </div>
+                </>
               )}
 
               {tab === "mlops" && (
-                <div className="grid grid-cols-12 gap-4 md:gap-5">
+                <>
+                  <PageHeader
+                    title="Global MLOps"
+                    subtitle="Federated learning across the fleet and tamper-proof blockchain audit."
+                  />
+                  <div className="grid grid-cols-12 gap-4 md:gap-5">
                   <div className="col-span-12 lg:col-span-4">
                     <FederatedLearning progress={data.federatedProgress} />
                   </div>
@@ -110,7 +134,8 @@ const Index = () => {
                   <div className="col-span-12">
                     <BlockchainLog blocks={data.blocks} />
                   </div>
-                </div>
+                  </div>
+                </>
               )}
 
               <footer className="mt-6 border-t border-border/40 pt-4 text-center font-mono text-[10px] text-muted-foreground">

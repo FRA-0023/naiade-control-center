@@ -20,7 +20,7 @@ export function SectionHeader({
       </div>
       <div className="flex flex-col">
         <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-primary">{index}</span>
-        <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
+        <h2>{title}</h2>
       </div>
       <div className="ml-2 hidden text-xs text-muted-foreground sm:block">{subtitle}</div>
       <div className="ml-auto h-px flex-1 bg-gradient-to-r from-border/80 to-transparent" />

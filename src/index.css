@@ -98,6 +98,24 @@
   .font-mono {
     font-family: 'JetBrains Mono', ui-monospace, monospace;
   }
+
+  /* Global typographic hierarchy — applied across every page */
+  h1 {
+    @apply text-2xl font-semibold tracking-tight text-foreground;
+    line-height: 1.15;
+  }
+  h2 {
+    @apply text-lg font-semibold tracking-tight text-foreground;
+    line-height: 1.2;
+  }
+  h3 {
+    @apply text-base font-semibold tracking-tight text-foreground;
+    line-height: 1.25;
+  }
+  h4 {
+    @apply text-sm font-semibold tracking-tight text-foreground;
+    line-height: 1.3;
+  }
 }
 
 @layer utilities {
