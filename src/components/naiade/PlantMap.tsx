@@ -192,13 +192,20 @@ export function PlantMap({
             minScale={0.5}
             maxScale={4}
             limitToBounds={false}
+            centerOnInit
             wheel={{ step: 0.15 }}
             doubleClick={{ disabled: true }}
-            panning={{ velocityDisabled: true, excluded: ["plant-interactive"] }}
+            panning={{
+              velocityDisabled: true,
+              // Allow click-drag panning on the entire SVG surface; only
+              // exclude interactive elements (pins / equipment groups) so
+              // single clicks still register as selections.
+              excluded: ["plant-pin", "plant-equipment"],
+            }}
           >
             <TransformComponent
               wrapperClass="!h-full !w-full cursor-grab active:cursor-grabbing"
-              contentClass="!h-full !w-full"
+              contentClass="!h-full !w-full cursor-grab active:cursor-grabbing"
             >
               <PlantSvg
                 layout={layout}
