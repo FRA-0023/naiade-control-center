@@ -192,28 +192,32 @@ const nexus: PlantLayout = {
     { id: "output",     kind: "output",     label: "DISTRIBUTION",   sub: ">18 MΩ·cm",          x: 60,   y: 410, w: 110, h: 80,  tone: "success" },
   ]),
   pipes: [
+    // Top horizontal feed at y=155
     { d: "M 150 155 H 210", flow: true },
     { d: "M 280 155 H 320", flow: true },
-    { d: "M 450 155 H 510", flow: true },
-    { d: "M 830 155 H 900", flow: true },
-    { d: "M 945 310 V 420", flow: true },
+    // Prefilter out → M-01 left cap (cx=528, cy=155)
+    { d: "M 450 155 H 528", flow: true },
+    // M-01 right cap (cx=812, cy=155) → buffer top inlet
+    { d: "M 812 155 H 945 V 90", flow: true },
+    // Buffer (945, 310) → bottom return spine y=450 → up to UV @ (830, 450)
+    { d: "M 945 310 V 450", flow: true },
     { d: "M 945 310 V 200" },
     { d: "M 900 450 H 830", flow: true },
     { d: "M 510 450 H 450", flow: true },
     { d: "M 320 450 H 170", flow: true },
-    { d: "M 1110 180 V 220", width: 1.2 },
+    // EDGE-AI signal — bottom-center (1110, 180) routes orthogonally to
+    // buffer right edge (990, 200). No floating gap.
+    { d: "M 1110 180 V 200 H 990", width: 1.2 },
   ],
   sensors: withDesc([
     { id: "PR-01", kind: "pressure",     label: "Mains Pressure",    unit: "bar",   x: 180, y: 155, anchor: "top" },
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",     unit: "peaks", x: 385, y: 100, anchor: "top" },
-    // Membrane pressure — anchored on the inlet pipe just before M-01 so the
-    // sensor dot does not sit inside the membrane label.
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",     unit: "peaks", x: 385, y: 155, anchor: "top" },
+    // Membrane pressure on the inlet pipe just before M-01 (clear of label)
     { id: "PR-12", kind: "pressure",     label: "Membrane Pressure", unit: "bar",   x: 870, y: 155, anchor: "top" },
-    { id: "TM-09", kind: "temperature",  label: "Buffer Temp",       unit: "°C",    x: 945, y: 260, anchor: "right" },
-    // Loop flow — moved off the UV label, onto the bottom return spine
-    // between UV and the polish vessel.
+    // Buffer temperature — anchored on the buffer's right edge (clear of body)
+    { id: "TM-09", kind: "temperature",  label: "Buffer Temp",       unit: "°C",    x: 990, y: 260, anchor: "right" },
+    // Bottom return spine sensors
     { id: "FL-07", kind: "flow",         label: "Loop Flow",         unit: "m³/h",  x: 480, y: 450, anchor: "bottom" },
-    // Conductivity — moved between RE-POLISH and Distribution.
     { id: "EC-03", kind: "conductivity", label: "Conductivity",      unit: "µS/cm", x: 280, y: 450, anchor: "top" },
     { id: "PH-02", kind: "ph",           label: "pH",                unit: "pH",    x: 220, y: 450, anchor: "bottom" },
     { id: "TB-05", kind: "turbidity",    label: "Turbidity",         unit: "NTU",   x: 870, y: 450, anchor: "bottom" },
@@ -241,30 +245,44 @@ const aegis: PlantLayout = {
     { id: "edge",       kind: "controller", label: "EDGE-AI",        sub: "Node #104",         x: 1000, y: 60,  w: 160, h: 70,  tone: "primary" },
   ]),
   pipes: [
+    // Main horizontal feed line at y=310
     { d: "M 140 310 H 200", flow: true },
     { d: "M 280 310 H 320", flow: true },
-    { d: "M 450 310 V 190 H 500", flow: true },
-    { d: "M 820 190 V 240 H 700", flow: true },
-    { d: "M 700 305 H 740", flow: true },
-    { d: "M 810 305 V 410 H 820 M 810 410 H 500", flow: true },
-    { d: "M 820 410 V 310 H 880", flow: true },
+    // Prefilter out → up & over to M-01 (left cap @ cx=518, cy=190)
+    { d: "M 450 310 V 190 H 518", flow: true },
+    // M-01 right cap (cx=802, cy=190) → down to buffer top
+    { d: "M 802 190 V 240 H 700", flow: true },
+    // Buffer right (700, 300) → P-02 inlet (775, 305)
+    { d: "M 700 300 H 740", flow: true },
+    // P-02 outlet (810, 305) → down to M-02 inlet (left cap cx=518, cy=410)
+    { d: "M 810 305 V 410 H 518", flow: true },
+    // M-02 right cap (cx=802, cy=410) → up to spine then to UV inlet (880, 310)
+    { d: "M 802 410 V 310 H 880", flow: true },
+    // UV outlet → output
     { d: "M 1010 310 H 1080", flow: true },
-    { d: "M 140 130 V 200", width: 1.2 },
-    { d: "M 1080 130 V 260", width: 1.2 },
+    // ERD ARRAY signal/recovery line — bottom-center (140, 130)
+    // routes orthogonally down to the main spine at y=310 (lands left of P-01).
+    { d: "M 140 130 V 280 H 170 V 310", width: 1.2 },
+    // EDGE-AI signal line — bottom-center (1080, 130) routes down to UV top (945, 260)
+    // then onto the UV vessel inlet area (avoids floating endpoint).
+    { d: "M 1080 130 V 220 H 945 V 260", width: 1.2 },
   ],
   sensors: withDesc([
     { id: "PR-01", kind: "pressure",     label: "Pump Discharge",     unit: "bar",   x: 170, y: 310, anchor: "bottom" },
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks", x: 385, y: 245, anchor: "top" },
-    // Stage-1 pressure tap on the inlet riser to M-01 (off the membrane label).
+    // Raman sample tap on the prefilter top header
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks", x: 385, y: 250, anchor: "top" },
+    // Stage-1 pressure on the riser to M-01 (left of membrane label)
     { id: "PR-12", kind: "pressure",     label: "M-01 Pressure",      unit: "bar",   x: 450, y: 245, anchor: "left" },
-    { id: "TM-09", kind: "temperature",  label: "Interstage Temp",    unit: "°C",    x: 760, y: 305, anchor: "top" },
-    // Stage-2 pressure on the discharge of M-02 (off the membrane label).
-    { id: "PR-22", kind: "pressure",     label: "M-02 Pressure",      unit: "bar",   x: 820, y: 460, anchor: "right" },
-    // Permeate flow on the short pipe between UV and OUT.
+    // Interstage temperature on the buffer→P-02 pipe segment (y=300)
+    { id: "TM-09", kind: "temperature",  label: "Interstage Temp",    unit: "°C",    x: 760, y: 300, anchor: "top" },
+    // Stage-2 pressure on the riser between M-02 and the spine (x=802 riser)
+    { id: "PR-22", kind: "pressure",     label: "M-02 Pressure",      unit: "bar",   x: 802, y: 360, anchor: "right" },
+    // Permeate flow on the UV→OUT pipe
     { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",  x: 1045, y: 310, anchor: "top" },
-    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm", x: 1125, y: 240, anchor: "top" },
-    // pH on the lower return pipe segment, well below M-02.
-    { id: "PH-02", kind: "ph",           label: "pH",                 unit: "pH",    x: 600, y: 410, anchor: "bottom" },
+    // Conductivity on the output entry
+    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm", x: 1130, y: 310, anchor: "top" },
+    // pH on the M-02 inlet horizontal pipe (y=410)
+    { id: "PH-02", kind: "ph",           label: "pH",                 unit: "pH",    x: 660, y: 410, anchor: "bottom" },
   ]),
 };
 

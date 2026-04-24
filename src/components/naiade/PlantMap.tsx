@@ -385,7 +385,11 @@ type LabelTheme = {
   sub: string;
 };
 
-/* ─────────────── Equipment renderer ─────────────── */
+/* ─────────────── Equipment renderer ─────────────────────────────────────────
+   STRICT GROUPING: every machine is wrapped in a single <g transform="translate">
+   so all child geometry (shape + label) is local-coordinate (0,0)-anchored.
+   Text is auto-centered with text-anchor="middle" + dominant-baseline="central".
+   ─────────────────────────────────────────────────────────────────────────── */
 function Equipment({
   eq,
   labelTheme,
@@ -413,24 +417,27 @@ function Equipment({
       ? "hsl(var(--success))"
       : labelTheme.text;
 
-  const cx = eq.x + eq.w / 2;
-  const cy = eq.y + eq.h / 2;
+  // Local coordinates inside the translated group: top-left = (0,0).
+  const W = eq.w;
+  const H = eq.h;
+  const cx = W / 2;
+  const cy = H / 2;
   const sw = selected ? 2.4 : 1.4;
 
   const wrap = (children: React.ReactNode) => (
     <g
+      transform={`translate(${eq.x}, ${eq.y})`}
       onClick={onSelect}
       className="plant-equipment cursor-pointer transition-opacity hover:opacity-90"
       style={{ outline: "none" }}
     >
       {children}
-      {/* Selection halo */}
       {selected && (
         <rect
-          x={eq.x - 6}
-          y={eq.y - 6}
-          width={eq.w + 12}
-          height={eq.h + 12}
+          x={-6}
+          y={-6}
+          width={W + 12}
+          height={H + 12}
           rx={10}
           fill="none"
           stroke="hsl(var(--primary))"
@@ -446,81 +453,94 @@ function Equipment({
     case "tank":
       return wrap(
         <g>
-          <rect x={eq.x} y={eq.y + 14} width={eq.w} height={eq.h - 28} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
-          <ellipse cx={cx} cy={eq.y + 14} rx={eq.w / 2} ry={14} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
-          <ellipse cx={cx} cy={eq.y + eq.h - 14} rx={eq.w / 2} ry={14} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
-          <rect x={eq.x + 8} y={eq.y + eq.h * 0.45} width={eq.w - 16} height={eq.h * 0.4} fill="hsl(var(--primary) / 0.18)" />
-          <EquipmentLabel x={cx} y={eq.y + eq.h + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} />
+          <rect x={0} y={14} width={W} height={H - 28} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
+          <ellipse cx={cx} cy={14} rx={W / 2} ry={14} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
+          <ellipse cx={cx} cy={H - 14} rx={W / 2} ry={14} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
+          <rect x={8} y={H * 0.45} width={W - 16} height={H * 0.4} fill="hsl(var(--primary) / 0.18)" />
+          {/* External label below the tank */}
+          <EquipmentLabel x={cx} y={H + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} maxWidth={W + 40} />
         </g>
       );
 
-    case "membrane":
+    case "membrane": {
+      // Inner cylinder body excludes the two end-cap ellipses (radius 18 each).
+      const innerW = W - 36;
       return wrap(
         <g>
-          <rect x={eq.x + 18} y={eq.y} width={eq.w - 36} height={eq.h} fill="url(#membrane-grad)" stroke={stroke} strokeWidth={sw} />
-          <ellipse cx={eq.x + 18} cy={cy} rx={18} ry={eq.h / 2} fill="url(#membrane-grad)" stroke={stroke} strokeWidth={sw} />
-          <ellipse cx={eq.x + eq.w - 18} cy={cy} rx={18} ry={eq.h / 2} fill="url(#membrane-grad)" stroke={stroke} strokeWidth={sw} />
+          <rect x={18} y={0} width={innerW} height={H} fill="url(#membrane-grad)" stroke={stroke} strokeWidth={sw} />
+          <ellipse cx={18} cy={cy} rx={18} ry={H / 2} fill="url(#membrane-grad)" stroke={stroke} strokeWidth={sw} />
+          <ellipse cx={W - 18} cy={cy} rx={18} ry={H / 2} fill="url(#membrane-grad)" stroke={stroke} strokeWidth={sw} />
           {Array.from({ length: 5 }).map((_, i) => (
             <line
               key={i}
-              x1={eq.x + 30}
-              x2={eq.x + eq.w - 30}
-              y1={eq.y + ((i + 1) * eq.h) / 6}
-              y2={eq.y + ((i + 1) * eq.h) / 6}
+              x1={30}
+              x2={W - 30}
+              y1={((i + 1) * H) / 6}
+              y2={((i + 1) * H) / 6}
               stroke={stroke}
               strokeOpacity={0.35}
               strokeWidth={0.7}
             />
           ))}
-          <CapsuleLabel x={cx} y={cy} label={eq.label} color={labelColor} labelTheme={labelTheme} />
-          {eq.sub && <SubLabel x={cx} y={eq.y + eq.h + 18} text={eq.sub} labelTheme={labelTheme} />}
+          {/* Auto-centered label, clamped to inner cylinder width so long
+              names like "GO MEMBRANE M-02" can never overflow. */}
+          <CapsuleLabel
+            x={cx}
+            y={cy}
+            label={eq.label}
+            color={labelColor}
+            labelTheme={labelTheme}
+            maxWidth={innerW - 12}
+          />
+          {eq.sub && <SubLabel x={cx} y={H + 18} text={eq.sub} labelTheme={labelTheme} />}
         </g>
       );
+    }
 
     case "vessel":
       return wrap(
         <g>
-          <rect x={eq.x} y={eq.y} width={eq.w} height={eq.h} rx={14} fill="hsl(var(--muted) / 0.25)" stroke={stroke} strokeWidth={sw} />
+          <rect x={0} y={0} width={W} height={H} rx={14} fill="hsl(var(--muted) / 0.25)" stroke={stroke} strokeWidth={sw} />
           <line
-            x1={eq.x + 8}
-            x2={eq.x + eq.w - 8}
-            y1={eq.y + eq.h * 0.5}
-            y2={eq.y + eq.h * 0.5}
+            x1={8}
+            x2={W - 8}
+            y1={H * 0.5}
+            y2={H * 0.5}
             stroke={stroke}
             strokeOpacity={0.35}
             strokeDasharray="3 3"
           />
-          <CapsuleLabel x={cx} y={cy - 6} label={eq.label} color={labelColor} labelTheme={labelTheme} />
+          <CapsuleLabel x={cx} y={cy - 8} label={eq.label} color={labelColor} labelTheme={labelTheme} maxWidth={W - 16} />
           {eq.sub && <SubLabel x={cx} y={cy + 14} text={eq.sub} labelTheme={labelTheme} />}
         </g>
       );
 
     case "pump": {
-      const r = Math.min(eq.w, eq.h) / 2;
+      const r = Math.min(W, H) / 2;
       return wrap(
         <g>
           <circle cx={cx} cy={cy} r={r} fill="hsl(var(--muted) / 0.30)" stroke={stroke} strokeWidth={sw} />
           <line x1={cx - r * 0.6} y1={cy} x2={cx + r * 0.6} y2={cy} stroke={stroke} strokeWidth={1.2} />
           <line x1={cx} y1={cy - r * 0.6} x2={cx} y2={cy + r * 0.6} stroke={stroke} strokeWidth={1.2} />
-          <rect x={cx - 4} y={eq.y - 8} width={8} height={10} fill={stroke} opacity={0.7} />
-          <EquipmentLabel x={cx} y={eq.y + eq.h + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} />
+          <rect x={cx - 4} y={-8} width={8} height={10} fill={stroke} opacity={0.7} />
+          <EquipmentLabel x={cx} y={H + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} maxWidth={W + 60} />
         </g>
       );
     }
 
     case "intake": {
-      const path = `M ${eq.x} ${eq.y} L ${eq.x + eq.w} ${eq.y} L ${eq.x + eq.w - 16} ${eq.y + eq.h} L ${eq.x + 16} ${eq.y + eq.h} Z`;
+      const path = `M 0 0 L ${W} 0 L ${W - 16} ${H} L 16 ${H} Z`;
       return wrap(
         <g>
           <path d={path} fill="hsl(var(--muted) / 0.30)" stroke={stroke} strokeWidth={sw} />
           <path
-            d={`M ${eq.x + 14} ${eq.y + 26} q 10 -8 20 0 t 20 0 t 20 0`}
+            d={`M 14 26 q 10 -8 20 0 t 20 0 t 20 0`}
             fill="none"
             stroke="hsl(var(--primary))"
             strokeOpacity={0.55}
             strokeWidth={1.2}
           />
-          <EquipmentLabel x={cx} y={eq.y + eq.h + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} />
+          <EquipmentLabel x={cx} y={H + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} maxWidth={W + 40} />
         </g>
       );
     }
@@ -528,9 +548,9 @@ function Equipment({
     case "output":
       return wrap(
         <g>
-          <rect x={eq.x} y={eq.y} width={eq.w} height={eq.h} rx={6} fill="hsl(var(--success) / 0.12)" stroke={stroke} strokeWidth={sw} />
-          <CapsuleLabel x={cx} y={cy - 4} label={eq.label} color={labelColor} labelTheme={labelTheme} />
-          {eq.sub && <SubLabel x={cx} y={cy + 12} text={eq.sub} labelTheme={labelTheme} />}
+          <rect x={0} y={0} width={W} height={H} rx={6} fill="hsl(var(--success) / 0.12)" stroke={stroke} strokeWidth={sw} />
+          <CapsuleLabel x={cx} y={cy - 8} label={eq.label} color={labelColor} labelTheme={labelTheme} maxWidth={W - 12} />
+          {eq.sub && <SubLabel x={cx} y={cy + 14} text={eq.sub} labelTheme={labelTheme} />}
         </g>
       );
 
@@ -539,43 +559,55 @@ function Equipment({
       return wrap(
         <g>
           <rect
-            x={eq.x}
-            y={eq.y}
-            width={eq.w}
-            height={eq.h}
+            x={0}
+            y={0}
+            width={W}
+            height={H}
             rx={8}
             fill="hsl(var(--primary) / 0.08)"
             stroke={stroke}
             strokeDasharray="4 3"
             strokeWidth={sw}
           />
-          <CapsuleLabel x={cx} y={cy - 4} label={eq.label} color={labelColor} labelTheme={labelTheme} />
-          {eq.sub && <SubLabel x={cx} y={cy + 12} text={eq.sub} labelTheme={labelTheme} />}
+          <CapsuleLabel x={cx} y={cy - 8} label={eq.label} color={labelColor} labelTheme={labelTheme} maxWidth={W - 12} />
+          {eq.sub && <SubLabel x={cx} y={cy + 14} text={eq.sub} labelTheme={labelTheme} />}
         </g>
       );
   }
 }
 
 /* Solid background capsule label — pipes will not strike through.
-   Theme-aware: white capsule on light, slate-900 on dark. */
+   Auto-centered with text-anchor="middle" + dominant-baseline="central".
+   If `maxWidth` is provided, the font auto-shrinks so the capsule never
+   overflows the host shape (fixes "GO MEMBRANE M-02" overhanging the
+   cylinder). */
 function CapsuleLabel({
   x,
   y,
   label,
   color,
   labelTheme,
+  maxWidth,
 }: {
   x: number;
   y: number;
   label: string;
   color: string;
   labelTheme: LabelTheme;
+  maxWidth?: number;
 }) {
   const padX = 8;
   const padY = 4;
-  const charW = 6.6;
-  const w = Math.max(40, label.length * charW + padX * 2);
-  const h = 16 + padY * 2;
+  let fontSize = 11;
+  let charW = 6.6;
+  let w = label.length * charW + padX * 2;
+  if (maxWidth && w > maxWidth) {
+    const scale = Math.max(0.62, (maxWidth - padX * 2) / (label.length * charW));
+    fontSize = Math.max(7.5, fontSize * scale);
+    charW = charW * scale;
+    w = Math.max(40, label.length * charW + padX * 2);
+  }
+  const h = fontSize + padY * 2 + 4;
   return (
     <g pointerEvents="none">
       <rect
@@ -591,10 +623,11 @@ function CapsuleLabel({
       />
       <text
         x={x}
-        y={y + 4}
+        y={y}
         textAnchor="middle"
+        dominantBaseline="central"
         fill={color}
-        style={{ font: "700 11px Inter, system-ui, sans-serif", letterSpacing: "0.06em" }}
+        style={{ font: `700 ${fontSize}px Inter, system-ui, sans-serif`, letterSpacing: "0.05em" }}
       >
         {label}
       </text>
@@ -618,6 +651,7 @@ function SubLabel({
       x={x}
       y={y}
       textAnchor="middle"
+      dominantBaseline="central"
       fill={labelTheme.sub}
       pointerEvents="none"
       style={{ font: "500 9px JetBrains Mono, ui-monospace, monospace", letterSpacing: "0.08em", textTransform: "uppercase" }}
@@ -634,6 +668,7 @@ function EquipmentLabel({
   sub,
   color,
   labelTheme,
+  maxWidth,
 }: {
   x: number;
   y: number;
@@ -641,10 +676,11 @@ function EquipmentLabel({
   sub?: string;
   color: string;
   labelTheme: LabelTheme;
+  maxWidth?: number;
 }) {
   return (
     <g>
-      <CapsuleLabel x={x} y={y} label={label} color={color} labelTheme={labelTheme} />
+      <CapsuleLabel x={x} y={y} label={label} color={color} labelTheme={labelTheme} maxWidth={maxWidth} />
       {sub && <SubLabel x={x} y={y + 18} text={sub} labelTheme={labelTheme} />}
     </g>
   );
@@ -680,35 +716,26 @@ function SensorMark({
       ? "hsl(var(--destructive))"
       : "hsl(var(--success))";
 
-  // Permanent ID tag offset
+  // STRICT OFFSET: capsule is positioned so its NEAREST EDGE clears the
+  // pulsing dot (radius ~7px max). We place the capsule center at GAP px
+  // from the pin in the chosen anchor direction.
   const anchor = pin.anchor ?? "right";
-  const off = 14;
-  const tag = (() => {
+  const GAP = 16;                       // distance from pin → capsule center
+  const labelW = pin.id.length * 6.2 + 10;
+  const labelH = 13;
+
+  // Capsule center relative to pin
+  const capsule = (() => {
     switch (anchor) {
       case "top":
-        return { tx: pin.x, ty: pin.y - off, anchor: "middle" as const };
+        return { cx: pin.x, cy: pin.y - GAP - labelH / 2, textAnchor: "middle" as const };
       case "bottom":
-        return { tx: pin.x, ty: pin.y + off + 8, anchor: "middle" as const };
+        return { cx: pin.x, cy: pin.y + GAP + labelH / 2, textAnchor: "middle" as const };
       case "left":
-        return { tx: pin.x - off, ty: pin.y + 3, anchor: "end" as const };
+        return { cx: pin.x - GAP - labelW / 2, cy: pin.y, textAnchor: "middle" as const };
       case "right":
       default:
-        return { tx: pin.x + off, ty: pin.y + 3, anchor: "start" as const };
-    }
-  })();
-
-  // Capsule sizing for ID
-  const labelW = pin.id.length * 6 + 10;
-  const labelH = 13;
-  const labelRect = (() => {
-    switch (tag.anchor) {
-      case "middle":
-        return { x: tag.tx - labelW / 2, y: tag.ty - labelH + 2 };
-      case "end":
-        return { x: tag.tx - labelW + 2, y: tag.ty - labelH + 2 };
-      case "start":
-      default:
-        return { x: tag.tx - 2, y: tag.ty - labelH + 2 };
+        return { cx: pin.x + GAP + labelW / 2, cy: pin.y, textAnchor: "middle" as const };
     }
   })();
 
@@ -720,7 +747,7 @@ function SensorMark({
       }}
       className="plant-pin cursor-pointer"
     >
-      {/* Anchor crosshair tying the pin to the pipe */}
+      {/* Crosshair tying pin to pipe */}
       <line x1={pin.x - 5} y1={pin.y} x2={pin.x + 5} y2={pin.y} stroke={color} strokeOpacity={0.55} strokeWidth={0.8} />
       <line x1={pin.x} y1={pin.y - 5} x2={pin.x} y2={pin.y + 5} stroke={color} strokeOpacity={0.55} strokeWidth={0.8} />
 
@@ -730,7 +757,6 @@ function SensorMark({
           <animate attributeName="r" values="3.5;7;3.5" dur="2.2s" repeatCount="indefinite" />
         )}
       </circle>
-      {/* Selection halo */}
       {selected && (
         <circle cx={pin.x} cy={pin.y} r={9} fill="none" stroke={color} strokeOpacity={0.9} strokeWidth={1.2} strokeDasharray="2 2" />
       )}
@@ -745,11 +771,11 @@ function SensorMark({
         filter="url(#line-glow)"
       />
 
-      {/* Permanent ID capsule */}
-      <g pointerEvents="none">
+      {/* ID capsule — own translate group, text auto-centered */}
+      <g transform={`translate(${capsule.cx}, ${capsule.cy})`} pointerEvents="none">
         <rect
-          x={labelRect.x}
-          y={labelRect.y}
+          x={-labelW / 2}
+          y={-labelH / 2}
           width={labelW}
           height={labelH}
           rx={3}
@@ -759,9 +785,10 @@ function SensorMark({
           strokeWidth={0.6}
         />
         <text
-          x={tag.tx + (tag.anchor === "start" ? 4 : tag.anchor === "end" ? -4 : 0)}
-          y={tag.ty - 2}
-          textAnchor={tag.anchor}
+          x={0}
+          y={0}
+          textAnchor="middle"
+          dominantBaseline="central"
           fill={color}
           style={{ font: "600 9px JetBrains Mono, ui-monospace, monospace", letterSpacing: "0.06em" }}
         >
