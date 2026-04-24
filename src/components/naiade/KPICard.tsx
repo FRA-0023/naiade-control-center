@@ -34,16 +34,16 @@ export function KPICard({
   const gradId = `kpi-${label.replace(/\s+/g, "-")}-${outOfRange ? "warn" : "ok"}`;
 
   return (
-    <BentoCard padded={false} className="h-[140px]">
+    <BentoCard padded={false} className="h-[156px]">
       <div className="flex h-full flex-col justify-between p-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5 text-muted-foreground">
-            <Icon className={cn("h-3.5 w-3.5", outOfRange && "text-warning")} />
-            <span className="text-[10px] font-medium uppercase tracking-wider">{label}</span>
+            <Icon className={cn("h-4 w-4", outOfRange && "text-warning")} />
+            <span className="text-[11px] font-medium uppercase tracking-wider">{label}</span>
           </div>
           <span
             className={cn(
-              "flex items-center gap-0.5 font-mono text-[10px]",
+              "flex items-center gap-0.5 font-mono text-[11px]",
               up ? "text-success" : "text-warning"
             )}
           >
@@ -54,14 +54,14 @@ export function KPICard({
         </div>
 
         <div className="mt-1 flex items-baseline gap-1.5">
-          <span className={cn("font-mono text-xl font-bold leading-none tracking-tight", valueClass)}>
+          <span className={cn("font-mono text-2xl font-bold leading-none tracking-tight", valueClass)}>
             {last.toFixed(decimals)}
           </span>
-          <span className="font-mono text-[10px] text-muted-foreground">{unit}</span>
+          <span className="font-mono text-[11px] text-muted-foreground">{unit}</span>
         </div>
 
         {target && (
-          <span className="mt-0.5 font-mono text-[9px] text-muted-foreground/60">{target}</span>
+          <span className="mt-0.5 font-mono text-[10px] text-muted-foreground/60">{target}</span>
         )}
 
         <div className="w-full mt-1 block">
