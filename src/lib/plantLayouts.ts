@@ -269,17 +269,20 @@ const aegis: PlantLayout = {
   ],
   sensors: withDesc([
     { id: "PR-01", kind: "pressure",     label: "Pump Discharge",     unit: "bar",   x: 170, y: 310, anchor: "bottom" },
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks", x: 385, y: 245, anchor: "top" },
-    // Stage-1 pressure tap on the inlet riser to M-01 (off the membrane label).
+    // Raman sample tap on the prefilter top header
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks", x: 385, y: 250, anchor: "top" },
+    // Stage-1 pressure on the riser to M-01 (left of membrane label)
     { id: "PR-12", kind: "pressure",     label: "M-01 Pressure",      unit: "bar",   x: 450, y: 245, anchor: "left" },
-    { id: "TM-09", kind: "temperature",  label: "Interstage Temp",    unit: "°C",    x: 760, y: 305, anchor: "top" },
-    // Stage-2 pressure on the discharge of M-02 (off the membrane label).
-    { id: "PR-22", kind: "pressure",     label: "M-02 Pressure",      unit: "bar",   x: 820, y: 460, anchor: "right" },
-    // Permeate flow on the short pipe between UV and OUT.
+    // Interstage temperature on the buffer→P-02 pipe segment (y=300)
+    { id: "TM-09", kind: "temperature",  label: "Interstage Temp",    unit: "°C",    x: 760, y: 300, anchor: "top" },
+    // Stage-2 pressure on the riser between M-02 and the spine (x=802 riser)
+    { id: "PR-22", kind: "pressure",     label: "M-02 Pressure",      unit: "bar",   x: 802, y: 360, anchor: "right" },
+    // Permeate flow on the UV→OUT pipe
     { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",  x: 1045, y: 310, anchor: "top" },
-    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm", x: 1125, y: 240, anchor: "top" },
-    // pH on the lower return pipe segment, well below M-02.
-    { id: "PH-02", kind: "ph",           label: "pH",                 unit: "pH",    x: 600, y: 410, anchor: "bottom" },
+    // Conductivity on the output entry
+    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm", x: 1130, y: 310, anchor: "top" },
+    // pH on the M-02 inlet horizontal pipe (y=410)
+    { id: "PH-02", kind: "ph",           label: "pH",                 unit: "pH",    x: 660, y: 410, anchor: "bottom" },
   ]),
 };
 
