@@ -682,7 +682,7 @@ function SensorMark({
         e.stopPropagation();
         onSelect();
       }}
-      className="cursor-pointer"
+      className="plant-pin cursor-pointer"
     >
       {/* Anchor crosshair tying the pin to the pipe */}
       <line x1={pin.x - 5} y1={pin.y} x2={pin.x + 5} y2={pin.y} stroke={color} strokeOpacity={0.55} strokeWidth={0.8} />
