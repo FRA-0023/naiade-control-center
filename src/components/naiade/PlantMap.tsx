@@ -385,7 +385,11 @@ type LabelTheme = {
   sub: string;
 };
 
-/* ─────────────── Equipment renderer ─────────────── */
+/* ─────────────── Equipment renderer ─────────────────────────────────────────
+   STRICT GROUPING: every machine is wrapped in a single <g transform="translate">
+   so all child geometry (shape + label) is local-coordinate (0,0)-anchored.
+   Text is auto-centered with text-anchor="middle" + dominant-baseline="central".
+   ─────────────────────────────────────────────────────────────────────────── */
 function Equipment({
   eq,
   labelTheme,
@@ -413,24 +417,27 @@ function Equipment({
       ? "hsl(var(--success))"
       : labelTheme.text;
 
-  const cx = eq.x + eq.w / 2;
-  const cy = eq.y + eq.h / 2;
+  // Local coordinates inside the translated group: top-left = (0,0).
+  const W = eq.w;
+  const H = eq.h;
+  const cx = W / 2;
+  const cy = H / 2;
   const sw = selected ? 2.4 : 1.4;
 
   const wrap = (children: React.ReactNode) => (
     <g
+      transform={`translate(${eq.x}, ${eq.y})`}
       onClick={onSelect}
       className="plant-equipment cursor-pointer transition-opacity hover:opacity-90"
       style={{ outline: "none" }}
     >
       {children}
-      {/* Selection halo */}
       {selected && (
         <rect
-          x={eq.x - 6}
-          y={eq.y - 6}
-          width={eq.w + 12}
-          height={eq.h + 12}
+          x={-6}
+          y={-6}
+          width={W + 12}
+          height={H + 12}
           rx={10}
           fill="none"
           stroke="hsl(var(--primary))"
@@ -446,81 +453,94 @@ function Equipment({
     case "tank":
       return wrap(
         <g>
-          <rect x={eq.x} y={eq.y + 14} width={eq.w} height={eq.h - 28} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
-          <ellipse cx={cx} cy={eq.y + 14} rx={eq.w / 2} ry={14} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
-          <ellipse cx={cx} cy={eq.y + eq.h - 14} rx={eq.w / 2} ry={14} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
-          <rect x={eq.x + 8} y={eq.y + eq.h * 0.45} width={eq.w - 16} height={eq.h * 0.4} fill="hsl(var(--primary) / 0.18)" />
-          <EquipmentLabel x={cx} y={eq.y + eq.h + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} />
+          <rect x={0} y={14} width={W} height={H - 28} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
+          <ellipse cx={cx} cy={14} rx={W / 2} ry={14} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
+          <ellipse cx={cx} cy={H - 14} rx={W / 2} ry={14} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
+          <rect x={8} y={H * 0.45} width={W - 16} height={H * 0.4} fill="hsl(var(--primary) / 0.18)" />
+          {/* External label below the tank */}
+          <EquipmentLabel x={cx} y={H + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} maxWidth={W + 40} />
         </g>
       );
 
-    case "membrane":
+    case "membrane": {
+      // Inner cylinder body excludes the two end-cap ellipses (radius 18 each).
+      const innerW = W - 36;
       return wrap(
         <g>
-          <rect x={eq.x + 18} y={eq.y} width={eq.w - 36} height={eq.h} fill="url(#membrane-grad)" stroke={stroke} strokeWidth={sw} />
-          <ellipse cx={eq.x + 18} cy={cy} rx={18} ry={eq.h / 2} fill="url(#membrane-grad)" stroke={stroke} strokeWidth={sw} />
-          <ellipse cx={eq.x + eq.w - 18} cy={cy} rx={18} ry={eq.h / 2} fill="url(#membrane-grad)" stroke={stroke} strokeWidth={sw} />
+          <rect x={18} y={0} width={innerW} height={H} fill="url(#membrane-grad)" stroke={stroke} strokeWidth={sw} />
+          <ellipse cx={18} cy={cy} rx={18} ry={H / 2} fill="url(#membrane-grad)" stroke={stroke} strokeWidth={sw} />
+          <ellipse cx={W - 18} cy={cy} rx={18} ry={H / 2} fill="url(#membrane-grad)" stroke={stroke} strokeWidth={sw} />
           {Array.from({ length: 5 }).map((_, i) => (
             <line
               key={i}
-              x1={eq.x + 30}
-              x2={eq.x + eq.w - 30}
-              y1={eq.y + ((i + 1) * eq.h) / 6}
-              y2={eq.y + ((i + 1) * eq.h) / 6}
+              x1={30}
+              x2={W - 30}
+              y1={((i + 1) * H) / 6}
+              y2={((i + 1) * H) / 6}
               stroke={stroke}
               strokeOpacity={0.35}
               strokeWidth={0.7}
             />
           ))}
-          <CapsuleLabel x={cx} y={cy} label={eq.label} color={labelColor} labelTheme={labelTheme} />
-          {eq.sub && <SubLabel x={cx} y={eq.y + eq.h + 18} text={eq.sub} labelTheme={labelTheme} />}
+          {/* Auto-centered label, clamped to inner cylinder width so long
+              names like "GO MEMBRANE M-02" can never overflow. */}
+          <CapsuleLabel
+            x={cx}
+            y={cy}
+            label={eq.label}
+            color={labelColor}
+            labelTheme={labelTheme}
+            maxWidth={innerW - 12}
+          />
+          {eq.sub && <SubLabel x={cx} y={H + 18} text={eq.sub} labelTheme={labelTheme} />}
         </g>
       );
+    }
 
     case "vessel":
       return wrap(
         <g>
-          <rect x={eq.x} y={eq.y} width={eq.w} height={eq.h} rx={14} fill="hsl(var(--muted) / 0.25)" stroke={stroke} strokeWidth={sw} />
+          <rect x={0} y={0} width={W} height={H} rx={14} fill="hsl(var(--muted) / 0.25)" stroke={stroke} strokeWidth={sw} />
           <line
-            x1={eq.x + 8}
-            x2={eq.x + eq.w - 8}
-            y1={eq.y + eq.h * 0.5}
-            y2={eq.y + eq.h * 0.5}
+            x1={8}
+            x2={W - 8}
+            y1={H * 0.5}
+            y2={H * 0.5}
             stroke={stroke}
             strokeOpacity={0.35}
             strokeDasharray="3 3"
           />
-          <CapsuleLabel x={cx} y={cy - 6} label={eq.label} color={labelColor} labelTheme={labelTheme} />
+          <CapsuleLabel x={cx} y={cy - 8} label={eq.label} color={labelColor} labelTheme={labelTheme} maxWidth={W - 16} />
           {eq.sub && <SubLabel x={cx} y={cy + 14} text={eq.sub} labelTheme={labelTheme} />}
         </g>
       );
 
     case "pump": {
-      const r = Math.min(eq.w, eq.h) / 2;
+      const r = Math.min(W, H) / 2;
       return wrap(
         <g>
           <circle cx={cx} cy={cy} r={r} fill="hsl(var(--muted) / 0.30)" stroke={stroke} strokeWidth={sw} />
           <line x1={cx - r * 0.6} y1={cy} x2={cx + r * 0.6} y2={cy} stroke={stroke} strokeWidth={1.2} />
           <line x1={cx} y1={cy - r * 0.6} x2={cx} y2={cy + r * 0.6} stroke={stroke} strokeWidth={1.2} />
-          <rect x={cx - 4} y={eq.y - 8} width={8} height={10} fill={stroke} opacity={0.7} />
-          <EquipmentLabel x={cx} y={eq.y + eq.h + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} />
+          <rect x={cx - 4} y={-8} width={8} height={10} fill={stroke} opacity={0.7} />
+          <EquipmentLabel x={cx} y={H + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} maxWidth={W + 60} />
         </g>
       );
     }
 
     case "intake": {
-      const path = `M ${eq.x} ${eq.y} L ${eq.x + eq.w} ${eq.y} L ${eq.x + eq.w - 16} ${eq.y + eq.h} L ${eq.x + 16} ${eq.y + eq.h} Z`;
+      const path = `M 0 0 L ${W} 0 L ${W - 16} ${H} L 16 ${H} Z`;
       return wrap(
         <g>
           <path d={path} fill="hsl(var(--muted) / 0.30)" stroke={stroke} strokeWidth={sw} />
           <path
-            d={`M ${eq.x + 14} ${eq.y + 26} q 10 -8 20 0 t 20 0 t 20 0`}
+            d={`M 14 26 q 10 -8 20 0 t 20 0 t 20 0`}
             fill="none"
             stroke="hsl(var(--primary))"
             strokeOpacity={0.55}
             strokeWidth={1.2}
           />
-          <EquipmentLabel x={cx} y={eq.y + eq.h + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} />
+          <EquipmentLabel x={cx} y={H + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} maxWidth={W + 40} />
         </g>
       );
     }
@@ -528,9 +548,9 @@ function Equipment({
     case "output":
       return wrap(
         <g>
-          <rect x={eq.x} y={eq.y} width={eq.w} height={eq.h} rx={6} fill="hsl(var(--success) / 0.12)" stroke={stroke} strokeWidth={sw} />
-          <CapsuleLabel x={cx} y={cy - 4} label={eq.label} color={labelColor} labelTheme={labelTheme} />
-          {eq.sub && <SubLabel x={cx} y={cy + 12} text={eq.sub} labelTheme={labelTheme} />}
+          <rect x={0} y={0} width={W} height={H} rx={6} fill="hsl(var(--success) / 0.12)" stroke={stroke} strokeWidth={sw} />
+          <CapsuleLabel x={cx} y={cy - 8} label={eq.label} color={labelColor} labelTheme={labelTheme} maxWidth={W - 12} />
+          {eq.sub && <SubLabel x={cx} y={cy + 14} text={eq.sub} labelTheme={labelTheme} />}
         </g>
       );
 
@@ -539,18 +559,18 @@ function Equipment({
       return wrap(
         <g>
           <rect
-            x={eq.x}
-            y={eq.y}
-            width={eq.w}
-            height={eq.h}
+            x={0}
+            y={0}
+            width={W}
+            height={H}
             rx={8}
             fill="hsl(var(--primary) / 0.08)"
             stroke={stroke}
             strokeDasharray="4 3"
             strokeWidth={sw}
           />
-          <CapsuleLabel x={cx} y={cy - 4} label={eq.label} color={labelColor} labelTheme={labelTheme} />
-          {eq.sub && <SubLabel x={cx} y={cy + 12} text={eq.sub} labelTheme={labelTheme} />}
+          <CapsuleLabel x={cx} y={cy - 8} label={eq.label} color={labelColor} labelTheme={labelTheme} maxWidth={W - 12} />
+          {eq.sub && <SubLabel x={cx} y={cy + 14} text={eq.sub} labelTheme={labelTheme} />}
         </g>
       );
   }
