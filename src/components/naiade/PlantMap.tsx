@@ -411,7 +411,7 @@ function Equipment({
       ? "hsl(var(--primary))"
       : tone === "success"
       ? "hsl(var(--success))"
-      : "hsl(var(--foreground))";
+      : labelTheme.text;
 
   const cx = eq.x + eq.w / 2;
   const cy = eq.y + eq.h / 2;
