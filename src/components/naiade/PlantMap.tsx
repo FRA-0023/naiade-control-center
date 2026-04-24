@@ -450,7 +450,7 @@ function Equipment({
           <ellipse cx={cx} cy={eq.y + 14} rx={eq.w / 2} ry={14} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
           <ellipse cx={cx} cy={eq.y + eq.h - 14} rx={eq.w / 2} ry={14} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
           <rect x={eq.x + 8} y={eq.y + eq.h * 0.45} width={eq.w - 16} height={eq.h * 0.4} fill="hsl(var(--primary) / 0.18)" />
-          <EquipmentLabel x={cx} y={eq.y + eq.h + 22} label={eq.label} sub={eq.sub} color={labelColor} />
+          <EquipmentLabel x={cx} y={eq.y + eq.h + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} />
         </g>
       );
 
@@ -472,8 +472,8 @@ function Equipment({
               strokeWidth={0.7}
             />
           ))}
-          <CapsuleLabel x={cx} y={cy} label={eq.label} color={labelColor} />
-          {eq.sub && <SubLabel x={cx} y={eq.y + eq.h + 18} text={eq.sub} />}
+          <CapsuleLabel x={cx} y={cy} label={eq.label} color={labelColor} labelTheme={labelTheme} />
+          {eq.sub && <SubLabel x={cx} y={eq.y + eq.h + 18} text={eq.sub} labelTheme={labelTheme} />}
         </g>
       );
 
@@ -490,8 +490,8 @@ function Equipment({
             strokeOpacity={0.35}
             strokeDasharray="3 3"
           />
-          <CapsuleLabel x={cx} y={cy - 6} label={eq.label} color={labelColor} />
-          {eq.sub && <SubLabel x={cx} y={cy + 14} text={eq.sub} />}
+          <CapsuleLabel x={cx} y={cy - 6} label={eq.label} color={labelColor} labelTheme={labelTheme} />
+          {eq.sub && <SubLabel x={cx} y={cy + 14} text={eq.sub} labelTheme={labelTheme} />}
         </g>
       );
 
@@ -503,7 +503,7 @@ function Equipment({
           <line x1={cx - r * 0.6} y1={cy} x2={cx + r * 0.6} y2={cy} stroke={stroke} strokeWidth={1.2} />
           <line x1={cx} y1={cy - r * 0.6} x2={cx} y2={cy + r * 0.6} stroke={stroke} strokeWidth={1.2} />
           <rect x={cx - 4} y={eq.y - 8} width={8} height={10} fill={stroke} opacity={0.7} />
-          <EquipmentLabel x={cx} y={eq.y + eq.h + 22} label={eq.label} sub={eq.sub} color={labelColor} />
+          <EquipmentLabel x={cx} y={eq.y + eq.h + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} />
         </g>
       );
     }
@@ -520,7 +520,7 @@ function Equipment({
             strokeOpacity={0.55}
             strokeWidth={1.2}
           />
-          <EquipmentLabel x={cx} y={eq.y + eq.h + 22} label={eq.label} sub={eq.sub} color={labelColor} />
+          <EquipmentLabel x={cx} y={eq.y + eq.h + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} />
         </g>
       );
     }
@@ -529,8 +529,8 @@ function Equipment({
       return wrap(
         <g>
           <rect x={eq.x} y={eq.y} width={eq.w} height={eq.h} rx={6} fill="hsl(var(--success) / 0.12)" stroke={stroke} strokeWidth={sw} />
-          <CapsuleLabel x={cx} y={cy - 4} label={eq.label} color={labelColor} />
-          {eq.sub && <SubLabel x={cx} y={cy + 12} text={eq.sub} />}
+          <CapsuleLabel x={cx} y={cy - 4} label={eq.label} color={labelColor} labelTheme={labelTheme} />
+          {eq.sub && <SubLabel x={cx} y={cy + 12} text={eq.sub} labelTheme={labelTheme} />}
         </g>
       );
 
@@ -549,8 +549,8 @@ function Equipment({
             strokeDasharray="4 3"
             strokeWidth={sw}
           />
-          <CapsuleLabel x={cx} y={cy - 4} label={eq.label} color={labelColor} />
-          {eq.sub && <SubLabel x={cx} y={cy + 12} text={eq.sub} />}
+          <CapsuleLabel x={cx} y={cy - 4} label={eq.label} color={labelColor} labelTheme={labelTheme} />
+          {eq.sub && <SubLabel x={cx} y={cy + 12} text={eq.sub} labelTheme={labelTheme} />}
         </g>
       );
   }
