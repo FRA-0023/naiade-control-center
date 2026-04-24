@@ -399,7 +399,7 @@ function Equipment({
   const wrap = (children: React.ReactNode) => (
     <g
       onClick={onSelect}
-      className="cursor-pointer transition-opacity hover:opacity-90"
+      className="plant-equipment cursor-pointer transition-opacity hover:opacity-90"
       style={{ outline: "none" }}
     >
       {children}
