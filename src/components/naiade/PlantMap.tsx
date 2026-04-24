@@ -15,6 +15,7 @@ import {
   type SensorPin,
 } from "@/lib/plantLayouts";
 import { getCompany, type CompanyId } from "@/lib/companies";
+import { useTheme } from "@/components/naiade/ThemeProvider";
 import type { useMockData } from "@/hooks/useMockData";
 
 type LiveData = ReturnType<typeof useMockData>;
