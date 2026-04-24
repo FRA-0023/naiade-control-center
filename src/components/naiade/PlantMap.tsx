@@ -15,6 +15,7 @@ import {
   type SensorPin,
 } from "@/lib/plantLayouts";
 import { getCompany, type CompanyId } from "@/lib/companies";
+import { useTheme } from "@/components/naiade/ThemeProvider";
 import type { useMockData } from "@/hooks/useMockData";
 
 type LiveData = ReturnType<typeof useMockData>;
@@ -191,13 +192,20 @@ export function PlantMap({
             minScale={0.5}
             maxScale={4}
             limitToBounds={false}
+            centerOnInit
             wheel={{ step: 0.15 }}
             doubleClick={{ disabled: true }}
-            panning={{ velocityDisabled: true, excluded: ["plant-interactive"] }}
+            panning={{
+              velocityDisabled: true,
+              // Allow click-drag panning on the entire SVG surface; only
+              // exclude interactive elements (pins / equipment groups) so
+              // single clicks still register as selections.
+              excluded: ["plant-pin", "plant-equipment"],
+            }}
           >
             <TransformComponent
               wrapperClass="!h-full !w-full cursor-grab active:cursor-grabbing"
-              contentClass="!h-full !w-full"
+              contentClass="!h-full !w-full cursor-grab active:cursor-grabbing"
             >
               <PlantSvg
                 layout={layout}
@@ -286,12 +294,22 @@ function PlantSvg({
   onSelectSensor: (pin: SensorPin, r: Resolved) => void;
   onSelectEquipment: (eq: PlantEquipment) => void;
 }) {
+  const { theme } = useTheme();
+  // Theme-aware label palette so labels read clearly in both modes
+  // and never look like "redacted black boxes" on a light background.
+  const labelTheme = {
+    bg: theme === "light" ? "hsl(0 0% 100%)" : "hsl(222 47% 11%)",
+    border: theme === "light" ? "hsl(214 32% 88%)" : "hsl(217 33% 22%)",
+    text: theme === "light" ? "hsl(222 47% 11%)" : "hsl(210 40% 98%)",
+    sub: theme === "light" ? "hsl(215 16% 35%)" : "hsl(215 20% 65%)",
+  };
+
   return (
     <svg
       viewBox={`0 0 ${layout.viewBox.w} ${layout.viewBox.h}`}
       preserveAspectRatio="xMidYMid meet"
-      className="plant-interactive relative z-10 h-full w-full select-none"
-      style={{ shapeRendering: "geometricPrecision" }}
+      className="relative z-10 h-full w-full select-none"
+      style={{ shapeRendering: "geometricPrecision", touchAction: "none" }}
     >
       <defs>
         <filter id="line-glow" x="-20%" y="-20%" width="140%" height="140%">
@@ -313,7 +331,7 @@ function PlantSvg({
         </linearGradient>
       </defs>
 
-      {/* Pipes — clean, thin, schematic style */}
+      {/* Layer 1 — Pipes (drawn first so labels & pins render on top) */}
       <g>
         {layout.pipes.map((p, i) => {
           const w = p.width ?? 2;
@@ -334,22 +352,24 @@ function PlantSvg({
         })}
       </g>
 
-      {/* Equipment */}
+      {/* Layer 2 — Equipment (rectangles + capsule labels above pipes) */}
       {layout.equipment.map((eq) => (
         <Equipment
           key={eq.id}
           eq={eq}
+          labelTheme={labelTheme}
           selected={selection?.type === "equipment" && selection.eq.id === eq.id}
           onSelect={() => onSelectEquipment(eq)}
         />
       ))}
 
-      {/* Sensor pins (in-SVG so they zoom with the diagram) */}
+      {/* Layer 3 — Sensor pins on TOP of pipes & equipment */}
       {resolvedPins.map(({ pin, value, status, raw, target }) => (
         <SensorMark
           key={pin.id}
           pin={pin}
           status={status}
+          labelTheme={labelTheme}
           selected={selection?.type === "sensor" && selection.pin.id === pin.id}
           onSelect={() => onSelectSensor(pin, { value, status, raw, target })}
         />
@@ -358,13 +378,22 @@ function PlantSvg({
   );
 }
 
+type LabelTheme = {
+  bg: string;
+  border: string;
+  text: string;
+  sub: string;
+};
+
 /* ─────────────── Equipment renderer ─────────────── */
 function Equipment({
   eq,
+  labelTheme,
   selected,
   onSelect,
 }: {
   eq: PlantEquipment;
+  labelTheme: LabelTheme;
   selected: boolean;
   onSelect: () => void;
 }) {
@@ -382,7 +411,7 @@ function Equipment({
       ? "hsl(var(--primary))"
       : tone === "success"
       ? "hsl(var(--success))"
-      : "hsl(var(--foreground))";
+      : labelTheme.text;
 
   const cx = eq.x + eq.w / 2;
   const cy = eq.y + eq.h / 2;
@@ -391,7 +420,7 @@ function Equipment({
   const wrap = (children: React.ReactNode) => (
     <g
       onClick={onSelect}
-      className="cursor-pointer transition-opacity hover:opacity-90"
+      className="plant-equipment cursor-pointer transition-opacity hover:opacity-90"
       style={{ outline: "none" }}
     >
       {children}
@@ -421,7 +450,7 @@ function Equipment({
           <ellipse cx={cx} cy={eq.y + 14} rx={eq.w / 2} ry={14} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
           <ellipse cx={cx} cy={eq.y + eq.h - 14} rx={eq.w / 2} ry={14} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
           <rect x={eq.x + 8} y={eq.y + eq.h * 0.45} width={eq.w - 16} height={eq.h * 0.4} fill="hsl(var(--primary) / 0.18)" />
-          <EquipmentLabel x={cx} y={eq.y + eq.h + 22} label={eq.label} sub={eq.sub} color={labelColor} />
+          <EquipmentLabel x={cx} y={eq.y + eq.h + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} />
         </g>
       );
 
@@ -443,8 +472,8 @@ function Equipment({
               strokeWidth={0.7}
             />
           ))}
-          <CapsuleLabel x={cx} y={cy} label={eq.label} color={labelColor} />
-          {eq.sub && <SubLabel x={cx} y={eq.y + eq.h + 18} text={eq.sub} />}
+          <CapsuleLabel x={cx} y={cy} label={eq.label} color={labelColor} labelTheme={labelTheme} />
+          {eq.sub && <SubLabel x={cx} y={eq.y + eq.h + 18} text={eq.sub} labelTheme={labelTheme} />}
         </g>
       );
 
@@ -461,8 +490,8 @@ function Equipment({
             strokeOpacity={0.35}
             strokeDasharray="3 3"
           />
-          <CapsuleLabel x={cx} y={cy - 6} label={eq.label} color={labelColor} />
-          {eq.sub && <SubLabel x={cx} y={cy + 14} text={eq.sub} />}
+          <CapsuleLabel x={cx} y={cy - 6} label={eq.label} color={labelColor} labelTheme={labelTheme} />
+          {eq.sub && <SubLabel x={cx} y={cy + 14} text={eq.sub} labelTheme={labelTheme} />}
         </g>
       );
 
@@ -474,7 +503,7 @@ function Equipment({
           <line x1={cx - r * 0.6} y1={cy} x2={cx + r * 0.6} y2={cy} stroke={stroke} strokeWidth={1.2} />
           <line x1={cx} y1={cy - r * 0.6} x2={cx} y2={cy + r * 0.6} stroke={stroke} strokeWidth={1.2} />
           <rect x={cx - 4} y={eq.y - 8} width={8} height={10} fill={stroke} opacity={0.7} />
-          <EquipmentLabel x={cx} y={eq.y + eq.h + 22} label={eq.label} sub={eq.sub} color={labelColor} />
+          <EquipmentLabel x={cx} y={eq.y + eq.h + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} />
         </g>
       );
     }
@@ -491,7 +520,7 @@ function Equipment({
             strokeOpacity={0.55}
             strokeWidth={1.2}
           />
-          <EquipmentLabel x={cx} y={eq.y + eq.h + 22} label={eq.label} sub={eq.sub} color={labelColor} />
+          <EquipmentLabel x={cx} y={eq.y + eq.h + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} />
         </g>
       );
     }
@@ -500,8 +529,8 @@ function Equipment({
       return wrap(
         <g>
           <rect x={eq.x} y={eq.y} width={eq.w} height={eq.h} rx={6} fill="hsl(var(--success) / 0.12)" stroke={stroke} strokeWidth={sw} />
-          <CapsuleLabel x={cx} y={cy - 4} label={eq.label} color={labelColor} />
-          {eq.sub && <SubLabel x={cx} y={cy + 12} text={eq.sub} />}
+          <CapsuleLabel x={cx} y={cy - 4} label={eq.label} color={labelColor} labelTheme={labelTheme} />
+          {eq.sub && <SubLabel x={cx} y={cy + 12} text={eq.sub} labelTheme={labelTheme} />}
         </g>
       );
 
@@ -520,26 +549,28 @@ function Equipment({
             strokeDasharray="4 3"
             strokeWidth={sw}
           />
-          <CapsuleLabel x={cx} y={cy - 4} label={eq.label} color={labelColor} />
-          {eq.sub && <SubLabel x={cx} y={cy + 12} text={eq.sub} />}
+          <CapsuleLabel x={cx} y={cy - 4} label={eq.label} color={labelColor} labelTheme={labelTheme} />
+          {eq.sub && <SubLabel x={cx} y={cy + 12} text={eq.sub} labelTheme={labelTheme} />}
         </g>
       );
   }
 }
 
-/* Solid background capsule label — pipes will not strike through. */
+/* Solid background capsule label — pipes will not strike through.
+   Theme-aware: white capsule on light, slate-900 on dark. */
 function CapsuleLabel({
   x,
   y,
   label,
   color,
+  labelTheme,
 }: {
   x: number;
   y: number;
   label: string;
   color: string;
+  labelTheme: LabelTheme;
 }) {
-  // Approx width (chars * px). We avoid getBBox so this works during initial render.
   const padX = 8;
   const padY = 4;
   const charW = 6.6;
@@ -553,10 +584,9 @@ function CapsuleLabel({
         width={w}
         height={h}
         rx={4}
-        className="fill-slate-900 dark:fill-slate-900"
-        fill="hsl(222 47% 11%)"
-        stroke="hsl(var(--border))"
-        strokeOpacity={0.6}
+        fill={labelTheme.bg}
+        stroke={labelTheme.border}
+        strokeOpacity={0.9}
         strokeWidth={0.8}
       />
       <text
@@ -572,13 +602,23 @@ function CapsuleLabel({
   );
 }
 
-function SubLabel({ x, y, text }: { x: number; y: number; text: string }) {
+function SubLabel({
+  x,
+  y,
+  text,
+  labelTheme,
+}: {
+  x: number;
+  y: number;
+  text: string;
+  labelTheme: LabelTheme;
+}) {
   return (
     <text
       x={x}
       y={y}
       textAnchor="middle"
-      fill="hsl(var(--muted-foreground))"
+      fill={labelTheme.sub}
       pointerEvents="none"
       style={{ font: "500 9px JetBrains Mono, ui-monospace, monospace", letterSpacing: "0.08em", textTransform: "uppercase" }}
     >
@@ -593,17 +633,19 @@ function EquipmentLabel({
   label,
   sub,
   color,
+  labelTheme,
 }: {
   x: number;
   y: number;
   label: string;
   sub?: string;
   color: string;
+  labelTheme: LabelTheme;
 }) {
   return (
     <g>
-      <CapsuleLabel x={x} y={y} label={label} color={color} />
-      {sub && <SubLabel x={x} y={y + 18} text={sub} />}
+      <CapsuleLabel x={x} y={y} label={label} color={color} labelTheme={labelTheme} />
+      {sub && <SubLabel x={x} y={y + 18} text={sub} labelTheme={labelTheme} />}
     </g>
   );
 }
@@ -621,11 +663,13 @@ function FlowDot({ d, delay = 0 }: { d: string; delay?: number }) {
 function SensorMark({
   pin,
   status,
+  labelTheme,
   selected,
   onSelect,
 }: {
   pin: SensorPin;
   status: PinStatus;
+  labelTheme: LabelTheme;
   selected: boolean;
   onSelect: () => void;
 }) {
@@ -674,7 +718,7 @@ function SensorMark({
         e.stopPropagation();
         onSelect();
       }}
-      className="cursor-pointer"
+      className="plant-pin cursor-pointer"
     >
       {/* Anchor crosshair tying the pin to the pipe */}
       <line x1={pin.x - 5} y1={pin.y} x2={pin.x + 5} y2={pin.y} stroke={color} strokeOpacity={0.55} strokeWidth={0.8} />
@@ -709,7 +753,7 @@ function SensorMark({
           width={labelW}
           height={labelH}
           rx={3}
-          fill="hsl(222 47% 11%)"
+          fill={labelTheme.bg}
           stroke={color}
           strokeOpacity={0.6}
           strokeWidth={0.6}

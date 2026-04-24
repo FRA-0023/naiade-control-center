@@ -162,13 +162,14 @@ const acme: PlantLayout = {
   ],
   sensors: withDesc([
     { id: "PR-01", kind: "pressure",     label: "Inlet Pressure",     unit: "bar",    x: 170,  y: 290, anchor: "top" },
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks",  x: 385,  y: 240, anchor: "top" },
-    { id: "TM-09", kind: "temperature",  label: "Feed Temperature",   unit: "°C",     x: 545,  y: 180, anchor: "top" },
-    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure",  unit: "bar",    x: 700,  y: 290, anchor: "bottom" },
-    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",   x: 860,  y: 290, anchor: "bottom" },
-    { id: "PH-02", kind: "ph",           label: "pH",                 unit: "pH",     x: 1025, y: 240, anchor: "top" },
-    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm",  x: 1150, y: 250, anchor: "top" },
-    { id: "TB-05", kind: "turbidity",    label: "Turbidity",          unit: "NTU",    x: 545,  y: 400, anchor: "bottom" },
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks",  x: 385,  y: 230, anchor: "top" },
+    { id: "TM-09", kind: "temperature",  label: "Feed Temperature",   unit: "°C",     x: 545,  y: 170, anchor: "top" },
+    // Membrane pressure on the inlet pipe just before M-01 (off the label).
+    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure",  unit: "bar",    x: 615,  y: 290, anchor: "top" },
+    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",   x: 940,  y: 290, anchor: "top" },
+    { id: "PH-02", kind: "ph",           label: "pH",                 unit: "pH",     x: 1025, y: 230, anchor: "top" },
+    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm",  x: 1100, y: 240, anchor: "top" },
+    { id: "TB-05", kind: "turbidity",    label: "Turbidity",          unit: "NTU",    x: 545,  y: 410, anchor: "bottom" },
   ]),
 };
 
@@ -204,13 +205,18 @@ const nexus: PlantLayout = {
   ],
   sensors: withDesc([
     { id: "PR-01", kind: "pressure",     label: "Mains Pressure",    unit: "bar",   x: 180, y: 155, anchor: "top" },
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",     unit: "peaks", x: 385, y: 110, anchor: "top" },
-    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure", unit: "bar",   x: 670, y: 155, anchor: "bottom" },
-    { id: "TM-09", kind: "temperature",  label: "Buffer Temp",       unit: "°C",    x: 945, y: 220, anchor: "right" },
-    { id: "FL-07", kind: "flow",         label: "Loop Flow",         unit: "m³/h",  x: 670, y: 450, anchor: "bottom" },
-    { id: "EC-03", kind: "conductivity", label: "Conductivity",      unit: "µS/cm", x: 385, y: 450, anchor: "top" },
-    { id: "PH-02", kind: "ph",           label: "pH",                unit: "pH",    x: 115, y: 450, anchor: "top" },
-    { id: "TB-05", kind: "turbidity",    label: "Turbidity",         unit: "NTU",   x: 250, y: 450, anchor: "bottom" },
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",     unit: "peaks", x: 385, y: 100, anchor: "top" },
+    // Membrane pressure — anchored on the inlet pipe just before M-01 so the
+    // sensor dot does not sit inside the membrane label.
+    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure", unit: "bar",   x: 870, y: 155, anchor: "top" },
+    { id: "TM-09", kind: "temperature",  label: "Buffer Temp",       unit: "°C",    x: 945, y: 260, anchor: "right" },
+    // Loop flow — moved off the UV label, onto the bottom return spine
+    // between UV and the polish vessel.
+    { id: "FL-07", kind: "flow",         label: "Loop Flow",         unit: "m³/h",  x: 480, y: 450, anchor: "bottom" },
+    // Conductivity — moved between RE-POLISH and Distribution.
+    { id: "EC-03", kind: "conductivity", label: "Conductivity",      unit: "µS/cm", x: 280, y: 450, anchor: "top" },
+    { id: "PH-02", kind: "ph",           label: "pH",                unit: "pH",    x: 220, y: 450, anchor: "bottom" },
+    { id: "TB-05", kind: "turbidity",    label: "Turbidity",         unit: "NTU",   x: 870, y: 450, anchor: "bottom" },
   ]),
 };
 
@@ -248,13 +254,17 @@ const aegis: PlantLayout = {
   ],
   sensors: withDesc([
     { id: "PR-01", kind: "pressure",     label: "Pump Discharge",     unit: "bar",   x: 170, y: 310, anchor: "bottom" },
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks", x: 385, y: 260, anchor: "top" },
-    { id: "PR-12", kind: "pressure",     label: "M-01 Pressure",      unit: "bar",   x: 660, y: 190, anchor: "top" },
-    { id: "TM-09", kind: "temperature",  label: "Interstage Temp",    unit: "°C",    x: 650, y: 360, anchor: "bottom" },
-    { id: "PR-22", kind: "pressure",     label: "M-02 Pressure",      unit: "bar",   x: 660, y: 410, anchor: "bottom" },
-    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",  x: 945, y: 260, anchor: "top" },
-    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm", x: 1125, y: 270, anchor: "top" },
-    { id: "PH-02", kind: "ph",           label: "pH",                 unit: "pH",    x: 945, y: 360, anchor: "bottom" },
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks", x: 385, y: 245, anchor: "top" },
+    // Stage-1 pressure tap on the inlet riser to M-01 (off the membrane label).
+    { id: "PR-12", kind: "pressure",     label: "M-01 Pressure",      unit: "bar",   x: 450, y: 245, anchor: "left" },
+    { id: "TM-09", kind: "temperature",  label: "Interstage Temp",    unit: "°C",    x: 760, y: 305, anchor: "top" },
+    // Stage-2 pressure on the discharge of M-02 (off the membrane label).
+    { id: "PR-22", kind: "pressure",     label: "M-02 Pressure",      unit: "bar",   x: 820, y: 460, anchor: "right" },
+    // Permeate flow on the short pipe between UV and OUT.
+    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",  x: 1045, y: 310, anchor: "top" },
+    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm", x: 1125, y: 240, anchor: "top" },
+    // pH on the lower return pipe segment, well below M-02.
+    { id: "PH-02", kind: "ph",           label: "pH",                 unit: "pH",    x: 600, y: 410, anchor: "bottom" },
   ]),
 };
 
