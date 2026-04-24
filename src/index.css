@@ -156,9 +156,8 @@
     @apply border-border;
   }
 
-  html {
-    color-scheme: dark;
-  }
+  html.dark { color-scheme: dark; }
+  html.light { color-scheme: light; }
 
   body {
     @apply bg-background text-foreground;
