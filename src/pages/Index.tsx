@@ -17,6 +17,17 @@ import { useMockData } from "@/hooks/useMockData";
 
 export type TabId = "overview" | "ingestion" | "edge" | "mlops";
 
+function PageHeader({ title, subtitle }: { title: string; subtitle: string }) {
+  return (
+    <div className="mb-5 shrink-0">
+      <h1>{title}</h1>
+      <p className="mt-1 text-sm font-light leading-snug text-muted-foreground">
+        {subtitle}
+      </p>
+    </div>
+  );
+}
+
 const tabs: { id: TabId; label: string; sub: string; icon: typeof Activity }[] = [
   { id: "overview", label: "System Overview", sub: "Topology · Health · Impact", icon: LayoutGrid },
   { id: "ingestion", label: "Live Ingestion", sub: "Sensors & Spectrogram", icon: Activity },
