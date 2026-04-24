@@ -167,9 +167,11 @@ const Index = () => {
                 </>
               )}
 
-              <footer className="mt-6 border-t border-border/40 pt-4 text-center font-mono text-[10px] text-muted-foreground">
-                NAIADE · Decentralized Water Filtration · Graphene Oxide × Edge-AI
-              </footer>
+              {tab !== "plant" && (
+                <footer className="mt-6 border-t border-border/40 pt-4 text-center font-mono text-[10px] text-muted-foreground">
+                  NAIADE · Decentralized Water Filtration · Graphene Oxide × Edge-AI
+                </footer>
+              )}
             </div>
           </main>
         </SidebarInset>
