@@ -192,16 +192,22 @@ const nexus: PlantLayout = {
     { id: "output",     kind: "output",     label: "DISTRIBUTION",   sub: ">18 MΩ·cm",          x: 60,   y: 410, w: 110, h: 80,  tone: "success" },
   ]),
   pipes: [
+    // Top horizontal feed at y=155
     { d: "M 150 155 H 210", flow: true },
     { d: "M 280 155 H 320", flow: true },
-    { d: "M 450 155 H 510", flow: true },
-    { d: "M 830 155 H 900", flow: true },
-    { d: "M 945 310 V 420", flow: true },
+    // Prefilter out → M-01 left cap (cx=528, cy=155)
+    { d: "M 450 155 H 528", flow: true },
+    // M-01 right cap (cx=812, cy=155) → buffer top inlet
+    { d: "M 812 155 H 945 V 90", flow: true },
+    // Buffer (945, 310) → bottom return spine y=450 → up to UV @ (830, 450)
+    { d: "M 945 310 V 450", flow: true },
     { d: "M 945 310 V 200" },
     { d: "M 900 450 H 830", flow: true },
     { d: "M 510 450 H 450", flow: true },
     { d: "M 320 450 H 170", flow: true },
-    { d: "M 1110 180 V 220", width: 1.2 },
+    // EDGE-AI signal — bottom-center (1110, 180) routes orthogonally to
+    // buffer right edge (990, 200). No floating gap.
+    { d: "M 1110 180 V 200 H 990", width: 1.2 },
   ],
   sensors: withDesc([
     { id: "PR-01", kind: "pressure",     label: "Mains Pressure",    unit: "bar",   x: 180, y: 155, anchor: "top" },
