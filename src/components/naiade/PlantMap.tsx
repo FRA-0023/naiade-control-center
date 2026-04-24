@@ -753,7 +753,7 @@ function SensorMark({
           width={labelW}
           height={labelH}
           rx={3}
-          fill="hsl(222 47% 11%)"
+          fill={labelTheme.bg}
           stroke={color}
           strokeOpacity={0.6}
           strokeWidth={0.6}
