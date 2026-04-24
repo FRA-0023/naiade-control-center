@@ -13,6 +13,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "./ThemeToggle";
 import type { TabId } from "@/pages/Index";
 
 const sections: { id: TabId; title: string; icon: typeof Activity; badge: string }[] = [
@@ -101,7 +102,8 @@ export function AppSidebar({
 
       <SidebarFooter className="border-t border-sidebar-border">
         {!collapsed ? (
-          <div className="flex flex-col gap-1.5 px-2 py-3">
+          <div className="flex flex-col gap-2 px-2 py-3">
+            <ThemeToggle />
             <div className="flex items-center justify-between text-xs">
               <span className="text-muted-foreground">Status</span>
               <span className="flex items-center gap-1.5 font-mono text-[11px] text-success">
@@ -118,7 +120,8 @@ export function AppSidebar({
             </div>
           </div>
         ) : (
-          <div className="flex justify-center py-3">
+          <div className="flex flex-col items-center gap-2 py-3">
+            <ThemeToggle collapsed />
             <CircleDot className="h-4 w-4 animate-tick text-success" />
           </div>
         )}
