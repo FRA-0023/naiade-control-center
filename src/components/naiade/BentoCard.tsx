@@ -16,6 +16,7 @@ export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
         ref={ref}
         className={cn(
           "group relative flex h-full flex-col overflow-hidden rounded-xl border border-border/60 bg-card/40 backdrop-blur-sm transition-colors hover:border-border",
+          "light:bg-card light:border-border light:shadow-sm light:backdrop-blur-0 light:hover:shadow-md",
           className
         )}
         {...props}
