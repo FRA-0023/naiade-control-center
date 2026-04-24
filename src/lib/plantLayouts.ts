@@ -211,15 +211,13 @@ const nexus: PlantLayout = {
   ],
   sensors: withDesc([
     { id: "PR-01", kind: "pressure",     label: "Mains Pressure",    unit: "bar",   x: 180, y: 155, anchor: "top" },
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",     unit: "peaks", x: 385, y: 100, anchor: "top" },
-    // Membrane pressure — anchored on the inlet pipe just before M-01 so the
-    // sensor dot does not sit inside the membrane label.
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",     unit: "peaks", x: 385, y: 155, anchor: "top" },
+    // Membrane pressure on the inlet pipe just before M-01 (clear of label)
     { id: "PR-12", kind: "pressure",     label: "Membrane Pressure", unit: "bar",   x: 870, y: 155, anchor: "top" },
-    { id: "TM-09", kind: "temperature",  label: "Buffer Temp",       unit: "°C",    x: 945, y: 260, anchor: "right" },
-    // Loop flow — moved off the UV label, onto the bottom return spine
-    // between UV and the polish vessel.
+    // Buffer temperature — anchored on the buffer's right edge (clear of body)
+    { id: "TM-09", kind: "temperature",  label: "Buffer Temp",       unit: "°C",    x: 990, y: 260, anchor: "right" },
+    // Bottom return spine sensors
     { id: "FL-07", kind: "flow",         label: "Loop Flow",         unit: "m³/h",  x: 480, y: 450, anchor: "bottom" },
-    // Conductivity — moved between RE-POLISH and Distribution.
     { id: "EC-03", kind: "conductivity", label: "Conductivity",      unit: "µS/cm", x: 280, y: 450, anchor: "top" },
     { id: "PH-02", kind: "ph",           label: "pH",                unit: "pH",    x: 220, y: 450, anchor: "bottom" },
     { id: "TB-05", kind: "turbidity",    label: "Turbidity",         unit: "NTU",   x: 870, y: 450, anchor: "bottom" },
