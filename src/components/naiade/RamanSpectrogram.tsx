@@ -9,9 +9,9 @@ export function RamanSpectrogram({ data }: { data: SpectrogramPoint[] }) {
       title="Raman Spectrogram"
       meta="λ 200–4000 cm⁻¹ · sensor RM-04"
       padded={false}
-      className="h-full"
+      className="flex-none"
     >
-      <div className="flex flex-col gap-1 p-3">
+      <div className="flex flex-col gap-2 p-3">
         <div className="flex items-baseline gap-2">
           <span className="font-mono text-lg font-semibold tracking-tight text-foreground">4</span>
           <span className="text-[10px] text-muted-foreground">peaks detected</span>
@@ -21,11 +21,11 @@ export function RamanSpectrogram({ data }: { data: SpectrogramPoint[] }) {
           1.2M signatures · 50ms refresh
         </div>
 
-        <div className="w-full h-[220px] min-h-[220px] relative block mt-2">
+        <div className="relative mt-1 block h-[240px] min-h-[240px] w-full shrink-0">
           <div className="pointer-events-none absolute inset-0 overflow-hidden">
             <div className="absolute inset-y-0 w-32 bg-gradient-to-r from-transparent via-primary/8 to-transparent animate-scan" />
           </div>
-          <ResponsiveContainer width="100%" height={220}>
+          <ResponsiveContainer width="100%" height={240}>
             <AreaChart data={data} margin={{ top: 6, right: 6, left: 6, bottom: 12 }}>
               <defs>
                 <linearGradient id="ramanFill" x1="0" y1="0" x2="0" y2="1">
@@ -48,7 +48,7 @@ export function RamanSpectrogram({ data }: { data: SpectrogramPoint[] }) {
           </ResponsiveContainer>
         </div>
 
-        <div className="flex items-center justify-between font-mono text-[9px] uppercase tracking-widest text-muted-foreground/50">
+        <div className="flex shrink-0 items-center justify-between font-mono text-[9px] uppercase tracking-widest text-muted-foreground/50">
           <span>200 cm⁻¹</span>
           <span className="hidden sm:inline">1000</span>
           <span className="hidden sm:inline">2000</span>

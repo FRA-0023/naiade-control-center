@@ -70,13 +70,13 @@ const Index = () => {
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-12 gap-3">
-                    <div className="col-span-8 flex flex-col gap-3">
+                  <div className="grid grid-cols-12 items-start gap-3">
+                    <div className="col-span-8 flex flex-col gap-2 self-start">
                       <RamanSpectrogram data={data.raman} />
                       <SensorStrip />
                     </div>
 
-                    <div className="col-span-4 flex flex-col gap-3">
+                    <div className="col-span-4 flex flex-col gap-2 self-start">
                       <KPICard label="Pressure" unit="bar" data={data.pressure} icon={Gauge} target="Target: 8–12 bar" targetValue={10} warnRange={[8, 12]} />
                       <KPICard label="Flow rate" unit="m³/h" data={data.flow} icon={Droplets} target="Target: 1.0–2.5 m³/h" targetValue={1.75} warnRange={[1.0, 2.5]} />
                       <KPICard label="Conductivity" unit="μS/cm" data={data.conductivity} icon={Zap} decimals={0} target="Target: < 50 µS/cm" targetValue={50} warnRange={[0, 50]} />
