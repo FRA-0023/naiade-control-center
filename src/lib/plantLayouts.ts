@@ -253,13 +253,17 @@ const aegis: PlantLayout = {
   ],
   sensors: withDesc([
     { id: "PR-01", kind: "pressure",     label: "Pump Discharge",     unit: "bar",   x: 170, y: 310, anchor: "bottom" },
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks", x: 385, y: 260, anchor: "top" },
-    { id: "PR-12", kind: "pressure",     label: "M-01 Pressure",      unit: "bar",   x: 660, y: 190, anchor: "top" },
-    { id: "TM-09", kind: "temperature",  label: "Interstage Temp",    unit: "°C",    x: 650, y: 360, anchor: "bottom" },
-    { id: "PR-22", kind: "pressure",     label: "M-02 Pressure",      unit: "bar",   x: 660, y: 410, anchor: "bottom" },
-    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",  x: 945, y: 260, anchor: "top" },
-    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm", x: 1125, y: 270, anchor: "top" },
-    { id: "PH-02", kind: "ph",           label: "pH",                 unit: "pH",    x: 945, y: 360, anchor: "bottom" },
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks", x: 385, y: 245, anchor: "top" },
+    // Stage-1 pressure tap on the inlet riser to M-01 (off the membrane label).
+    { id: "PR-12", kind: "pressure",     label: "M-01 Pressure",      unit: "bar",   x: 450, y: 245, anchor: "left" },
+    { id: "TM-09", kind: "temperature",  label: "Interstage Temp",    unit: "°C",    x: 760, y: 305, anchor: "top" },
+    // Stage-2 pressure on the discharge of M-02 (off the membrane label).
+    { id: "PR-22", kind: "pressure",     label: "M-02 Pressure",      unit: "bar",   x: 820, y: 460, anchor: "right" },
+    // Permeate flow on the short pipe between UV and OUT.
+    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",  x: 1045, y: 310, anchor: "top" },
+    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm", x: 1125, y: 240, anchor: "top" },
+    // pH on the lower return pipe segment, well below M-02.
+    { id: "PH-02", kind: "ph",           label: "pH",                 unit: "pH",    x: 600, y: 410, anchor: "bottom" },
   ]),
 };
 
