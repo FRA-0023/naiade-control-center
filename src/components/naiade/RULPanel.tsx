@@ -41,7 +41,7 @@ export function RULPanel({ rul }: { rul: number }) {
           </span>
           <span className="font-mono text-xs text-muted-foreground">% lifespan</span>
           <span className="ml-auto font-mono text-[10px] text-muted-foreground">
-            est. {Math.round(rul * 1.4)}d
+            est. {Math.round((rul / 100) * 1825).toLocaleString()}d · ~{((rul / 100) * 5).toFixed(1)}y
           </span>
         </div>
         <Progress value={rul} className="mt-3 h-1" />

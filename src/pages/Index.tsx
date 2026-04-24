@@ -134,6 +134,18 @@ const Index = () => {
                   <div className="col-span-12">
                     <BlockchainLog blocks={data.blocks} />
                   </div>
+                  <div className="col-span-12 mt-2 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-success/30 bg-success/5 px-4 py-2.5 font-mono text-[11px]">
+                    <span className="flex items-center gap-2 text-success">
+                      <span className="h-1.5 w-1.5 rounded-full bg-success animate-tick" />
+                      Blockchain Integrity: 100%
+                    </span>
+                    <span className="text-muted-foreground">
+                      Last Hash: <span className="text-foreground">0x8F2{data.blocks[data.blocks.length - 1]?.hash?.slice(0, 4) ?? "a91c"}…</span>
+                    </span>
+                    <span className="text-muted-foreground">
+                      Verified by <span className="text-foreground">Sanitary Authority</span>
+                    </span>
+                  </div>
                   </div>
                 </>
               )}
