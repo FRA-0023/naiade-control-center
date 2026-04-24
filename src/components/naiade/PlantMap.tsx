@@ -388,10 +388,12 @@ type LabelTheme = {
 /* ─────────────── Equipment renderer ─────────────── */
 function Equipment({
   eq,
+  labelTheme,
   selected,
   onSelect,
 }: {
   eq: PlantEquipment;
+  labelTheme: LabelTheme;
   selected: boolean;
   onSelect: () => void;
 }) {
