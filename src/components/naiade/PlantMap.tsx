@@ -663,11 +663,13 @@ function FlowDot({ d, delay = 0 }: { d: string; delay?: number }) {
 function SensorMark({
   pin,
   status,
+  labelTheme,
   selected,
   onSelect,
 }: {
   pin: SensorPin;
   status: PinStatus;
+  labelTheme: LabelTheme;
   selected: boolean;
   onSelect: () => void;
 }) {
