@@ -34,11 +34,14 @@ export function WashOptimization({ value }: { value: number }) {
             </RadialBarChart>
           </ResponsiveContainer>
           <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-            <span className="font-mono text-4xl font-bold tracking-tight text-foreground">
-              {Math.round(value)}
-            </span>
             <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-              % optimum
+              Optimal interval
+            </span>
+            <span className="font-mono text-4xl font-bold tracking-tight text-foreground">
+              42<span className="text-2xl text-muted-foreground">h</span>
+            </span>
+            <span className="mt-1 font-mono text-[10px] text-primary">
+              Next wash in {(12.5 - ((value % 10) * 0.1)).toFixed(1)}h
             </span>
           </div>
         </div>

@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 export function FederatedLearning({ progress }: { progress: number }) {
   const [open, setOpen] = useState(false);
   const phase =
-    progress < 30 ? "Training local" : progress < 70 ? "Pushing weights" : "Aggregating round";
+    progress < 30 ? "Training local" : progress < 70 ? "Pushing weights" : "Global Model Sync";
 
   return (
     <BentoCard
@@ -27,11 +27,15 @@ export function FederatedLearning({ progress }: { progress: number }) {
         <div className="flex items-stretch gap-2">
           <NodeBox label="Edge" name="Node #451" icon={Server} tone="primary" />
           <div className="flex flex-1 items-center">
-            <div className="relative h-px w-full bg-border">
-              <div className="absolute inset-y-0 -left-2 h-2 w-2 -translate-y-1/2 rounded-full bg-primary animate-data-flow" />
+            <div className="relative h-px w-full overflow-visible bg-gradient-to-r from-primary/30 via-primary/60 to-primary/30 animate-pulse">
+              <div className="absolute inset-y-0 -left-2 h-2 w-2 -translate-y-1/2 rounded-full bg-primary shadow-[0_0_8px_hsl(var(--primary))] animate-data-flow" />
               <div
-                className="absolute inset-y-0 -left-2 h-2 w-2 -translate-y-1/2 rounded-full bg-primary animate-data-flow"
+                className="absolute inset-y-0 -left-2 h-2 w-2 -translate-y-1/2 rounded-full bg-primary shadow-[0_0_8px_hsl(var(--primary))] animate-data-flow"
                 style={{ animationDelay: "0.7s" }}
+              />
+              <div
+                className="absolute inset-y-0 -left-2 h-2 w-2 -translate-y-1/2 rounded-full bg-primary shadow-[0_0_8px_hsl(var(--primary))] animate-data-flow"
+                style={{ animationDelay: "1.4s" }}
               />
             </div>
           </div>
