@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Activity, Cloud, Cpu, Droplets, Gauge, LayoutGrid, Zap } from "lucide-react";
+import { Activity, Cloud, Cpu, Droplets, Gauge, LayoutGrid, Map, Zap } from "lucide-react";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/naiade/AppSidebar";
 import { TopBar } from "@/components/naiade/TopBar";
@@ -13,10 +13,11 @@ import { WashOptimization } from "@/components/naiade/WashOptimization";
 import { RULPanel } from "@/components/naiade/RULPanel";
 import { BlockchainLog } from "@/components/naiade/BlockchainLog";
 import { SystemOverview } from "@/components/naiade/SystemOverview";
+import { PlantMap } from "@/components/naiade/PlantMap";
 import { useMockData } from "@/hooks/useMockData";
 import type { CompanyId } from "@/lib/companies";
 
-export type TabId = "overview" | "ingestion" | "edge" | "mlops";
+export type TabId = "overview" | "ingestion" | "edge" | "mlops" | "plant";
 
 function PageHeader({ title, subtitle }: { title: string; subtitle: string }) {
   return (
@@ -31,6 +32,7 @@ function PageHeader({ title, subtitle }: { title: string; subtitle: string }) {
 
 const tabs: { id: TabId; label: string; sub: string; icon: typeof Activity }[] = [
   { id: "overview", label: "System Overview", sub: "Topology · Health · Impact", icon: LayoutGrid },
+  { id: "plant", label: "Plant Map", sub: "Digital Twin · Live Sensors", icon: Map },
   { id: "ingestion", label: "Live Ingestion", sub: "Sensors & Spectrogram", icon: Activity },
   { id: "edge", label: "Edge-AI Diagnostics", sub: "Anomaly · CNN Maintenance", icon: Cpu },
   { id: "mlops", label: "Global MLOps", sub: "Federated · Blockchain", icon: Cloud },
