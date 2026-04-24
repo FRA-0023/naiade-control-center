@@ -294,6 +294,16 @@ function PlantSvg({
   onSelectSensor: (pin: SensorPin, r: Resolved) => void;
   onSelectEquipment: (eq: PlantEquipment) => void;
 }) {
+  const { theme } = useTheme();
+  // Theme-aware label palette so labels read clearly in both modes
+  // and never look like "redacted black boxes" on a light background.
+  const labelTheme = {
+    bg: theme === "light" ? "hsl(0 0% 100%)" : "hsl(222 47% 11%)",
+    border: theme === "light" ? "hsl(214 32% 88%)" : "hsl(217 33% 22%)",
+    text: theme === "light" ? "hsl(222 47% 11%)" : "hsl(210 40% 98%)",
+    sub: theme === "light" ? "hsl(215 16% 35%)" : "hsl(215 20% 65%)",
+  };
+
   return (
     <svg
       viewBox={`0 0 ${layout.viewBox.w} ${layout.viewBox.h}`}
@@ -321,7 +331,7 @@ function PlantSvg({
         </linearGradient>
       </defs>
 
-      {/* Pipes — clean, thin, schematic style */}
+      {/* Layer 1 — Pipes (drawn first so labels & pins render on top) */}
       <g>
         {layout.pipes.map((p, i) => {
           const w = p.width ?? 2;
@@ -342,22 +352,24 @@ function PlantSvg({
         })}
       </g>
 
-      {/* Equipment */}
+      {/* Layer 2 — Equipment (rectangles + capsule labels above pipes) */}
       {layout.equipment.map((eq) => (
         <Equipment
           key={eq.id}
           eq={eq}
+          labelTheme={labelTheme}
           selected={selection?.type === "equipment" && selection.eq.id === eq.id}
           onSelect={() => onSelectEquipment(eq)}
         />
       ))}
 
-      {/* Sensor pins (in-SVG so they zoom with the diagram) */}
+      {/* Layer 3 — Sensor pins on TOP of pipes & equipment */}
       {resolvedPins.map(({ pin, value, status, raw, target }) => (
         <SensorMark
           key={pin.id}
           pin={pin}
           status={status}
+          labelTheme={labelTheme}
           selected={selection?.type === "sensor" && selection.pin.id === pin.id}
           onSelect={() => onSelectSensor(pin, { value, status, raw, target })}
         />
@@ -365,6 +377,13 @@ function PlantSvg({
     </svg>
   );
 }
+
+type LabelTheme = {
+  bg: string;
+  border: string;
+  text: string;
+  sub: string;
+};
 
 /* ─────────────── Equipment renderer ─────────────── */
 function Equipment({
