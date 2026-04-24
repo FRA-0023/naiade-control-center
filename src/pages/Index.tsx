@@ -58,14 +58,18 @@ const Index = () => {
 
           <main
             className={
-              tab === "ingestion"
+              tab === "plant"
+                ? "flex-1 overflow-hidden p-4 md:p-6 flex"
+                : tab === "ingestion"
                 ? "flex-1 overflow-y-auto p-6"
                 : "flex-1 overflow-y-auto p-6 md:p-8"
             }
           >
             <div
               className={
-                tab === "ingestion"
+                tab === "plant"
+                  ? "flex h-full w-full flex-col"
+                  : tab === "ingestion"
                   ? "mx-auto flex w-full max-w-[1600px] flex-col"
                   : "mx-auto w-full max-w-[1600px]"
               }
@@ -83,6 +87,10 @@ const Index = () => {
                   ledgerHeight={ledgerHeight}
                   />
                 </>
+              )}
+
+              {tab === "plant" && (
+                <PlantMap activeCompany={activeCompany} data={data} />
               )}
 
               {tab === "ingestion" && (
