@@ -3,6 +3,7 @@ import { Minus, Plus, RotateCcw, X } from "lucide-react";
 import {
   TransformWrapper,
   TransformComponent,
+  useControls,
   type ReactZoomPanPinchRef,
 } from "react-zoom-pan-pinch";
 import { cn } from "@/lib/utils";
@@ -266,10 +267,8 @@ function ZoomControls() {
   );
 }
 
-/** Tiny wrapper around useControls so the component stays self-contained. */
+/** Tiny wrapper so callers can keep using the same name. */
 function useTransformControls() {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires
-  const { useControls } = require("react-zoom-pan-pinch") as typeof import("react-zoom-pan-pinch");
   return useControls();
 }
 
