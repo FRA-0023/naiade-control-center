@@ -556,19 +556,21 @@ function Equipment({
   }
 }
 
-/* Solid background capsule label — pipes will not strike through. */
+/* Solid background capsule label — pipes will not strike through.
+   Theme-aware: white capsule on light, slate-900 on dark. */
 function CapsuleLabel({
   x,
   y,
   label,
   color,
+  labelTheme,
 }: {
   x: number;
   y: number;
   label: string;
   color: string;
+  labelTheme: LabelTheme;
 }) {
-  // Approx width (chars * px). We avoid getBBox so this works during initial render.
   const padX = 8;
   const padY = 4;
   const charW = 6.6;
@@ -582,10 +584,9 @@ function CapsuleLabel({
         width={w}
         height={h}
         rx={4}
-        className="fill-slate-900 dark:fill-slate-900"
-        fill="hsl(222 47% 11%)"
-        stroke="hsl(var(--border))"
-        strokeOpacity={0.6}
+        fill={labelTheme.bg}
+        stroke={labelTheme.border}
+        strokeOpacity={0.9}
         strokeWidth={0.8}
       />
       <text
@@ -601,13 +602,23 @@ function CapsuleLabel({
   );
 }
 
-function SubLabel({ x, y, text }: { x: number; y: number; text: string }) {
+function SubLabel({
+  x,
+  y,
+  text,
+  labelTheme,
+}: {
+  x: number;
+  y: number;
+  text: string;
+  labelTheme: LabelTheme;
+}) {
   return (
     <text
       x={x}
       y={y}
       textAnchor="middle"
-      fill="hsl(var(--muted-foreground))"
+      fill={labelTheme.sub}
       pointerEvents="none"
       style={{ font: "500 9px JetBrains Mono, ui-monospace, monospace", letterSpacing: "0.08em", textTransform: "uppercase" }}
     >
@@ -622,17 +633,19 @@ function EquipmentLabel({
   label,
   sub,
   color,
+  labelTheme,
 }: {
   x: number;
   y: number;
   label: string;
   sub?: string;
   color: string;
+  labelTheme: LabelTheme;
 }) {
   return (
     <g>
-      <CapsuleLabel x={x} y={y} label={label} color={color} />
-      {sub && <SubLabel x={x} y={y + 18} text={sub} />}
+      <CapsuleLabel x={x} y={y} label={label} color={color} labelTheme={labelTheme} />
+      {sub && <SubLabel x={x} y={y + 18} text={sub} labelTheme={labelTheme} />}
     </g>
   );
 }
