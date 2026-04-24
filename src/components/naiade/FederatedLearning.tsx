@@ -77,7 +77,7 @@ export function FederatedLearning({ progress }: { progress: number }) {
           />
         </CollapsibleTrigger>
         <CollapsibleContent>
-          <div className="max-h-48 overflow-y-auto bg-background/40 px-6 pb-4 font-mono text-[11px] leading-relaxed">
+          <div className="terminal-surface max-h-48 overflow-y-auto px-6 pb-4 font-mono text-[11px] leading-relaxed">
             <div className="text-success">› Local model trained · 3,402 samples</div>
             <div className="text-primary">› Pushing updated weights (4.3 MB) → Cloud</div>
             <div className="text-muted-foreground">› Raw data kept local · privacy preserved</div>
