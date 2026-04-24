@@ -62,10 +62,8 @@ const Index = () => {
               {tab === "ingestion" && (
                 <>
                   <div className="mb-2 shrink-0">
-                    <h2 className="text-base font-semibold tracking-tight text-foreground">
-                      Live Ingestion
-                    </h2>
-                    <p className="text-xs font-light leading-snug text-muted-foreground">
+                    <h1>Live Ingestion</h1>
+                    <p className="mt-1 text-sm font-light leading-snug text-muted-foreground">
                       Continuous physical telemetry via LPWAN/5G mesh · 50ms refresh.
                     </p>
                   </div>

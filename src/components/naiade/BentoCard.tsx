@@ -29,7 +29,7 @@ export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
                     {eyebrow}
                   </span>
                 )}
-                {title && <h3 className="text-sm font-semibold tracking-tight text-foreground">{title}</h3>}
+                {title && <h3>{title}</h3>}
               </div>
               {meta && <div className="font-mono text-[10px] text-muted-foreground">{meta}</div>}
             </div>
