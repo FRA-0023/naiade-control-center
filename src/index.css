@@ -238,6 +238,12 @@
       linear-gradient(90deg, hsl(var(--border) / 0.4) 1px, transparent 1px);
     background-size: 32px 32px;
   }
+
+  /* Terminal-style surfaces (logs, ledgers) — stay dark to preserve dev-tool identity */
+  .terminal-surface {
+    background-color: hsl(var(--terminal-bg));
+    color: hsl(var(--terminal-fg));
+  }
 }
 
 @keyframes pulse-glow {
