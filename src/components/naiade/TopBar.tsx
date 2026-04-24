@@ -33,7 +33,7 @@ export function TopBar({
         <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
         <Separator orientation="vertical" className="h-6" />
         <div className="flex flex-col leading-tight">
-          <h1 className="text-sm font-semibold tracking-tight">{current.label}</h1>
+          <span className="text-sm font-semibold tracking-tight text-foreground">{current.label}</span>
           <span className="font-mono text-[10px] text-muted-foreground">{current.sub}</span>
         </div>
 
