@@ -53,7 +53,12 @@ export function AppSidebar({
         </div>
 
         {/* Product identity */}
-        <div className="flex items-center gap-3 px-2 py-2">
+        <div
+          className={cn(
+            "flex items-center gap-3 py-2",
+            collapsed ? "justify-center px-0" : "px-2"
+          )}
+        >
           <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-primary/10 ring-1 ring-primary/40">
             <Waves className="h-4 w-4 text-primary" />
           </div>
