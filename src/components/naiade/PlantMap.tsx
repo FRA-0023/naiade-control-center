@@ -716,35 +716,26 @@ function SensorMark({
       ? "hsl(var(--destructive))"
       : "hsl(var(--success))";
 
-  // Permanent ID tag offset
+  // STRICT OFFSET: capsule is positioned so its NEAREST EDGE clears the
+  // pulsing dot (radius ~7px max). We place the capsule center at GAP px
+  // from the pin in the chosen anchor direction.
   const anchor = pin.anchor ?? "right";
-  const off = 14;
-  const tag = (() => {
+  const GAP = 16;                       // distance from pin → capsule center
+  const labelW = pin.id.length * 6.2 + 10;
+  const labelH = 13;
+
+  // Capsule center relative to pin
+  const capsule = (() => {
     switch (anchor) {
       case "top":
-        return { tx: pin.x, ty: pin.y - off, anchor: "middle" as const };
+        return { cx: pin.x, cy: pin.y - GAP - labelH / 2, textAnchor: "middle" as const };
       case "bottom":
-        return { tx: pin.x, ty: pin.y + off + 8, anchor: "middle" as const };
+        return { cx: pin.x, cy: pin.y + GAP + labelH / 2, textAnchor: "middle" as const };
       case "left":
-        return { tx: pin.x - off, ty: pin.y + 3, anchor: "end" as const };
+        return { cx: pin.x - GAP - labelW / 2, cy: pin.y, textAnchor: "middle" as const };
       case "right":
       default:
-        return { tx: pin.x + off, ty: pin.y + 3, anchor: "start" as const };
-    }
-  })();
-
-  // Capsule sizing for ID
-  const labelW = pin.id.length * 6 + 10;
-  const labelH = 13;
-  const labelRect = (() => {
-    switch (tag.anchor) {
-      case "middle":
-        return { x: tag.tx - labelW / 2, y: tag.ty - labelH + 2 };
-      case "end":
-        return { x: tag.tx - labelW + 2, y: tag.ty - labelH + 2 };
-      case "start":
-      default:
-        return { x: tag.tx - 2, y: tag.ty - labelH + 2 };
+        return { cx: pin.x + GAP + labelW / 2, cy: pin.y, textAnchor: "middle" as const };
     }
   })();
 
@@ -756,7 +747,7 @@ function SensorMark({
       }}
       className="plant-pin cursor-pointer"
     >
-      {/* Anchor crosshair tying the pin to the pipe */}
+      {/* Crosshair tying pin to pipe */}
       <line x1={pin.x - 5} y1={pin.y} x2={pin.x + 5} y2={pin.y} stroke={color} strokeOpacity={0.55} strokeWidth={0.8} />
       <line x1={pin.x} y1={pin.y - 5} x2={pin.x} y2={pin.y + 5} stroke={color} strokeOpacity={0.55} strokeWidth={0.8} />
 
@@ -766,7 +757,6 @@ function SensorMark({
           <animate attributeName="r" values="3.5;7;3.5" dur="2.2s" repeatCount="indefinite" />
         )}
       </circle>
-      {/* Selection halo */}
       {selected && (
         <circle cx={pin.x} cy={pin.y} r={9} fill="none" stroke={color} strokeOpacity={0.9} strokeWidth={1.2} strokeDasharray="2 2" />
       )}
@@ -781,11 +771,11 @@ function SensorMark({
         filter="url(#line-glow)"
       />
 
-      {/* Permanent ID capsule */}
-      <g pointerEvents="none">
+      {/* ID capsule — own translate group, text auto-centered */}
+      <g transform={`translate(${capsule.cx}, ${capsule.cy})`} pointerEvents="none">
         <rect
-          x={labelRect.x}
-          y={labelRect.y}
+          x={-labelW / 2}
+          y={-labelH / 2}
           width={labelW}
           height={labelH}
           rx={3}
@@ -795,9 +785,10 @@ function SensorMark({
           strokeWidth={0.6}
         />
         <text
-          x={tag.tx + (tag.anchor === "start" ? 4 : tag.anchor === "end" ? -4 : 0)}
-          y={tag.ty - 2}
-          textAnchor={tag.anchor}
+          x={0}
+          y={0}
+          textAnchor="middle"
+          dominantBaseline="central"
           fill={color}
           style={{ font: "600 9px JetBrains Mono, ui-monospace, monospace", letterSpacing: "0.06em" }}
         >
