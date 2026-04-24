@@ -20,10 +20,10 @@ export function WashOptimization({ value }: { value: number }) {
       padded={false}
     >
       <div className="flex flex-col items-center p-6 pb-2">
-        <div className="relative h-[160px] w-full">
+        <div className="relative h-[200px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <RadialBarChart
-              innerRadius="74%"
+              innerRadius="78%"
               outerRadius="100%"
               data={data}
               startAngle={220}
@@ -33,17 +33,18 @@ export function WashOptimization({ value }: { value: number }) {
               <RadialBar background={{ fill: "hsl(var(--muted) / 0.4)" }} dataKey="value" cornerRadius={6} />
             </RadialBarChart>
           </ResponsiveContainer>
-          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-1 px-6 text-center">
+            <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
               Optimal interval
             </span>
-            <span className="font-mono text-4xl font-bold tracking-tight text-foreground">
-              42<span className="text-2xl text-muted-foreground">h</span>
-            </span>
-            <span className="mt-1 font-mono text-[10px] text-primary">
-              Next wash in {(12.5 - ((value % 10) * 0.1)).toFixed(1)}h
+            <span className="font-mono text-3xl font-bold leading-none tracking-tight text-foreground">
+              42<span className="ml-0.5 text-xl text-muted-foreground">h</span>
             </span>
           </div>
+        </div>
+        <div className="mt-2 flex items-center gap-1.5 font-mono text-[10px] text-primary">
+          <span className="h-1 w-1 rounded-full bg-primary animate-tick" />
+          Next wash in {(12.5 - ((value % 10) * 0.1)).toFixed(1)}h
         </div>
       </div>
 
