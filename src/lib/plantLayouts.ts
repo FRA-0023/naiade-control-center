@@ -213,9 +213,9 @@ const nexus: PlantLayout = {
     // between UV and the polish vessel.
     { id: "FL-07", kind: "flow",         label: "Loop Flow",         unit: "m³/h",  x: 480, y: 450, anchor: "bottom" },
     // Conductivity — moved between RE-POLISH and Distribution.
-    { id: "EC-03", kind: "conductivity", label: "Conductivity",      unit: "µS/cm", x: 250, y: 450, anchor: "top" },
-    { id: "PH-02", kind: "ph",           label: "pH",                unit: "pH",    x: 200, y: 450, anchor: "bottom" },
-    { id: "TB-05", kind: "turbidity",    label: "Turbidity",         unit: "NTU",   x: 880, y: 450, anchor: "bottom" },
+    { id: "EC-03", kind: "conductivity", label: "Conductivity",      unit: "µS/cm", x: 280, y: 450, anchor: "top" },
+    { id: "PH-02", kind: "ph",           label: "pH",                unit: "pH",    x: 220, y: 450, anchor: "bottom" },
+    { id: "TB-05", kind: "turbidity",    label: "Turbidity",         unit: "NTU",   x: 870, y: 450, anchor: "bottom" },
   ]),
 };
 
