@@ -1,4 +1,4 @@
-import { Activity, Cloud, Cpu, LayoutGrid, Waves, CircleDot } from "lucide-react";
+import { Activity, Cloud, Cpu, LayoutGrid, Map, Waves, CircleDot } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -20,6 +20,7 @@ import type { TabId } from "@/pages/Index";
 
 const sections: { id: TabId; title: string; icon: typeof Activity; badge: string }[] = [
   { id: "overview", title: "System Overview", icon: LayoutGrid, badge: "DWP" },
+  { id: "plant", title: "Plant Map", icon: Map, badge: "TWIN" },
   { id: "ingestion", title: "Live Ingestion", icon: Activity, badge: "50ms" },
   { id: "edge", title: "Edge-AI", icon: Cpu, badge: "<10ms" },
   { id: "mlops", title: "Global MLOps", icon: Cloud, badge: "FED" },
