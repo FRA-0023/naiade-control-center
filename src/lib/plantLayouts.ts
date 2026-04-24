@@ -204,13 +204,18 @@ const nexus: PlantLayout = {
   ],
   sensors: withDesc([
     { id: "PR-01", kind: "pressure",     label: "Mains Pressure",    unit: "bar",   x: 180, y: 155, anchor: "top" },
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",     unit: "peaks", x: 385, y: 110, anchor: "top" },
-    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure", unit: "bar",   x: 670, y: 155, anchor: "bottom" },
-    { id: "TM-09", kind: "temperature",  label: "Buffer Temp",       unit: "°C",    x: 945, y: 220, anchor: "right" },
-    { id: "FL-07", kind: "flow",         label: "Loop Flow",         unit: "m³/h",  x: 670, y: 450, anchor: "bottom" },
-    { id: "EC-03", kind: "conductivity", label: "Conductivity",      unit: "µS/cm", x: 385, y: 450, anchor: "top" },
-    { id: "PH-02", kind: "ph",           label: "pH",                unit: "pH",    x: 115, y: 450, anchor: "top" },
-    { id: "TB-05", kind: "turbidity",    label: "Turbidity",         unit: "NTU",   x: 250, y: 450, anchor: "bottom" },
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",     unit: "peaks", x: 385, y: 100, anchor: "top" },
+    // Membrane pressure — anchored on the inlet pipe just before M-01 so the
+    // sensor dot does not sit inside the membrane label.
+    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure", unit: "bar",   x: 870, y: 155, anchor: "top" },
+    { id: "TM-09", kind: "temperature",  label: "Buffer Temp",       unit: "°C",    x: 945, y: 260, anchor: "right" },
+    // Loop flow — moved off the UV label, onto the bottom return spine
+    // between UV and the polish vessel.
+    { id: "FL-07", kind: "flow",         label: "Loop Flow",         unit: "m³/h",  x: 480, y: 450, anchor: "bottom" },
+    // Conductivity — moved between RE-POLISH and Distribution.
+    { id: "EC-03", kind: "conductivity", label: "Conductivity",      unit: "µS/cm", x: 250, y: 450, anchor: "top" },
+    { id: "PH-02", kind: "ph",           label: "pH",                unit: "pH",    x: 200, y: 450, anchor: "bottom" },
+    { id: "TB-05", kind: "turbidity",    label: "Turbidity",         unit: "NTU",   x: 880, y: 450, anchor: "bottom" },
   ]),
 };
 
