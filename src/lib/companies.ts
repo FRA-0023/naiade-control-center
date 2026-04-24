@@ -34,9 +34,9 @@ export const companies: Company[] = [
     region: "EU-WEST · ZRH3",
     icon: Factory,
     baseline: {
-      pressure: 10.0,
+      pressure: 11.0,        // High-pressure system (target 10–12 bar)
       flow: 2.0,
-      conductivity: 40,
+      conductivity: 40,      // ~40 µS/cm
       dpStart: 1.5,
       dpEnd: 2.2,
       latencyMs: 4,
@@ -55,14 +55,14 @@ export const companies: Company[] = [
     region: "EU-NORTH · ARN1",
     icon: Building2,
     baseline: {
-      pressure: 8.5,
-      flow: 1.6,
-      conductivity: 32,
-      dpStart: 1.2,
-      dpEnd: 1.7,
+      pressure: 3.5,         // Low-pressure municipal loop (3–4 bar)
+      flow: 1.2,
+      conductivity: 15,      // ~15 µS/cm
+      dpStart: 0.4,
+      dpEnd: 0.7,
       latencyMs: 5.5,
       rul: 78,
-      washFreq: 68,
+      washFreq: 52,
       federatedRound: 2871,
       blockHeightStart: 201_864,
       ramanShift: -8,
@@ -76,14 +76,14 @@ export const companies: Company[] = [
     region: "US-EAST · IAD2",
     icon: Landmark,
     baseline: {
-      pressure: 11.2,
-      flow: 2.3,
-      conductivity: 48,
-      dpStart: 1.7,
-      dpEnd: 2.35,
+      pressure: 22.0,        // Heavy industrial system (20–25 bar)
+      flow: 3.4,
+      conductivity: 85,      // ~85 µS/cm
+      dpStart: 2.6,
+      dpEnd: 3.6,
       latencyMs: 6.2,
       rul: 41,
-      washFreq: 83,
+      washFreq: 88,
       federatedRound: 2756,
       blockHeightStart: 158_902,
       ramanShift: 12,
