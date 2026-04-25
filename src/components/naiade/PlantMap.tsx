@@ -625,7 +625,7 @@ function Equipment({
             color={labelColor}
             labelTheme={labelTheme}
             maxWidth={W - 18}
-            fontSize={10}
+            fontSize={13}
           />
           {eq.sub && <SubLabel x={center.x} y={eq.y + H + 18} text={eq.sub} labelTheme={labelTheme} />}
         </g>
