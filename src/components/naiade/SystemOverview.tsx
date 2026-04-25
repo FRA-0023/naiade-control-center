@@ -62,6 +62,18 @@ export function SystemOverview({
         meta="click any node to inspect"
         padded={false}
         className="!overflow-visible"
+        action={
+          <button
+            type="button"
+            onClick={() => onNavigate("plant")}
+            className="group inline-flex items-center gap-2 rounded-lg border border-primary/50 bg-primary/10 px-3 py-1.5 font-mono text-[11px] font-semibold uppercase tracking-widest text-primary transition-all hover:border-primary hover:bg-primary/20 hover:shadow-[0_0_18px_-4px_hsl(var(--primary)/0.6)]"
+            aria-label="Open Digital Twin"
+          >
+            <MapIcon className="h-3.5 w-3.5" />
+            Open Digital Twin
+            <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
+          </button>
+        }
       >
         <ExecutiveSchema onNavigate={onNavigate} />
       </BentoCard>
