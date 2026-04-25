@@ -107,9 +107,9 @@ const Index = () => {
                     </div>
 
                     <div className="col-span-4 flex flex-col gap-2 self-start">
-                      <KPICard label="Pressure" unit="bar" data={data.pressure} icon={Gauge} target="Target: 8–12 bar" targetValue={10} warnRange={[8, 12]} />
-                      <KPICard label="Flow rate" unit="m³/h" data={data.flow} icon={Droplets} target="Target: 1.0–2.5 m³/h" targetValue={1.75} warnRange={[1.0, 2.5]} />
-                      <KPICard label="Conductivity" unit="μS/cm" data={data.conductivity} icon={Zap} decimals={0} target="Target: < 50 µS/cm" targetValue={50} warnRange={[0, 50]} />
+                      <KPICard label="Pressure" unit="bar" data={data.pressure} icon={Gauge} target={data.company.thresholds.pressure.label} targetValue={(data.company.thresholds.pressure.min + data.company.thresholds.pressure.max) / 2} warnRange={[data.company.thresholds.pressure.min, data.company.thresholds.pressure.max]} />
+                      <KPICard label="Flow rate" unit="m³/h" data={data.flow} icon={Droplets} target={data.company.thresholds.flow.label} targetValue={(data.company.thresholds.flow.min + data.company.thresholds.flow.max) / 2} warnRange={[data.company.thresholds.flow.min, data.company.thresholds.flow.max]} />
+                      <KPICard label="Conductivity" unit="μS/cm" data={data.conductivity} icon={Zap} decimals={0} target={data.company.thresholds.conductivity.label} targetValue={data.company.thresholds.conductivity.max} warnRange={[data.company.thresholds.conductivity.min, data.company.thresholds.conductivity.max]} />
                     </div>
                   </div>
                 </>
