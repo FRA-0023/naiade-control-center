@@ -898,7 +898,7 @@ function SensorMark({
           textAnchor="middle"
           dominantBaseline="middle"
           fill={color}
-          style={{ font: "600 9px JetBrains Mono, ui-monospace, monospace", letterSpacing: "0.06em" }}
+          style={{ font: "700 11px JetBrains Mono, ui-monospace, monospace", letterSpacing: "0.06em" }}
         >
           {pin.id}
         </text>
