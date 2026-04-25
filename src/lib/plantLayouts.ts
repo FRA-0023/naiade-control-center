@@ -167,13 +167,20 @@ const acme: PlantLayout = {
   ],
   sensors: withDesc([
     { id: "PR-01", kind: "pressure",     label: "Inlet Pressure",     unit: "bar",    x: 240,  y: 395, anchor: "top", labelDy: -6 },
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks",  x: 545,  y: 330, anchor: "top", labelDy: -8 },
-    { id: "TM-09", kind: "temperature",  label: "Feed Temperature",   unit: "°C",     x: 770,  y: 240, anchor: "top", labelDy: -6 },
+    // Raman tap on the P-01 → PRE-FILTER pipe (between x:380-470 at y:395)
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks",  x: 425,  y: 395, anchor: "top", labelDy: -8 },
+    // Feed temperature on the PRE-FILTER → BUFFER pipe (x:620-720 at y:395)
+    { id: "TM-09", kind: "temperature",  label: "Feed Temperature",   unit: "°C",     x: 670,  y: 395, anchor: "bottom", labelDy: 8 },
+    // Membrane inlet pressure on the BUFFER → M-01 pipe (x:820-920 at y:395)
     { id: "PR-12", kind: "pressure",     label: "Membrane Pressure",  unit: "bar",    x: 880,  y: 395, anchor: "top", labelDy: -6 },
+    // Permeate flow on the M-01 → UV pipe (x:1300-1400 at y:395)
     { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",   x: 1340, y: 395, anchor: "top", labelDy: -6 },
-    { id: "PH-02", kind: "ph",           label: "pH",                 unit: "pH",     x: 1480, y: 330, anchor: "top", labelDy: -6 },
-    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm",  x: 1620, y: 330, anchor: "top", labelDy: -6 },
-    { id: "TB-05", kind: "turbidity",    label: "Turbidity",          unit: "NTU",    x: 770,  y: 540, anchor: "bottom", labelDy: 8 },
+    // pH on the UV → OUT pipe segment (x:1560-1640 at y:395)
+    { id: "PH-02", kind: "ph",           label: "pH",                 unit: "pH",     x: 1580, y: 395, anchor: "bottom", labelDy: 8 },
+    // Conductivity on the same outlet pipe, closer to OUT
+    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm",  x: 1620, y: 395, anchor: "top", labelDy: -6 },
+    // Turbidity tap on the ERD recovery riser (x=1120, y:430-620)
+    { id: "TB-05", kind: "turbidity",    label: "Turbidity",          unit: "NTU",    x: 1120, y: 530, anchor: "right", labelDx: 8, labelGap: 22 },
   ]),
 };
 
