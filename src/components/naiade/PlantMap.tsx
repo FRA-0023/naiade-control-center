@@ -144,6 +144,29 @@ export function PlantMap({
   const [selection, setSelection] = useState<Selection>(null);
   const transformRef = useRef<ReactZoomPanPinchRef | null>(null);
 
+  // ── Auto-fit viewBox: tight bbox of all equipment + sensors with 8% padding.
+  // This guarantees the SVG content fills its container with no dead corners.
+  const fittedViewBox = useMemo(() => {
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    for (const eq of layout.equipment) {
+      minX = Math.min(minX, eq.x);
+      minY = Math.min(minY, eq.y);
+      maxX = Math.max(maxX, eq.x + eq.w);
+      maxY = Math.max(maxY, eq.y + eq.h);
+    }
+    for (const s of layout.sensors) {
+      minX = Math.min(minX, s.x - 30);
+      minY = Math.min(minY, s.y - 30);
+      maxX = Math.max(maxX, s.x + 30);
+      maxY = Math.max(maxY, s.y + 30);
+    }
+    const w = maxX - minX;
+    const h = maxY - minY;
+    const padX = w * 0.06;
+    const padY = h * 0.08;
+    return { x: minX - padX, y: minY - padY, w: w + padX * 2, h: h + padY * 2 };
+  }, [layout]);
+
   const resolvedPins = useMemo(
     () => layout.sensors.map((p) => ({ pin: p, ...resolvePin(p, data, activeCompany) })),
     [layout, data, activeCompany]
@@ -153,12 +176,24 @@ export function PlantMap({
   const warn = resolvedPins.filter((p) => p.status === "warn").length;
   const offline = resolvedPins.filter((p) => p.status === "offline").length;
 
-  // Reset selection when company changes
+  // Reset selection + recenter view when company changes
   const lastCompany = useRef(activeCompany);
   if (lastCompany.current !== activeCompany) {
     lastCompany.current = activeCompany;
     if (selection) setSelection(null);
   }
+
+  // Recenter the zoom/pan view on mount and on company switch.
+  useEffect(() => {
+    const t = transformRef.current;
+    if (!t) return;
+    // Defer to next frame so the new SVG layout is measured first.
+    const id = requestAnimationFrame(() => {
+      t.resetTransform(0);
+      t.centerView(1, 0);
+    });
+    return () => cancelAnimationFrame(id);
+  }, [activeCompany]);
 
   return (
     <div className="flex h-full w-full flex-col gap-3 animate-fade-in">
