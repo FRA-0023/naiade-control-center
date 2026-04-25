@@ -739,22 +739,24 @@ function SensorMark({
   // pulsing dot (radius ~7px max). We place the capsule center at GAP px
   // from the pin in the chosen anchor direction.
   const anchor = pin.anchor ?? "right";
-  const GAP = 16;                       // distance from pin → capsule center
+  const GAP = pin.labelGap ?? 16;       // distance from pin → capsule center
   const labelW = pin.id.length * 6.2 + 10;
   const labelH = 13;
+  const labelDx = pin.labelDx ?? 0;
+  const labelDy = pin.labelDy ?? 0;
 
   // Capsule center relative to pin
   const capsule = (() => {
     switch (anchor) {
       case "top":
-        return { cx: pin.x, cy: pin.y - GAP - labelH / 2, textAnchor: "middle" as const };
+        return { cx: pin.x + labelDx, cy: pin.y - GAP - labelH / 2 + labelDy, textAnchor: "middle" as const };
       case "bottom":
-        return { cx: pin.x, cy: pin.y + GAP + labelH / 2, textAnchor: "middle" as const };
+        return { cx: pin.x + labelDx, cy: pin.y + GAP + labelH / 2 + labelDy, textAnchor: "middle" as const };
       case "left":
-        return { cx: pin.x - GAP - labelW / 2, cy: pin.y, textAnchor: "middle" as const };
+        return { cx: pin.x - GAP - labelW / 2 + labelDx, cy: pin.y + labelDy, textAnchor: "middle" as const };
       case "right":
       default:
-        return { cx: pin.x + GAP + labelW / 2, cy: pin.y, textAnchor: "middle" as const };
+        return { cx: pin.x + GAP + labelW / 2 + labelDx, cy: pin.y + labelDy, textAnchor: "middle" as const };
     }
   })();
 
