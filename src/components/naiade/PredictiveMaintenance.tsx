@@ -102,7 +102,7 @@ export function PredictiveMaintenance({ dp }: { dp: DPPoint[] }) {
         </div>
 
         {/* BOTTOM: 2-col grid */}
-        <div className="grid grid-cols-2 gap-4 shrink-0">
+        <div className="grid shrink-0 grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
           <div className="rounded-lg border border-warning/40 bg-warning/5 p-4">
             <div className="flex items-center gap-2">
               <AlertTriangle className="h-4 w-4 text-warning" />

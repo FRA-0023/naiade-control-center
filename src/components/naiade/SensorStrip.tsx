@@ -26,7 +26,7 @@ export function SensorStrip() {
           <span className="text-xs font-semibold text-foreground">Sensor Health</span>
           <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/80">8 ch</span>
         </div>
-        <div className="grid grid-cols-8 gap-1.5 w-full shrink-0">
+        <div className="grid w-full shrink-0 grid-cols-2 gap-1.5 sm:grid-cols-4 md:grid-cols-8">
           {sensors.map((s) => {
             const sty = statusStyles[s.status];
             return (
