@@ -166,13 +166,13 @@ const acme: PlantLayout = {
     { d: "M 690 410 V 295", width: 2 },
   ],
   sensors: withDesc([
-    { id: "PR-01", kind: "pressure",     label: "Inlet Pressure",     unit: "bar",    x: 158,  y: 263, anchor: "top", labelDy: -6 },
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks",  x: 270,  y: 263, anchor: "top", labelDy: -8 },
+    { id: "PR-01", kind: "pressure",     label: "Inlet Pressure",     unit: "bar",    x: 158,  y: 263, anchor: "top",    labelDy: -6 },
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks",  x: 270,  y: 263, anchor: "top",    labelDy: -8 },
     { id: "TM-09", kind: "temperature",  label: "Feed Temperature",   unit: "°C",     x: 430,  y: 263, anchor: "bottom", labelDy: 8 },
-    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure",  unit: "bar",    x: 550,  y: 263, anchor: "top", labelDy: -6 },
-    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",   x: 815,  y: 263, anchor: "top", labelDy: -6 },
+    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure",  unit: "bar",    x: 550,  y: 263, anchor: "top",    labelDy: -6 },
+    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",   x: 815,  y: 263, anchor: "bottom", labelDy: 8 },
     { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm",  x: 945,  y: 263, anchor: "bottom", labelDy: 8 },
-    { id: "TB-05", kind: "turbidity",    label: "Turbidity",          unit: "NTU",    x: 690,  y: 350, anchor: "right", labelDx: 8, labelGap: 14 },
+    { id: "TB-05", kind: "turbidity",    label: "Turbidity",          unit: "NTU",    x: 690,  y: 350, anchor: "right",  labelDx: 8, labelGap: 14 },
   ]),
 };
 
