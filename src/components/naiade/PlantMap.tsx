@@ -577,8 +577,8 @@ function Equipment({
             color={labelColor}
             labelTheme={labelTheme}
             maxWidth={innerW - 12}
-            fontSize={10.5}
-            subSize={8}
+            fontSize={13}
+            subSize={10}
           />
         </g>
       );
