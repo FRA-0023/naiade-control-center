@@ -155,15 +155,15 @@ export function PlantMap({
       maxY = Math.max(maxY, eq.y + eq.h);
     }
     for (const s of layout.sensors) {
-      minX = Math.min(minX, s.x - 30);
-      minY = Math.min(minY, s.y - 30);
-      maxX = Math.max(maxX, s.x + 30);
-      maxY = Math.max(maxY, s.y + 30);
+      minX = Math.min(minX, s.x - 40);
+      minY = Math.min(minY, s.y - 25);
+      maxX = Math.max(maxX, s.x + 40);
+      maxY = Math.max(maxY, s.y + 25);
     }
     const w = maxX - minX;
     const h = maxY - minY;
-    const padX = w * 0.06;
-    const padY = h * 0.08;
+    const padX = w * 0.03;
+    const padY = h * 0.04;
     return { x: minX - padX, y: minY - padY, w: w + padX * 2, h: h + padY * 2 };
   }, [layout]);
 
