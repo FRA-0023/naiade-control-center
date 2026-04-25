@@ -920,7 +920,7 @@ function DetailsSidebar({
   const company = getCompany(activeCompany);
 
   return (
-    <aside className="hidden w-80 shrink-0 flex-col overflow-hidden rounded-xl border border-border/60 bg-card/60 backdrop-blur-sm md:flex">
+    <aside className="flex w-full shrink-0 flex-col overflow-hidden rounded-xl border border-border/60 bg-card/60 backdrop-blur-sm md:w-80">
       <header className="flex items-center justify-between border-b border-border/60 px-4 py-3">
         <div className="flex flex-col leading-tight">
           <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
