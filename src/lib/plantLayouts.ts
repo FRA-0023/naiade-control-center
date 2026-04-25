@@ -166,13 +166,20 @@ const acme: PlantLayout = {
     { d: "M 690 410 V 295", width: 2 },
   ],
   sensors: withDesc([
+    // PR-01 on intake→P-01 spine (x:140-175 at y=263). Label above pipe — clear space.
     { id: "PR-01", kind: "pressure",     label: "Inlet Pressure",     unit: "bar",    x: 158,  y: 263, anchor: "top",    labelDy: -6 },
+    // RM-04 on P-01→PRE-FILTER spine (x:255-285 at y=263). Label above — clear.
     { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks",  x: 270,  y: 263, anchor: "top",    labelDy: -8 },
-    { id: "TM-09", kind: "temperature",  label: "Feed Temperature",   unit: "°C",     x: 430,  y: 263, anchor: "bottom", labelDy: 8 },
-    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure",  unit: "bar",    x: 550,  y: 263, anchor: "top",    labelDy: -6 },
-    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",   x: 815,  y: 263, anchor: "bottom", labelDy: 8 },
-    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm",  x: 945,  y: 263, anchor: "bottom", labelDy: 8 },
-    { id: "TB-05", kind: "turbidity",    label: "Turbidity",          unit: "NTU",    x: 690,  y: 350, anchor: "right",  labelDx: 8, labelGap: 14 },
+    // TM-09 on PRE-FILTER→BUFFER spine (x:415-445 at y=263). BUFFER spans y:165-365, so push label FAR above buffer top (y<165).
+    { id: "TM-09", kind: "temperature",  label: "Feed Temperature",   unit: "°C",     x: 430,  y: 263, anchor: "top",    labelDy: 0,  labelGap: 110 },
+    // PR-12 on BUFFER→GO spine (x:535-565 at y=263). Membrane top y=235. Push label well above membrane.
+    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure",  unit: "bar",    x: 555,  y: 263, anchor: "top",    labelDy: 0,  labelGap: 50 },
+    // FL-07 on GO→UV spine (x:810-820 at y=263). UV box x:820-930, y:215-310. Push label below UV.
+    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",   x: 815,  y: 263, anchor: "bottom", labelDy: 0,  labelGap: 60 },
+    // EC-03 on UV→OUT spine (x:930-960 at y=263). Push label below output box (y:220-300).
+    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm",  x: 945,  y: 263, anchor: "bottom", labelDy: 0,  labelGap: 60 },
+    // TB-05 on ERD vertical riser (x=690, y:295-410). Label right — clears all equipment.
+    { id: "TB-05", kind: "turbidity",    label: "Turbidity",          unit: "NTU",    x: 690,  y: 350, anchor: "right",  labelDx: 8,  labelGap: 14 },
   ]),
 };
 
