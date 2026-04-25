@@ -166,13 +166,13 @@ const acme: PlantLayout = {
     { d: "M 690 410 V 295", width: 2 },
   ],
   sensors: withDesc([
-    { id: "PR-01", kind: "pressure",     label: "Inlet Pressure",     unit: "bar",    x: 158,  y: 263, anchor: "top", labelDy: -6 },
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks",  x: 270,  y: 263, anchor: "top", labelDy: -8 },
+    { id: "PR-01", kind: "pressure",     label: "Inlet Pressure",     unit: "bar",    x: 158,  y: 263, anchor: "top",    labelDy: -6 },
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks",  x: 270,  y: 263, anchor: "top",    labelDy: -8 },
     { id: "TM-09", kind: "temperature",  label: "Feed Temperature",   unit: "°C",     x: 430,  y: 263, anchor: "bottom", labelDy: 8 },
-    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure",  unit: "bar",    x: 550,  y: 263, anchor: "top", labelDy: -6 },
-    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",   x: 815,  y: 263, anchor: "top", labelDy: -6 },
+    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure",  unit: "bar",    x: 550,  y: 263, anchor: "top",    labelDy: -6 },
+    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",   x: 815,  y: 263, anchor: "bottom", labelDy: 8 },
     { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm",  x: 945,  y: 263, anchor: "bottom", labelDy: 8 },
-    { id: "TB-05", kind: "turbidity",    label: "Turbidity",          unit: "NTU",    x: 690,  y: 350, anchor: "right", labelDx: 8, labelGap: 14 },
+    { id: "TB-05", kind: "turbidity",    label: "Turbidity",          unit: "NTU",    x: 690,  y: 350, anchor: "right",  labelDx: 8, labelGap: 14 },
   ]),
 };
 
@@ -218,17 +218,20 @@ const nexus: PlantLayout = {
     { d: "M 980 160 V 200 H 850", width: 2 },
   ],
   sensors: withDesc([
-    // Top spine sensors
-    { id: "PR-01", kind: "pressure",     label: "Mains Pressure",    unit: "bar",   x: 158, y: 140, anchor: "top", labelDy: -6 },
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",     unit: "peaks", x: 437, y: 140, anchor: "top", labelDy: -8 },
-    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure", unit: "bar",   x: 750, y: 140, anchor: "top", labelDy: -8 },
-    // Buffer right-side temperature
-    { id: "TM-09", kind: "temperature",  label: "Buffer Temp",       unit: "°C",    x: 850, y: 220, anchor: "right", labelDx: 8, labelGap: 14 },
-    // Bottom return spine sensors
+    // Top spine sensors (y=140)
+    { id: "PR-01", kind: "pressure",     label: "Mains Pressure",    unit: "bar",   x: 158, y: 140, anchor: "top",    labelDy: -6 },
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",     unit: "peaks", x: 437, y: 140, anchor: "top",    labelDy: -8 },
+    // PR-12 sits on the prefilter→M-01 horizontal pipe (x:710-805 at y=140).
+    // Pushed left + label nudged left to clear the BUFFER T-01 box (x:760-850).
+    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure", unit: "bar",   x: 730, y: 140, anchor: "top",    labelDy: -8, labelDx: -10 },
+    // TM-09 snapped onto the buffer→spine vertical riser (x=805, y:280-420).
+    { id: "TM-09", kind: "temperature",  label: "Buffer Temp",       unit: "°C",    x: 805, y: 320, anchor: "right",  labelDx: 10, labelGap: 14 },
+    // Bottom return spine sensors (y=420)
     { id: "FL-07", kind: "flow",         label: "Loop Flow",         unit: "m³/h",  x: 430, y: 420, anchor: "bottom", labelDy: 8 },
-    { id: "EC-03", kind: "conductivity", label: "Conductivity",      unit: "µS/cm", x: 250, y: 420, anchor: "top", labelDy: -8 },
+    { id: "EC-03", kind: "conductivity", label: "Conductivity",      unit: "µS/cm", x: 250, y: 420, anchor: "top",    labelDy: -8 },
     { id: "PH-02", kind: "ph",           label: "pH",                unit: "pH",    x: 200, y: 420, anchor: "bottom", labelDy: 8 },
-    { id: "TB-05", kind: "turbidity",    label: "Turbidity",         unit: "NTU",   x: 770, y: 420, anchor: "bottom", labelDy: 8 },
+    // TB-05 on the U-turn horizontal at y=420 (x:725-805), label nudged right & below for clearance.
+    { id: "TB-05", kind: "turbidity",    label: "Turbidity",         unit: "NTU",   x: 770, y: 420, anchor: "bottom", labelDy: 8, labelGap: 22 },
   ]),
 };
 
@@ -275,13 +278,21 @@ const aegis: PlantLayout = {
     { d: "M 995 110 V 200 H 885 V 245", width: 2 },
   ],
   sensors: withDesc([
+    // PR-01 on intake→P-01 spine (x:140-175, y=290).
     { id: "PR-01", kind: "pressure",     label: "Pump Discharge",     unit: "bar",   x: 158, y: 290, anchor: "bottom", labelDy: 8 },
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks", x: 600, y: 160, anchor: "top", labelDy: -8 },
-    { id: "PR-12", kind: "pressure",     label: "M-01 Pressure",      unit: "bar",   x: 415, y: 220, anchor: "left", labelDx: -6, labelGap: 14 },
-    { id: "TM-09", kind: "temperature",  label: "Interstage Temp",    unit: "°C",    x: 670, y: 285, anchor: "top", labelDy: -8 },
-    { id: "PR-22", kind: "pressure",     label: "M-02 Pressure",      unit: "bar",   x: 742, y: 360, anchor: "right", labelDx: 8, labelGap: 14 },
-    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",  x: 870, y: 290, anchor: "top", labelDy: -8 },
-    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm", x: 965, y: 290, anchor: "bottom", labelDy: 8 },
+    // RM-04 snapped onto the prefilter→M-01 horizontal pipe (x:415-478 at y=160).
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks", x: 445, y: 160, anchor: "top",    labelDy: -8 },
+    // PR-12 on the prefilter riser (x=415, y:160-290). Label pushed RIGHT to clear PRE-FILTER box (ends x=415).
+    { id: "PR-12", kind: "pressure",     label: "M-01 Pressure",      unit: "bar",   x: 415, y: 230, anchor: "right",  labelDx: 10, labelGap: 14 },
+    // TM-09 on buffer→P-02 segment (x:645-690 at y=285). Label below pipe (clear of pump-2 above).
+    { id: "TM-09", kind: "temperature",  label: "Interstage Temp",    unit: "°C",    x: 668, y: 285, anchor: "bottom", labelDy: 8 },
+    // PR-22 on the M-02→spine vertical riser (x=742, y:290-420). Label right (clear of any boxes).
+    { id: "PR-22", kind: "pressure",     label: "M-02 Pressure",      unit: "bar",   x: 742, y: 360, anchor: "right",  labelDx: 10, labelGap: 14 },
+    // FL-07 on M-02 return horizontal segment (x:742-820 at y=290). Label pushed FAR below to clear UV box (y:245-335).
+    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",  x: 790, y: 290, anchor: "bottom", labelDy: 0,  labelGap: 60 },
+    // EC-03 on UV→OUT pipe (x:950-980 at y=290). Label pushed FAR below to clear UV/output boxes.
+    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm", x: 965, y: 290, anchor: "bottom", labelDy: 0,  labelGap: 60 },
+    // PH-02 on the P-02→M-02 horizontal pipe (x:478-760 at y=420).
     { id: "PH-02", kind: "ph",           label: "pH",                 unit: "pH",    x: 600, y: 420, anchor: "bottom", labelDy: 8 },
   ]),
 };
