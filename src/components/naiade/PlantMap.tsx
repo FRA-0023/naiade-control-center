@@ -720,8 +720,8 @@ function CenteredEquipmentText({
   color,
   labelTheme,
   maxWidth,
-  fontSize = 11,
-  subSize = 8.5,
+  fontSize = 14,
+  subSize = 10,
 }: {
   label: string;
   sub?: string;
