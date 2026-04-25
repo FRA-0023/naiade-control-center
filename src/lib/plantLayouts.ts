@@ -184,58 +184,51 @@ const acme: PlantLayout = {
 const nexus: PlantLayout = {
   title: "Municipal U-Loop · P&ID",
   subtitle: "Low-pressure modular skid · counter-flow polishing",
-  viewBox: { w: 1800, h: 900 },
+  viewBox: { w: 1100, h: 560 },
   equipment: withDesc([
-    // ── TOP ROW (feed, L → R) — y ~ 160-260, spine y=215
-    { id: "intake",     kind: "intake",     label: "MUNICIPAL FEED", sub: "Mains supply",       x: 60,   y: 170, w: 130, h: 100, tone: "muted" },
-    { id: "pump-1",     kind: "pump",       label: "P-01",           sub: "Lift pump",          x: 290,  y: 180, w: 80,  h: 80 },
-    { id: "prefilter",  kind: "vessel",     label: "PRE-FILTER",     sub: "5 µm mech.",         x: 470,  y: 165, w: 150, h: 100 },
-    { id: "go-1",       kind: "membrane",   label: "GO MEMBRANE M-01", sub: "d-spacing 0.45 nm", x: 720,  y: 185, w: 380, h: 60, tone: "primary" },
-    { id: "buffer-1",   kind: "tank",       label: "BUFFER T-01",    sub: "Surge",              x: 1240, y: 130, w: 110, h: 280 },
-    { id: "edge",       kind: "controller", label: "EDGE-AI",        sub: "Node #892",          x: 1450, y: 165, w: 180, h: 80, tone: "primary" },
+    // ── TOP ROW (feed, L → R) — spine y=140
+    { id: "intake",     kind: "intake",     label: "MUNICIPAL FEED", sub: "Mains supply",       x: 30,   y: 95,  w: 110, h: 90, tone: "muted" },
+    { id: "pump-1",     kind: "pump",       label: "P-01",           sub: "Lift pump",          x: 175,  y: 100, w: 80,  h: 80 },
+    { id: "prefilter",  kind: "vessel",     label: "PRE-FILTER",     sub: "5 µm mech.",         x: 285,  y: 95,  w: 130, h: 90 },
+    { id: "go-1",       kind: "membrane",   label: "GO MEMBRANE M-01", sub: "d-spacing 0.45 nm", x: 445, y: 110, w: 280, h: 60, tone: "primary" },
+    { id: "buffer-1",   kind: "tank",       label: "BUFFER T-01",    sub: "Surge",              x: 760,  y: 80,  w: 90,  h: 200 },
+    { id: "edge",       kind: "controller", label: "EDGE-AI",        sub: "Node #892",          x: 905,  y: 100, w: 150, h: 60, tone: "primary" },
 
-    // ── BOTTOM RETURN ROW (R → L) — y much further down (≥ +200 vs top)
-    // U-turn happens on the far right at x≈1620.
-    { id: "uv",         kind: "vessel",     label: "UV + DEGAS",     sub: "Polishing",          x: 720,  y: 660, w: 380, h: 90 },
-    { id: "polish",     kind: "vessel",     label: "RE-POLISH",      sub: "Loop EDI",           x: 470,  y: 655, w: 150, h: 100 },
-    { id: "output",     kind: "output",     label: "DISTRIBUTION",   sub: ">18 MΩ·cm",          x: 80,   y: 660, w: 130, h: 90, tone: "success" },
+    // ── BOTTOM RETURN ROW (R → L) — spine y=420
+    { id: "uv",         kind: "vessel",     label: "UV + DEGAS",     sub: "Polishing",          x: 445,  y: 380, w: 280, h: 80 },
+    { id: "polish",     kind: "vessel",     label: "RE-POLISH",      sub: "Loop EDI",           x: 285,  y: 380, w: 130, h: 80 },
+    { id: "output",     kind: "output",     label: "DISTRIBUTION",   sub: ">18 MΩ·cm",          x: 50,   y: 385, w: 130, h: 80, tone: "success" },
   ]),
   pipes: [
-    // ── TOP feed spine y=215
-    { d: "M 190 215 H 290", flow: true },
-    { d: "M 370 215 H 470", flow: true },
-    // Prefilter out → M-01 left cap (cx=738, cy=215)
-    { d: "M 620 215 H 738", flow: true },
-    // M-01 right cap (cx=1082, cy=215) → buffer top inlet (1295, 130)
-    { d: "M 1082 215 H 1295 V 130", flow: true },
+    // ── TOP feed spine y=140
+    { d: "M 140 140 H 175", flow: true, width: 3 },
+    { d: "M 255 140 H 285", flow: true, width: 3 },
+    { d: "M 415 140 H 460", flow: true, width: 3 },
+    // M-01 right cap (cx=710, cy=140) → buffer top inlet (805, 80)
+    { d: "M 710 140 H 805 V 80", flow: true, width: 3 },
 
-    // ── WIDE U-TURN on the far right side of the canvas.
-    // Buffer bottom (1295, 410) → down to bottom return spine y=705 →
-    // far-right elbow at x=1620 → back left to UV right cap (cx=1082, cy=705)
-    { d: "M 1295 410 V 705 H 1100", flow: true },
+    // ── U-TURN on the right — buffer bottom (805, 280) → down to spine y=420 → back to UV right cap (cx=710, cy=420)
+    { d: "M 805 280 V 420 H 725", flow: true, width: 3 },
 
-    // Optional decorative right-side elbow framing the canvas
-    { d: "M 1295 420 V 770 H 1620 V 215 H 1450", width: 1.2 },
+    // ── BOTTOM return spine y=420 (R → L through UV → RE-POLISH → DISTRIBUTION)
+    { d: "M 445 420 H 415", flow: true, width: 3 },
+    { d: "M 285 420 H 180", flow: true, width: 3 },
 
-    // ── BOTTOM return spine y=705 (R → L through UV → RE-POLISH → DISTRIBUTION)
-    { d: "M 720 705 H 620", flow: true },
-    { d: "M 470 705 H 210", flow: true },
-
-    // ── EDGE-AI signal — bottom-center (1540, 245) → buffer right edge (1350, 270)
-    { d: "M 1540 245 V 270 H 1350", width: 1.2 },
+    // ── EDGE-AI signal → buffer top
+    { d: "M 980 160 V 200 H 850", width: 2 },
   ],
   sensors: withDesc([
     // Top spine sensors
-    { id: "PR-01", kind: "pressure",     label: "Mains Pressure",    unit: "bar",   x: 240, y: 215, anchor: "top", labelDy: -6 },
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",     unit: "peaks", x: 680, y: 215, anchor: "top", labelDy: -8 },
-    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure", unit: "bar",   x: 1140, y: 215, anchor: "top", labelDy: -8 },
+    { id: "PR-01", kind: "pressure",     label: "Mains Pressure",    unit: "bar",   x: 158, y: 140, anchor: "top", labelDy: -6 },
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",     unit: "peaks", x: 437, y: 140, anchor: "top", labelDy: -8 },
+    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure", unit: "bar",   x: 750, y: 140, anchor: "top", labelDy: -8 },
     // Buffer right-side temperature
-    { id: "TM-09", kind: "temperature",  label: "Buffer Temp",       unit: "°C",    x: 1350, y: 320, anchor: "right", labelDx: 8, labelGap: 22 },
+    { id: "TM-09", kind: "temperature",  label: "Buffer Temp",       unit: "°C",    x: 850, y: 220, anchor: "right", labelDx: 8, labelGap: 14 },
     // Bottom return spine sensors
-    { id: "FL-07", kind: "flow",         label: "Loop Flow",         unit: "m³/h",  x: 670, y: 705, anchor: "bottom", labelDy: 8 },
-    { id: "EC-03", kind: "conductivity", label: "Conductivity",      unit: "µS/cm", x: 420, y: 705, anchor: "top", labelDy: -10 },
-    { id: "PH-02", kind: "ph",           label: "pH",                unit: "pH",    x: 290, y: 705, anchor: "bottom", labelDy: 8 },
-    { id: "TB-05", kind: "turbidity",    label: "Turbidity",         unit: "NTU",   x: 1180, y: 705, anchor: "bottom", labelDy: 8 },
+    { id: "FL-07", kind: "flow",         label: "Loop Flow",         unit: "m³/h",  x: 430, y: 420, anchor: "bottom", labelDy: 8 },
+    { id: "EC-03", kind: "conductivity", label: "Conductivity",      unit: "µS/cm", x: 250, y: 420, anchor: "top", labelDy: -8 },
+    { id: "PH-02", kind: "ph",           label: "pH",                unit: "pH",    x: 200, y: 420, anchor: "bottom", labelDy: 8 },
+    { id: "TB-05", kind: "turbidity",    label: "Turbidity",         unit: "NTU",   x: 770, y: 420, anchor: "bottom", labelDy: 8 },
   ]),
 };
 
