@@ -142,18 +142,27 @@ export function useMockData(companyId: CompanyId = "acme") {
     return () => clearInterval(id);
   }, []);
 
-  // KPIs + latency 1s — driven by company baseline
+  // KPIs + latency 1s — driven by company baseline, clamped to thresholds
   useEffect(() => {
     const id = setInterval(() => {
       const t = Date.now();
       const bl = baselineRef.current;
-      setPressure((p) => [...p, { t, v: bl.pressure + Math.sin(t * 0.001) * 0.4 + rand(-0.1, 0.1) }].slice(-KPI_LEN));
-      setFlow((p) => [...p, { t, v: bl.flow + Math.cos(t * 0.0008) * 0.15 + rand(-0.05, 0.05) }].slice(-KPI_LEN));
-      setConductivity((p) => [...p, { t, v: bl.conductivity + Math.sin(t * 0.0005) * 4 + rand(-1.5, 1.5) }].slice(-KPI_LEN));
+      const th = company.thresholds;
+      // Clamp helper: keep value comfortably inside [min, max] (5% inset)
+      const clampInside = (v: number, min: number, max: number) => {
+        const inset = (max - min) * 0.05;
+        return Math.max(min + inset, Math.min(max - inset, v));
+      };
+      const pAmp = (th.pressure.max - th.pressure.min) * 0.18;
+      const fAmp = (th.flow.max - th.flow.min) * 0.18;
+      const cAmp = Math.max(2, (th.conductivity.max - th.conductivity.min) * 0.06);
+      setPressure((p) => [...p, { t, v: clampInside(bl.pressure + Math.sin(t * 0.001) * pAmp + rand(-pAmp * 0.25, pAmp * 0.25), th.pressure.min, th.pressure.max) }].slice(-KPI_LEN));
+      setFlow((p) => [...p, { t, v: clampInside(bl.flow + Math.cos(t * 0.0008) * fAmp + rand(-fAmp * 0.25, fAmp * 0.25), th.flow.min, th.flow.max) }].slice(-KPI_LEN));
+      setConductivity((p) => [...p, { t, v: clampInside(bl.conductivity + Math.sin(t * 0.0005) * cAmp + rand(-cAmp * 0.4, cAmp * 0.4), th.conductivity.min, th.conductivity.max) }].slice(-KPI_LEN));
       setLatency((p) => [...p, { t, ms: bl.latencyMs + rand(0, 4) + (Math.random() < 0.05 ? 2 : 0) }].slice(-LATENCY_LEN));
     }, 1000);
     return () => clearInterval(id);
-  }, []);
+  }, [company]);
 
   // ΔP 5s + blockchain
   useEffect(() => {

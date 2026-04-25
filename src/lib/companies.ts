@@ -23,6 +23,12 @@ export type Company = {
     blockHeightStart: number;
     ramanShift: number;   // shifts spectral peaks
   };
+  /** Per-company nominal operating ranges shown on KPI cards. */
+  thresholds: {
+    pressure: { min: number; max: number; label: string };
+    flow: { min: number; max: number; label: string };
+    conductivity: { min: number; max: number; label: string };
+  };
 };
 
 export const companies: Company[] = [
@@ -46,6 +52,11 @@ export const companies: Company[] = [
       blockHeightStart: 184_201,
       ramanShift: 0,
     },
+    thresholds: {
+      pressure: { min: 8, max: 12, label: "Target: 8–12 bar" },
+      flow: { min: 1.0, max: 2.5, label: "Target: 1.0–2.5 m³/h" },
+      conductivity: { min: 0, max: 50, label: "Target: < 50 µS/cm" },
+    },
   },
   {
     id: "nexus",
@@ -67,6 +78,11 @@ export const companies: Company[] = [
       blockHeightStart: 201_864,
       ramanShift: -8,
     },
+    thresholds: {
+      pressure: { min: 3, max: 4, label: "Target: 3–4 bar" },
+      flow: { min: 0.5, max: 1.5, label: "Target: 0.5–1.5 m³/h" },
+      conductivity: { min: 0, max: 20, label: "Target: < 20 µS/cm" },
+    },
   },
   {
     id: "aegis",
@@ -87,6 +103,11 @@ export const companies: Company[] = [
       federatedRound: 2756,
       blockHeightStart: 158_902,
       ramanShift: 12,
+    },
+    thresholds: {
+      pressure: { min: 20, max: 25, label: "Target: 20–25 bar" },
+      flow: { min: 3.0, max: 5.0, label: "Target: 3.0–5.0 m³/h" },
+      conductivity: { min: 0, max: 90, label: "Target: < 90 µS/cm" },
     },
   },
 ];
