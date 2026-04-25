@@ -158,8 +158,8 @@ const acme: PlantLayout = {
     { d: "M 255 263 H 285", flow: true, width: 3 },
     { d: "M 415 263 H 445", flow: true, width: 3 },
     { d: "M 535 263 H 565", flow: true, width: 3 },
-    { d: "M 810 263 H 835", flow: true, width: 3 },
-    { d: "M 965 263 H 905", flow: true, width: 3 },
+    { d: "M 810 263 H 820", flow: true, width: 3 },
+    { d: "M 930 263 H 960", flow: true, width: 3 },
     // Edge-AI signal tap → membrane top
     { d: "M 690 110 V 235", width: 2 },
     // ERD recovery loop → membrane bottom
