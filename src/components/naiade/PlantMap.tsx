@@ -490,12 +490,25 @@ function Equipment({
   const textGeometry = getEquipmentTextGeometry(eq);
   const sw = selected ? 2.4 : 1.4;
 
+  // Opaque mask under each equipment shape so the cyan pipes can't bleed
+  // through the semi-transparent gradient fills (fixes "lines crossing
+  // components" bug). Uses theme background so it works in light + dark mode.
+  const maskPad = 2;
   const wrap = (children: ReactNode) => (
     <g
       onClick={onSelect}
       className="plant-equipment cursor-pointer transition-opacity hover:opacity-90"
       style={{ outline: "none" }}
     >
+      <rect
+        x={eq.x - maskPad}
+        y={eq.y - maskPad}
+        width={W + maskPad * 2}
+        height={H + maskPad * 2}
+        rx={eq.kind === "controller" || eq.kind === "vessel" || eq.kind === "output" ? 10 : 6}
+        fill="hsl(var(--background))"
+        pointerEvents="none"
+      />
       {children}
       {selected && (
         <rect
