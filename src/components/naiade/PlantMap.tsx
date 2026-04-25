@@ -184,13 +184,14 @@ export function PlantMap({
   }
 
   // Recenter the zoom/pan view on mount and on company switch.
+  // We only reset the transform — the SVG's preserveAspectRatio="xMidYMid meet"
+  // already fits the content into the container, so forcing centerView() with
+  // a fixed scale would shrink the canvas instead of filling it.
   useEffect(() => {
     const t = transformRef.current;
     if (!t) return;
-    // Defer to next frame so the new SVG layout is measured first.
     const id = requestAnimationFrame(() => {
       t.resetTransform(0);
-      t.centerView(1, 0);
     });
     return () => cancelAnimationFrame(id);
   }, [activeCompany]);
@@ -227,7 +228,7 @@ export function PlantMap({
             minScale={0.5}
             maxScale={4}
             limitToBounds={false}
-            centerOnInit
+            
             wheel={{ step: 0.15 }}
             doubleClick={{ disabled: true }}
             panning={{
@@ -489,12 +490,25 @@ function Equipment({
   const textGeometry = getEquipmentTextGeometry(eq);
   const sw = selected ? 2.4 : 1.4;
 
+  // Opaque mask under each equipment shape so the cyan pipes can't bleed
+  // through the semi-transparent gradient fills (fixes "lines crossing
+  // components" bug). Uses theme background so it works in light + dark mode.
+  const maskPad = 2;
   const wrap = (children: ReactNode) => (
     <g
       onClick={onSelect}
       className="plant-equipment cursor-pointer transition-opacity hover:opacity-90"
       style={{ outline: "none" }}
     >
+      <rect
+        x={eq.x - maskPad}
+        y={eq.y - maskPad}
+        width={W + maskPad * 2}
+        height={H + maskPad * 2}
+        rx={eq.kind === "controller" || eq.kind === "vessel" || eq.kind === "output" ? 10 : 6}
+        fill="hsl(var(--background))"
+        pointerEvents="none"
+      />
       {children}
       {selected && (
         <rect
