@@ -31,23 +31,19 @@ Critical Metrics: Live monitoring of Pressure (bar), Flow Rate (m³/h), and Cond
 
 Sensor Health: A grid-based status panel for all individual hardware channels.
 
-### 4. Edge-AI (Local Inference)
-Dedicated to monitoring the performance of the local AI inference engine.
+### 4. Edge-AI (Decentralized Intelligence)
+This module monitors the "Brain" of each individual treatment node. Unlike traditional cloud-based systems, Naiade performs **Local Inference** at the edge to ensure zero-latency response times.
 
-CNN Performance: Real-time classification of water quality and anomaly detection with <10ms latency.
+- **Real-time Classification**: Uses a specialized CNN (Convolutional Neural Network) to analyze high-dimensional Raman data. It identifies molecular contaminants and water quality grades in <10ms.
+- **Autonomous Edge Response**: The AI doesn't just monitor; it takes action. If an anomaly is detected, the Edge node can independently trigger a "Backwash" or "CIP" (Clean-In-Place) cycle to protect the GO membranes before a human operator even sees the alert.
+- **Data Privacy**: By processing sensitive raw data locally, the system ensures that only anonymized "model weights" are ever transmitted externally, maintaining strict industrial security.
 
-Anomaly Detection: Tracking of molecular deviations and automated wash/maintenance triggers.
+### 5. Global MLOps (Federated Learning & Audit)
+The MLOps layer represents the "Collective Intelligence" of the entire fleet. It manages the lifecycle of the AI models without ever moving raw water data from the plant.
 
-Hardware Load: Monitoring the compute performance of the on-site AI node.
-
-### 5. Global MLOps (Federated Learning)
-The strategic layer for fleet-wide intelligence and predictive maintenance.
-
-Federated Learning Sync: Visualization of global model weight updates between Edge nodes and the Cloud aggregator while maintaining raw data privacy.
-
-Remaining Useful Life (RUL): LSTM-based time-series forecasting to predict membrane degradation and automate supply chain logistics.
-
-Blockchain Audit: A tamper-proof ledger (Blockchain) recording all critical system changes and quality certifications for regulatory compliance.
+- **Federated Learning Protocol**: Instead of sending raw telemetry to the cloud, each node trains locally and only shares its "learnings" (gradients). The Global MLOps aggregator combines these updates into a "Master Model" and redeploys it to all nodes, allowing an improvement in one plant to benefit the entire global network.
+- **Predictive Maintenance (LSTM)**: Utilizes Long Short-Term Memory (LSTM) networks to analyze historical trends. It predicts the Remaining Useful Life (RUL) of membranes by recognizing subtle patterns of structural degradation that are invisible to standard sensors.
+- **Blockchain-Backed Audit Trail**: Every model update, quality certification, and critical system change is hashed and recorded on a Private Blockchain. This creates an immutable, tamper-proof audit log for regulatory authorities (e.g., environmental or health agencies), proving that the water quality certification has never been altered.
 
 ## Key Features
 Multi-Tenancy: Instant context switching between different industrial nodes (Acme, Nexus, Aegis) with dedicated data baselines.
