@@ -23,6 +23,12 @@ export type Company = {
     blockHeightStart: number;
     ramanShift: number;   // shifts spectral peaks
   };
+  /** Per-company nominal operating ranges shown on KPI cards. */
+  thresholds: {
+    pressure: { min: number; max: number; label: string };
+    flow: { min: number; max: number; label: string };
+    conductivity: { min: number; max: number; label: string };
+  };
 };
 
 export const companies: Company[] = [
