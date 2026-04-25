@@ -653,7 +653,7 @@ function Equipment({
             color={labelColor}
             labelTheme={labelTheme}
             maxWidth={W - 20}
-            fontSize={10}
+            fontSize={13}
           />
         </g>
       );
