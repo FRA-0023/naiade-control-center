@@ -228,7 +228,7 @@ export function PlantMap({
             minScale={0.5}
             maxScale={4}
             limitToBounds={false}
-            centerOnInit
+            
             wheel={{ step: 0.15 }}
             doubleClick={{ disabled: true }}
             panning={{
