@@ -46,23 +46,30 @@ const Index = () => {
 
   return (
     <SidebarProvider>
-      <div className="flex h-screen w-full overflow-hidden bg-background">
+      <div className="flex min-h-screen w-full bg-background md:h-screen md:overflow-hidden">
         <AppSidebar
           activeTab={tab}
           onTabChange={setTab}
           activeCompany={activeCompany}
           onCompanyChange={setActiveCompany}
         />
-        <SidebarInset className="flex h-full flex-1 flex-col overflow-hidden">
-          <TopBar anomaly={data.anomaly} tabs={tabs} activeTab={tab} onTabChange={setTab} />
+        <SidebarInset className="flex min-h-screen flex-1 flex-col md:h-full md:min-h-0 md:overflow-hidden">
+          <TopBar
+            anomaly={data.anomaly}
+            tabs={tabs}
+            activeTab={tab}
+            onTabChange={setTab}
+            activeCompany={activeCompany}
+            onCompanyChange={setActiveCompany}
+          />
 
           <main
             className={
               tab === "plant"
-                ? "flex-1 overflow-hidden p-4 md:p-6 flex"
+                ? "flex flex-1 flex-col p-3 sm:p-4 md:overflow-hidden md:p-6"
                 : tab === "ingestion"
-                ? "flex-1 overflow-y-auto p-6"
-                : "flex-1 overflow-y-auto p-6 md:p-8"
+                ? "flex-1 overflow-y-auto p-3 sm:p-4 md:p-6"
+                : "flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 lg:p-8"
             }
           >
             <div
@@ -100,13 +107,13 @@ const Index = () => {
                     subtitle="Continuous physical telemetry via LPWAN/5G mesh · 50ms refresh."
                   />
 
-                  <div className="grid grid-cols-12 items-start gap-3">
-                    <div className="col-span-8 flex flex-col gap-2 self-start">
+                  <div className="grid grid-cols-1 items-start gap-3 lg:grid-cols-12">
+                    <div className="flex flex-col gap-2 self-start lg:col-span-8">
                       <RamanSpectrogram data={data.raman} />
                       <SensorStrip />
                     </div>
 
-                    <div className="col-span-4 flex flex-col gap-2 self-start">
+                    <div className="flex flex-col gap-2 self-start lg:col-span-4">
                       <KPICard label="Pressure" unit="bar" data={data.pressure} icon={Gauge} target={data.company.thresholds.pressure.label} targetValue={(data.company.thresholds.pressure.min + data.company.thresholds.pressure.max) / 2} warnRange={[data.company.thresholds.pressure.min, data.company.thresholds.pressure.max]} />
                       <KPICard label="Flow rate" unit="m³/h" data={data.flow} icon={Droplets} target={data.company.thresholds.flow.label} targetValue={(data.company.thresholds.flow.min + data.company.thresholds.flow.max) / 2} warnRange={[data.company.thresholds.flow.min, data.company.thresholds.flow.max]} />
                       <KPICard label="Conductivity" unit="μS/cm" data={data.conductivity} icon={Zap} decimals={0} target={data.company.thresholds.conductivity.label} targetValue={data.company.thresholds.conductivity.max} warnRange={[data.company.thresholds.conductivity.min, data.company.thresholds.conductivity.max]} />
