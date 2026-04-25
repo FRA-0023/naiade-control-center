@@ -244,6 +244,7 @@ export function PlantMap({
             >
               <PlantSvg
                 layout={layout}
+                viewBox={fittedViewBox}
                 resolvedPins={resolvedPins}
                 selection={selection}
                 onSelectSensor={(pin, resolved) =>
