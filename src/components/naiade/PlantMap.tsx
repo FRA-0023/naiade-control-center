@@ -826,9 +826,9 @@ function SensorMark({
   // pulsing dot (radius ~7px max). We place the capsule center at GAP px
   // from the pin in the chosen anchor direction.
   const anchor = pin.anchor ?? "right";
-  const GAP = pin.labelGap ?? 16;       // distance from pin → capsule center
-  const labelW = pin.id.length * 6.2 + 10;
-  const labelH = 13;
+  const GAP = pin.labelGap ?? 14;       // distance from pin → capsule center
+  const labelW = pin.id.length * 7.2 + 12;
+  const labelH = 16;
   const labelDx = pin.labelDx ?? 0;
   const labelDy = pin.labelDy ?? 0;
 
