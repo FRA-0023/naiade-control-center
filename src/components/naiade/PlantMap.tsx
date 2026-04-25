@@ -856,26 +856,26 @@ function SensorMark({
       className="plant-pin cursor-pointer"
     >
       {/* Crosshair tying pin to pipe */}
-      <line x1={pin.x - 5} y1={pin.y} x2={pin.x + 5} y2={pin.y} stroke={color} strokeOpacity={0.55} strokeWidth={0.8} />
-      <line x1={pin.x} y1={pin.y - 5} x2={pin.x} y2={pin.y + 5} stroke={color} strokeOpacity={0.55} strokeWidth={0.8} />
+      <line x1={pin.x - 6} y1={pin.y} x2={pin.x + 6} y2={pin.y} stroke={color} strokeOpacity={0.55} strokeWidth={1} />
+      <line x1={pin.x} y1={pin.y - 6} x2={pin.x} y2={pin.y + 6} stroke={color} strokeOpacity={0.55} strokeWidth={1} />
 
       {/* Outer pulse */}
-      <circle cx={pin.x} cy={pin.y} r={5} fill={color} fillOpacity={0.18}>
+      <circle cx={pin.x} cy={pin.y} r={6} fill={color} fillOpacity={0.18}>
         {status !== "offline" && (
-          <animate attributeName="r" values="3.5;7;3.5" dur="2.2s" repeatCount="indefinite" />
+          <animate attributeName="r" values="4;9;4" dur="2.2s" repeatCount="indefinite" />
         )}
       </circle>
       {selected && (
-        <circle cx={pin.x} cy={pin.y} r={9} fill="none" stroke={color} strokeOpacity={0.9} strokeWidth={1.2} strokeDasharray="2 2" />
+        <circle cx={pin.x} cy={pin.y} r={11} fill="none" stroke={color} strokeOpacity={0.9} strokeWidth={1.4} strokeDasharray="2 2" />
       )}
       {/* Solid dot */}
       <circle
         cx={pin.x}
         cy={pin.y}
-        r={2.6}
+        r={4}
         fill={color}
         stroke="hsl(var(--background))"
-        strokeWidth={0.8}
+        strokeWidth={1}
         filter="url(#line-glow)"
       />
 
