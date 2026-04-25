@@ -785,7 +785,7 @@ function SubLabel({
       dominantBaseline="middle"
       fill={labelTheme.sub}
       pointerEvents="none"
-      style={{ font: "500 9px JetBrains Mono, ui-monospace, monospace", letterSpacing: "0.08em", textTransform: "uppercase" }}
+      style={{ font: "500 10px JetBrains Mono, ui-monospace, monospace", letterSpacing: "0.08em", textTransform: "uppercase" }}
     >
       {text}
     </text>
