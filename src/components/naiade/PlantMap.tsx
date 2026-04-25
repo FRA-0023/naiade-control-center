@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState, type ReactNode } from "react";
 import { Minus, Plus, RotateCcw, X } from "lucide-react";
 import {
   TransformWrapper,
@@ -424,7 +424,7 @@ function Equipment({
   const cy = H / 2;
   const sw = selected ? 2.4 : 1.4;
 
-  const wrap = (children: React.ReactNode) => (
+  const wrap = (children: ReactNode) => (
     <g
       transform={`translate(${eq.x}, ${eq.y})`}
       onClick={onSelect}
@@ -457,8 +457,15 @@ function Equipment({
           <ellipse cx={cx} cy={14} rx={W / 2} ry={14} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
           <ellipse cx={cx} cy={H - 14} rx={W / 2} ry={14} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
           <rect x={8} y={H * 0.45} width={W - 16} height={H * 0.4} fill="hsl(var(--primary) / 0.18)" />
-          {/* External label below the tank */}
-          <EquipmentLabel x={cx} y={H + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} maxWidth={W + 40} />
+          <CenteredEquipmentText
+            label={eq.label}
+            sub={eq.sub}
+            color={labelColor}
+            labelTheme={labelTheme}
+            maxWidth={W - 18}
+            mainY="42%"
+            subY="72%"
+          />
         </g>
       );
 
@@ -482,17 +489,17 @@ function Equipment({
               strokeWidth={0.7}
             />
           ))}
-          {/* Auto-centered label, clamped to inner cylinder width so long
-              names like "GO MEMBRANE M-02" can never overflow. */}
-          <CapsuleLabel
-            x={cx}
-            y={cy}
+          <CenteredEquipmentText
             label={eq.label}
+            sub={eq.sub}
             color={labelColor}
             labelTheme={labelTheme}
             maxWidth={innerW - 12}
+            fontSize={10.5}
+            subSize={8}
+            mainY="45%"
+            subY="72%"
           />
-          {eq.sub && <SubLabel x={cx} y={H + 18} text={eq.sub} labelTheme={labelTheme} />}
         </g>
       );
     }
@@ -510,8 +517,15 @@ function Equipment({
             strokeOpacity={0.35}
             strokeDasharray="3 3"
           />
-          <CapsuleLabel x={cx} y={cy - 8} label={eq.label} color={labelColor} labelTheme={labelTheme} maxWidth={W - 16} />
-          {eq.sub && <SubLabel x={cx} y={cy + 14} text={eq.sub} labelTheme={labelTheme} />}
+          <CenteredEquipmentText
+            label={eq.label}
+            sub={eq.sub}
+            color={labelColor}
+            labelTheme={labelTheme}
+            maxWidth={W - 20}
+            mainY="42%"
+            subY="74%"
+          />
         </g>
       );
 
@@ -523,7 +537,15 @@ function Equipment({
           <line x1={cx - r * 0.6} y1={cy} x2={cx + r * 0.6} y2={cy} stroke={stroke} strokeWidth={1.2} />
           <line x1={cx} y1={cy - r * 0.6} x2={cx} y2={cy + r * 0.6} stroke={stroke} strokeWidth={1.2} />
           <rect x={cx - 4} y={-8} width={8} height={10} fill={stroke} opacity={0.7} />
-          <EquipmentLabel x={cx} y={H + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} maxWidth={W + 60} />
+          <CenteredEquipmentText
+            label={eq.label}
+            color={labelColor}
+            labelTheme={labelTheme}
+            maxWidth={W - 18}
+            fontSize={10}
+            mainY="50%"
+          />
+          {eq.sub && <SubLabel x={cx} y={H + 18} text={eq.sub} labelTheme={labelTheme} />}
         </g>
       );
     }
@@ -540,7 +562,16 @@ function Equipment({
             strokeOpacity={0.55}
             strokeWidth={1.2}
           />
-          <EquipmentLabel x={cx} y={H + 22} label={eq.label} sub={eq.sub} color={labelColor} labelTheme={labelTheme} maxWidth={W + 40} />
+          <CenteredEquipmentText
+            label={eq.label}
+            sub={eq.sub}
+            color={labelColor}
+            labelTheme={labelTheme}
+            maxWidth={W - 20}
+            fontSize={10}
+            mainY="45%"
+            subY="74%"
+          />
         </g>
       );
     }
@@ -549,8 +580,15 @@ function Equipment({
       return wrap(
         <g>
           <rect x={0} y={0} width={W} height={H} rx={6} fill="hsl(var(--success) / 0.12)" stroke={stroke} strokeWidth={sw} />
-          <CapsuleLabel x={cx} y={cy - 8} label={eq.label} color={labelColor} labelTheme={labelTheme} maxWidth={W - 12} />
-          {eq.sub && <SubLabel x={cx} y={cy + 14} text={eq.sub} labelTheme={labelTheme} />}
+          <CenteredEquipmentText
+            label={eq.label}
+            sub={eq.sub}
+            color={labelColor}
+            labelTheme={labelTheme}
+            maxWidth={W - 14}
+            mainY="42%"
+            subY="72%"
+          />
         </g>
       );
 
@@ -569,8 +607,15 @@ function Equipment({
             strokeDasharray="4 3"
             strokeWidth={sw}
           />
-          <CapsuleLabel x={cx} y={cy - 8} label={eq.label} color={labelColor} labelTheme={labelTheme} maxWidth={W - 12} />
-          {eq.sub && <SubLabel x={cx} y={cy + 14} text={eq.sub} labelTheme={labelTheme} />}
+          <CenteredEquipmentText
+            label={eq.label}
+            sub={eq.sub}
+            color={labelColor}
+            labelTheme={labelTheme}
+            maxWidth={W - 18}
+            mainY="42%"
+            subY="72%"
+          />
         </g>
       );
   }
@@ -581,56 +626,55 @@ function Equipment({
    If `maxWidth` is provided, the font auto-shrinks so the capsule never
    overflows the host shape (fixes "GO MEMBRANE M-02" overhanging the
    cylinder). */
-function CapsuleLabel({
-  x,
-  y,
+function CenteredEquipmentText({
   label,
+  sub,
   color,
   labelTheme,
   maxWidth,
+  mainY = "50%",
+  subY = "72%",
+  fontSize = 11,
+  subSize = 8.5,
 }: {
-  x: number;
-  y: number;
   label: string;
+  sub?: string;
   color: string;
   labelTheme: LabelTheme;
   maxWidth?: number;
+  mainY?: string;
+  subY?: string;
+  fontSize?: number;
+  subSize?: number;
 }) {
-  const padX = 8;
-  const padY = 4;
-  let fontSize = 11;
-  let charW = 6.6;
-  let w = label.length * charW + padX * 2;
-  if (maxWidth && w > maxWidth) {
-    const scale = Math.max(0.62, (maxWidth - padX * 2) / (label.length * charW));
-    fontSize = Math.max(7.5, fontSize * scale);
-    charW = charW * scale;
-    w = Math.max(40, label.length * charW + padX * 2);
-  }
-  const h = fontSize + padY * 2 + 4;
+  const estimatedWidth = label.length * fontSize * 0.62;
+  const shouldClamp = Boolean(maxWidth && estimatedWidth > maxWidth);
   return (
     <g pointerEvents="none">
-      <rect
-        x={x - w / 2}
-        y={y - h / 2}
-        width={w}
-        height={h}
-        rx={4}
-        fill={labelTheme.bg}
-        stroke={labelTheme.border}
-        strokeOpacity={0.9}
-        strokeWidth={0.8}
-      />
       <text
-        x={x}
-        y={y}
+        x="50%"
+        y={mainY}
         textAnchor="middle"
         dominantBaseline="central"
         fill={color}
-        style={{ font: `700 ${fontSize}px Inter, system-ui, sans-serif`, letterSpacing: "0.05em" }}
+        textLength={shouldClamp ? maxWidth : undefined}
+        lengthAdjust={shouldClamp ? "spacingAndGlyphs" : undefined}
+        style={{ font: `700 ${fontSize}px Inter, system-ui, sans-serif` }}
       >
         {label}
       </text>
+      {sub && (
+        <text
+          x="50%"
+          y={subY}
+          textAnchor="middle"
+          dominantBaseline="central"
+          fill={labelTheme.sub}
+          style={{ font: `500 ${subSize}px JetBrains Mono, ui-monospace, monospace`, textTransform: "uppercase" }}
+        >
+          {sub}
+        </text>
+      )}
     </g>
   );
 }
@@ -658,31 +702,6 @@ function SubLabel({
     >
       {text}
     </text>
-  );
-}
-
-function EquipmentLabel({
-  x,
-  y,
-  label,
-  sub,
-  color,
-  labelTheme,
-  maxWidth,
-}: {
-  x: number;
-  y: number;
-  label: string;
-  sub?: string;
-  color: string;
-  labelTheme: LabelTheme;
-  maxWidth?: number;
-}) {
-  return (
-    <g>
-      <CapsuleLabel x={x} y={y} label={label} color={color} labelTheme={labelTheme} maxWidth={maxWidth} />
-      {sub && <SubLabel x={x} y={y + 18} text={sub} labelTheme={labelTheme} />}
-    </g>
   );
 }
 
@@ -720,22 +739,24 @@ function SensorMark({
   // pulsing dot (radius ~7px max). We place the capsule center at GAP px
   // from the pin in the chosen anchor direction.
   const anchor = pin.anchor ?? "right";
-  const GAP = 16;                       // distance from pin → capsule center
+  const GAP = pin.labelGap ?? 16;       // distance from pin → capsule center
   const labelW = pin.id.length * 6.2 + 10;
   const labelH = 13;
+  const labelDx = pin.labelDx ?? 0;
+  const labelDy = pin.labelDy ?? 0;
 
   // Capsule center relative to pin
   const capsule = (() => {
     switch (anchor) {
       case "top":
-        return { cx: pin.x, cy: pin.y - GAP - labelH / 2, textAnchor: "middle" as const };
+        return { cx: pin.x + labelDx, cy: pin.y - GAP - labelH / 2 + labelDy, textAnchor: "middle" as const };
       case "bottom":
-        return { cx: pin.x, cy: pin.y + GAP + labelH / 2, textAnchor: "middle" as const };
+        return { cx: pin.x + labelDx, cy: pin.y + GAP + labelH / 2 + labelDy, textAnchor: "middle" as const };
       case "left":
-        return { cx: pin.x - GAP - labelW / 2, cy: pin.y, textAnchor: "middle" as const };
+        return { cx: pin.x - GAP - labelW / 2 + labelDx, cy: pin.y + labelDy, textAnchor: "middle" as const };
       case "right":
       default:
-        return { cx: pin.x + GAP + labelW / 2, cy: pin.y, textAnchor: "middle" as const };
+        return { cx: pin.x + GAP + labelW / 2 + labelDx, cy: pin.y + labelDy, textAnchor: "middle" as const };
     }
   })();
 
