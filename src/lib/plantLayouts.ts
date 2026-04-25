@@ -140,7 +140,7 @@ function withDesc<T extends { id: string; kind: string }>(items: T[]): T[] {
 const acme: PlantLayout = {
   title: "Linear Industrial Train · P&ID",
   subtitle: "High-pressure single-pass UPW production · top-down view",
-  viewBox: { w: 1000, h: 500 },
+  viewBox: { w: 1060, h: 500 },
   equipment: withDesc([
     { id: "intake",     kind: "intake",     label: "INTAKE",        sub: "Grey water",          x: 30,   y: 215, w: 110, h: 90, tone: "muted" },
     { id: "pump-1",     kind: "pump",       label: "P-01",          sub: "Booster",             x: 175,  y: 220, w: 80,  h: 80 },
