@@ -319,12 +319,14 @@ function useTransformControls() {
 /* ─────────────── SVG renderer ─────────────── */
 function PlantSvg({
   layout,
+  viewBox,
   resolvedPins,
   selection,
   onSelectSensor,
   onSelectEquipment,
 }: {
   layout: PlantLayout;
+  viewBox: { x: number; y: number; w: number; h: number };
   resolvedPins: { pin: SensorPin; value: string; status: PinStatus; raw: number | null; target: string }[];
   selection: Selection;
   onSelectSensor: (pin: SensorPin, r: Resolved) => void;
@@ -339,7 +341,7 @@ function PlantSvg({
 
   return (
     <svg
-      viewBox={`0 0 ${layout.viewBox.w} ${layout.viewBox.h}`}
+      viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.w} ${viewBox.h}`}
       preserveAspectRatio="xMidYMid meet"
       className="relative z-10 h-full w-full select-none"
       style={{ shapeRendering: "geometricPrecision", touchAction: "none" }}
