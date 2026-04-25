@@ -827,24 +827,24 @@ function SensorMark({
         filter="url(#line-glow)"
       />
 
-      {/* ID capsule — own translate group, text auto-centered */}
-      <g transform={`translate(${capsule.cx}, ${capsule.cy})`} pointerEvents="none">
+      {/* ID capsule */}
+      <g pointerEvents="none">
         <rect
-          x={-labelW / 2}
-          y={-labelH / 2}
+          x={capsule.cx - labelW / 2}
+          y={capsule.cy - labelH / 2}
           width={labelW}
           height={labelH}
           rx={3}
           fill={labelTheme.bg}
-          stroke={color}
-          strokeOpacity={0.6}
+          stroke={labelTheme.border}
+          strokeOpacity={0.95}
           strokeWidth={0.6}
         />
         <text
-          x={0}
-          y={0}
+          x={capsule.cx}
+          y={capsule.cy}
           textAnchor="middle"
-          dominantBaseline="central"
+          dominantBaseline="middle"
           fill={color}
           style={{ font: "600 9px JetBrains Mono, ui-monospace, monospace", letterSpacing: "0.06em" }}
         >
