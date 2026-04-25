@@ -155,15 +155,15 @@ export function PlantMap({
       maxY = Math.max(maxY, eq.y + eq.h);
     }
     for (const s of layout.sensors) {
-      minX = Math.min(minX, s.x - 30);
-      minY = Math.min(minY, s.y - 30);
-      maxX = Math.max(maxX, s.x + 30);
-      maxY = Math.max(maxY, s.y + 30);
+      minX = Math.min(minX, s.x - 40);
+      minY = Math.min(minY, s.y - 25);
+      maxX = Math.max(maxX, s.x + 40);
+      maxY = Math.max(maxY, s.y + 25);
     }
     const w = maxX - minX;
     const h = maxY - minY;
-    const padX = w * 0.06;
-    const padY = h * 0.08;
+    const padX = w * 0.03;
+    const padY = h * 0.04;
     return { x: minX - padX, y: minY - padY, w: w + padX * 2, h: h + padY * 2 };
   }, [layout]);
 
@@ -370,7 +370,7 @@ function PlantSvg({
       {/* Layer 1 — Pipes (drawn first so labels & pins render on top) */}
       <g>
         {layout.pipes.map((p, i) => {
-          const w = p.width ?? 2;
+          const w = p.width ?? 3;
           return (
             <g key={i}>
               <path
@@ -577,8 +577,8 @@ function Equipment({
             color={labelColor}
             labelTheme={labelTheme}
             maxWidth={innerW - 12}
-            fontSize={10.5}
-            subSize={8}
+            fontSize={13}
+            subSize={10}
           />
         </g>
       );
@@ -625,7 +625,7 @@ function Equipment({
             color={labelColor}
             labelTheme={labelTheme}
             maxWidth={W - 18}
-            fontSize={10}
+            fontSize={13}
           />
           {eq.sub && <SubLabel x={center.x} y={eq.y + H + 18} text={eq.sub} labelTheme={labelTheme} />}
         </g>
@@ -653,7 +653,7 @@ function Equipment({
             color={labelColor}
             labelTheme={labelTheme}
             maxWidth={W - 20}
-            fontSize={10}
+            fontSize={13}
           />
         </g>
       );
@@ -720,8 +720,8 @@ function CenteredEquipmentText({
   color,
   labelTheme,
   maxWidth,
-  fontSize = 11,
-  subSize = 8.5,
+  fontSize = 14,
+  subSize = 10,
 }: {
   label: string;
   sub?: string;
@@ -785,7 +785,7 @@ function SubLabel({
       dominantBaseline="middle"
       fill={labelTheme.sub}
       pointerEvents="none"
-      style={{ font: "500 9px JetBrains Mono, ui-monospace, monospace", letterSpacing: "0.08em", textTransform: "uppercase" }}
+      style={{ font: "500 10px JetBrains Mono, ui-monospace, monospace", letterSpacing: "0.08em", textTransform: "uppercase" }}
     >
       {text}
     </text>
@@ -826,9 +826,9 @@ function SensorMark({
   // pulsing dot (radius ~7px max). We place the capsule center at GAP px
   // from the pin in the chosen anchor direction.
   const anchor = pin.anchor ?? "right";
-  const GAP = pin.labelGap ?? 16;       // distance from pin → capsule center
-  const labelW = pin.id.length * 6.2 + 10;
-  const labelH = 13;
+  const GAP = pin.labelGap ?? 14;       // distance from pin → capsule center
+  const labelW = pin.id.length * 7.2 + 12;
+  const labelH = 16;
   const labelDx = pin.labelDx ?? 0;
   const labelDy = pin.labelDy ?? 0;
 
@@ -856,26 +856,26 @@ function SensorMark({
       className="plant-pin cursor-pointer"
     >
       {/* Crosshair tying pin to pipe */}
-      <line x1={pin.x - 5} y1={pin.y} x2={pin.x + 5} y2={pin.y} stroke={color} strokeOpacity={0.55} strokeWidth={0.8} />
-      <line x1={pin.x} y1={pin.y - 5} x2={pin.x} y2={pin.y + 5} stroke={color} strokeOpacity={0.55} strokeWidth={0.8} />
+      <line x1={pin.x - 6} y1={pin.y} x2={pin.x + 6} y2={pin.y} stroke={color} strokeOpacity={0.55} strokeWidth={1} />
+      <line x1={pin.x} y1={pin.y - 6} x2={pin.x} y2={pin.y + 6} stroke={color} strokeOpacity={0.55} strokeWidth={1} />
 
       {/* Outer pulse */}
-      <circle cx={pin.x} cy={pin.y} r={5} fill={color} fillOpacity={0.18}>
+      <circle cx={pin.x} cy={pin.y} r={6} fill={color} fillOpacity={0.18}>
         {status !== "offline" && (
-          <animate attributeName="r" values="3.5;7;3.5" dur="2.2s" repeatCount="indefinite" />
+          <animate attributeName="r" values="4;9;4" dur="2.2s" repeatCount="indefinite" />
         )}
       </circle>
       {selected && (
-        <circle cx={pin.x} cy={pin.y} r={9} fill="none" stroke={color} strokeOpacity={0.9} strokeWidth={1.2} strokeDasharray="2 2" />
+        <circle cx={pin.x} cy={pin.y} r={11} fill="none" stroke={color} strokeOpacity={0.9} strokeWidth={1.4} strokeDasharray="2 2" />
       )}
       {/* Solid dot */}
       <circle
         cx={pin.x}
         cy={pin.y}
-        r={2.6}
+        r={4}
         fill={color}
         stroke="hsl(var(--background))"
-        strokeWidth={0.8}
+        strokeWidth={1}
         filter="url(#line-glow)"
       />
 
@@ -898,7 +898,7 @@ function SensorMark({
           textAnchor="middle"
           dominantBaseline="middle"
           fill={color}
-          style={{ font: "600 9px JetBrains Mono, ui-monospace, monospace", letterSpacing: "0.06em" }}
+          style={{ font: "700 11px JetBrains Mono, ui-monospace, monospace", letterSpacing: "0.06em" }}
         >
           {pin.id}
         </text>
