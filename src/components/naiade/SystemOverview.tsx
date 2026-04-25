@@ -10,6 +10,7 @@ import {
   Recycle,
   Brain,
   ArrowRight,
+  Map as MapIcon,
 } from "lucide-react";
 import { BentoCard } from "./BentoCard";
 import { cn } from "@/lib/utils";
