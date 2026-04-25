@@ -228,7 +228,7 @@ const nexus: PlantLayout = {
   sensors: withDesc([
     // Top spine sensors
     { id: "PR-01", kind: "pressure",     label: "Mains Pressure",    unit: "bar",   x: 240, y: 215, anchor: "top", labelDy: -6 },
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",     unit: "peaks", x: 545, y: 215, anchor: "top", labelDy: -8 },
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",     unit: "peaks", x: 545, y: 165, anchor: "top", labelDy: -8 },
     { id: "PR-12", kind: "pressure",     label: "Membrane Pressure", unit: "bar",   x: 1140, y: 215, anchor: "top", labelDy: -8 },
     // Buffer right-side temperature
     { id: "TM-09", kind: "temperature",  label: "Buffer Temp",       unit: "°C",    x: 1350, y: 320, anchor: "right", labelDx: 8, labelGap: 22 },
