@@ -218,17 +218,20 @@ const nexus: PlantLayout = {
     { d: "M 980 160 V 200 H 850", width: 2 },
   ],
   sensors: withDesc([
-    // Top spine sensors
-    { id: "PR-01", kind: "pressure",     label: "Mains Pressure",    unit: "bar",   x: 158, y: 140, anchor: "top", labelDy: -6 },
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",     unit: "peaks", x: 437, y: 140, anchor: "top", labelDy: -8 },
-    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure", unit: "bar",   x: 750, y: 140, anchor: "top", labelDy: -8 },
-    // Buffer right-side temperature
-    { id: "TM-09", kind: "temperature",  label: "Buffer Temp",       unit: "°C",    x: 850, y: 220, anchor: "right", labelDx: 8, labelGap: 14 },
-    // Bottom return spine sensors
+    // Top spine sensors (y=140)
+    { id: "PR-01", kind: "pressure",     label: "Mains Pressure",    unit: "bar",   x: 158, y: 140, anchor: "top",    labelDy: -6 },
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",     unit: "peaks", x: 437, y: 140, anchor: "top",    labelDy: -8 },
+    // PR-12 sits on the prefilter→M-01 horizontal pipe (x:710-805 at y=140).
+    // Pushed left + label nudged left to clear the BUFFER T-01 box (x:760-850).
+    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure", unit: "bar",   x: 730, y: 140, anchor: "top",    labelDy: -8, labelDx: -10 },
+    // TM-09 snapped onto the buffer→spine vertical riser (x=805, y:280-420).
+    { id: "TM-09", kind: "temperature",  label: "Buffer Temp",       unit: "°C",    x: 805, y: 320, anchor: "right",  labelDx: 10, labelGap: 14 },
+    // Bottom return spine sensors (y=420)
     { id: "FL-07", kind: "flow",         label: "Loop Flow",         unit: "m³/h",  x: 430, y: 420, anchor: "bottom", labelDy: 8 },
-    { id: "EC-03", kind: "conductivity", label: "Conductivity",      unit: "µS/cm", x: 250, y: 420, anchor: "top", labelDy: -8 },
+    { id: "EC-03", kind: "conductivity", label: "Conductivity",      unit: "µS/cm", x: 250, y: 420, anchor: "top",    labelDy: -8 },
     { id: "PH-02", kind: "ph",           label: "pH",                unit: "pH",    x: 200, y: 420, anchor: "bottom", labelDy: 8 },
-    { id: "TB-05", kind: "turbidity",    label: "Turbidity",         unit: "NTU",   x: 770, y: 420, anchor: "bottom", labelDy: 8 },
+    // TB-05 on the U-turn horizontal at y=420 (x:725-805), label nudged right & below for clearance.
+    { id: "TB-05", kind: "turbidity",    label: "Turbidity",         unit: "NTU",   x: 770, y: 420, anchor: "bottom", labelDy: 8, labelGap: 22 },
   ]),
 };
 
