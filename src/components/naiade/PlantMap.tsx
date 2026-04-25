@@ -418,11 +418,7 @@ function getEquipmentTextGeometry(eq: PlantEquipment) {
   };
 }
 
-/* ─────────────── Equipment renderer ─────────────────────────────────────────
-   STRICT GROUPING: every machine is wrapped in a single <g transform="translate">
-   so all child geometry (shape + label) is local-coordinate (0,0)-anchored.
-   Text is auto-centered with text-anchor="middle" + dominant-baseline="central".
-   ─────────────────────────────────────────────────────────────────────────── */
+/* ─────────────── Equipment renderer ───────────────────────────────────────── */
 function Equipment({
   eq,
   labelTheme,
@@ -449,17 +445,14 @@ function Equipment({
       : tone === "success"
       ? "hsl(var(--success))"
       : labelTheme.text;
-
-  // Local coordinates inside the translated group: top-left = (0,0).
   const W = eq.w;
   const H = eq.h;
-  const cx = W / 2;
-  const cy = H / 2;
+  const center = getEquipmentCenter(eq);
+  const textGeometry = getEquipmentTextGeometry(eq);
   const sw = selected ? 2.4 : 1.4;
 
   const wrap = (children: ReactNode) => (
     <g
-      transform={`translate(${eq.x}, ${eq.y})`}
       onClick={onSelect}
       className="plant-equipment cursor-pointer transition-opacity hover:opacity-90"
       style={{ outline: "none" }}
@@ -467,8 +460,8 @@ function Equipment({
       {children}
       {selected && (
         <rect
-          x={-6}
-          y={-6}
+          x={eq.x - 6}
+          y={eq.y - 6}
           width={W + 12}
           height={H + 12}
           rx={10}
@@ -486,18 +479,19 @@ function Equipment({
     case "tank":
       return wrap(
         <g>
-          <rect x={0} y={14} width={W} height={H - 28} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
-          <ellipse cx={cx} cy={14} rx={W / 2} ry={14} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
-          <ellipse cx={cx} cy={H - 14} rx={W / 2} ry={14} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
-          <rect x={8} y={H * 0.45} width={W - 16} height={H * 0.4} fill="hsl(var(--primary) / 0.18)" />
+          <rect x={eq.x} y={eq.y + 14} width={W} height={H - 28} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
+          <ellipse cx={center.x} cy={eq.y + 14} rx={W / 2} ry={14} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
+          <ellipse cx={center.x} cy={eq.y + H - 14} rx={W / 2} ry={14} fill="url(#tank-grad)" stroke={stroke} strokeWidth={sw} />
+          <rect x={eq.x + 8} y={eq.y + H * 0.45} width={W - 16} height={H * 0.4} fill="hsl(var(--primary) / 0.18)" />
           <CenteredEquipmentText
             label={eq.label}
             sub={eq.sub}
+            x={textGeometry.labelX}
+            y={textGeometry.labelY}
+            subY={textGeometry.subY}
             color={labelColor}
             labelTheme={labelTheme}
             maxWidth={W - 18}
-            mainY="42%"
-            subY="72%"
           />
         </g>
       );
@@ -507,16 +501,16 @@ function Equipment({
       const innerW = W - 36;
       return wrap(
         <g>
-          <rect x={18} y={0} width={innerW} height={H} fill="url(#membrane-grad)" stroke={stroke} strokeWidth={sw} />
-          <ellipse cx={18} cy={cy} rx={18} ry={H / 2} fill="url(#membrane-grad)" stroke={stroke} strokeWidth={sw} />
-          <ellipse cx={W - 18} cy={cy} rx={18} ry={H / 2} fill="url(#membrane-grad)" stroke={stroke} strokeWidth={sw} />
+          <rect x={eq.x + 18} y={eq.y} width={innerW} height={H} fill="url(#membrane-grad)" stroke={stroke} strokeWidth={sw} />
+          <ellipse cx={eq.x + 18} cy={center.y} rx={18} ry={H / 2} fill="url(#membrane-grad)" stroke={stroke} strokeWidth={sw} />
+          <ellipse cx={eq.x + W - 18} cy={center.y} rx={18} ry={H / 2} fill="url(#membrane-grad)" stroke={stroke} strokeWidth={sw} />
           {Array.from({ length: 5 }).map((_, i) => (
             <line
               key={i}
-              x1={30}
-              x2={W - 30}
-              y1={((i + 1) * H) / 6}
-              y2={((i + 1) * H) / 6}
+              x1={eq.x + 30}
+              x2={eq.x + W - 30}
+              y1={eq.y + ((i + 1) * H) / 6}
+              y2={eq.y + ((i + 1) * H) / 6}
               stroke={stroke}
               strokeOpacity={0.35}
               strokeWidth={0.7}
@@ -525,13 +519,14 @@ function Equipment({
           <CenteredEquipmentText
             label={eq.label}
             sub={eq.sub}
+            x={textGeometry.labelX}
+            y={textGeometry.labelY}
+            subY={textGeometry.subY}
             color={labelColor}
             labelTheme={labelTheme}
             maxWidth={innerW - 12}
             fontSize={10.5}
             subSize={8}
-            mainY="45%"
-            subY="72%"
           />
         </g>
       );
@@ -540,12 +535,12 @@ function Equipment({
     case "vessel":
       return wrap(
         <g>
-          <rect x={0} y={0} width={W} height={H} rx={14} fill="hsl(var(--muted) / 0.25)" stroke={stroke} strokeWidth={sw} />
+          <rect x={eq.x} y={eq.y} width={W} height={H} rx={14} fill="hsl(var(--muted) / 0.25)" stroke={stroke} strokeWidth={sw} />
           <line
-            x1={8}
-            x2={W - 8}
-            y1={H * 0.5}
-            y2={H * 0.5}
+            x1={eq.x + 8}
+            x2={eq.x + W - 8}
+            y1={eq.y + H * 0.5}
+            y2={eq.y + H * 0.5}
             stroke={stroke}
             strokeOpacity={0.35}
             strokeDasharray="3 3"
@@ -553,11 +548,12 @@ function Equipment({
           <CenteredEquipmentText
             label={eq.label}
             sub={eq.sub}
+            x={textGeometry.labelX}
+            y={textGeometry.labelY}
+            subY={textGeometry.subY}
             color={labelColor}
             labelTheme={labelTheme}
             maxWidth={W - 20}
-            mainY="42%"
-            subY="74%"
           />
         </g>
       );
@@ -566,30 +562,31 @@ function Equipment({
       const r = Math.min(W, H) / 2;
       return wrap(
         <g>
-          <circle cx={cx} cy={cy} r={r} fill="hsl(var(--muted) / 0.30)" stroke={stroke} strokeWidth={sw} />
-          <line x1={cx - r * 0.6} y1={cy} x2={cx + r * 0.6} y2={cy} stroke={stroke} strokeWidth={1.2} />
-          <line x1={cx} y1={cy - r * 0.6} x2={cx} y2={cy + r * 0.6} stroke={stroke} strokeWidth={1.2} />
-          <rect x={cx - 4} y={-8} width={8} height={10} fill={stroke} opacity={0.7} />
+          <circle cx={center.x} cy={center.y} r={r} fill="hsl(var(--muted) / 0.30)" stroke={stroke} strokeWidth={sw} />
+          <line x1={center.x - r * 0.6} y1={center.y} x2={center.x + r * 0.6} y2={center.y} stroke={stroke} strokeWidth={1.2} />
+          <line x1={center.x} y1={center.y - r * 0.6} x2={center.x} y2={center.y + r * 0.6} stroke={stroke} strokeWidth={1.2} />
+          <rect x={center.x - 4} y={eq.y - 8} width={8} height={10} fill={stroke} opacity={0.7} />
           <CenteredEquipmentText
             label={eq.label}
+            x={center.x}
+            y={center.y}
             color={labelColor}
             labelTheme={labelTheme}
             maxWidth={W - 18}
             fontSize={10}
-            mainY="50%"
           />
-          {eq.sub && <SubLabel x={cx} y={H + 18} text={eq.sub} labelTheme={labelTheme} />}
+          {eq.sub && <SubLabel x={center.x} y={eq.y + H + 18} text={eq.sub} labelTheme={labelTheme} />}
         </g>
       );
     }
 
     case "intake": {
-      const path = `M 0 0 L ${W} 0 L ${W - 16} ${H} L 16 ${H} Z`;
+      const path = `M ${eq.x} ${eq.y} L ${eq.x + W} ${eq.y} L ${eq.x + W - 16} ${eq.y + H} L ${eq.x + 16} ${eq.y + H} Z`;
       return wrap(
         <g>
           <path d={path} fill="hsl(var(--muted) / 0.30)" stroke={stroke} strokeWidth={sw} />
           <path
-            d={`M 14 26 q 10 -8 20 0 t 20 0 t 20 0`}
+            d={`M ${eq.x + 14} ${eq.y + 26} q 10 -8 20 0 t 20 0 t 20 0`}
             fill="none"
             stroke="hsl(var(--primary))"
             strokeOpacity={0.55}
@@ -598,12 +595,13 @@ function Equipment({
           <CenteredEquipmentText
             label={eq.label}
             sub={eq.sub}
+            x={textGeometry.labelX}
+            y={textGeometry.labelY}
+            subY={textGeometry.subY}
             color={labelColor}
             labelTheme={labelTheme}
             maxWidth={W - 20}
             fontSize={10}
-            mainY="45%"
-            subY="74%"
           />
         </g>
       );
@@ -612,15 +610,16 @@ function Equipment({
     case "output":
       return wrap(
         <g>
-          <rect x={0} y={0} width={W} height={H} rx={6} fill="hsl(var(--success) / 0.12)" stroke={stroke} strokeWidth={sw} />
+          <rect x={eq.x} y={eq.y} width={W} height={H} rx={6} fill="hsl(var(--success) / 0.12)" stroke={stroke} strokeWidth={sw} />
           <CenteredEquipmentText
             label={eq.label}
             sub={eq.sub}
+            x={textGeometry.labelX}
+            y={textGeometry.labelY}
+            subY={textGeometry.subY}
             color={labelColor}
             labelTheme={labelTheme}
             maxWidth={W - 14}
-            mainY="42%"
-            subY="72%"
           />
         </g>
       );
@@ -630,8 +629,8 @@ function Equipment({
       return wrap(
         <g>
           <rect
-            x={0}
-            y={0}
+            x={eq.x}
+            y={eq.y}
             width={W}
             height={H}
             rx={8}
@@ -643,11 +642,12 @@ function Equipment({
           <CenteredEquipmentText
             label={eq.label}
             sub={eq.sub}
+            x={textGeometry.labelX}
+            y={textGeometry.labelY}
+            subY={textGeometry.subY}
             color={labelColor}
             labelTheme={labelTheme}
             maxWidth={W - 18}
-            mainY="42%"
-            subY="72%"
           />
         </g>
       );
@@ -662,21 +662,23 @@ function Equipment({
 function CenteredEquipmentText({
   label,
   sub,
+  x,
+  y,
+  subY,
   color,
   labelTheme,
   maxWidth,
-  mainY = "50%",
-  subY = "72%",
   fontSize = 11,
   subSize = 8.5,
 }: {
   label: string;
   sub?: string;
+  x: number;
+  y: number;
+  subY?: number;
   color: string;
   labelTheme: LabelTheme;
   maxWidth?: number;
-  mainY?: string;
-  subY?: string;
   fontSize?: number;
   subSize?: number;
 }) {
@@ -685,10 +687,10 @@ function CenteredEquipmentText({
   return (
     <g pointerEvents="none">
       <text
-        x="50%"
-        y={mainY}
+        x={x}
+        y={y}
         textAnchor="middle"
-        dominantBaseline="central"
+        dominantBaseline="middle"
         fill={color}
         textLength={shouldClamp ? maxWidth : undefined}
         lengthAdjust={shouldClamp ? "spacingAndGlyphs" : undefined}
@@ -698,10 +700,10 @@ function CenteredEquipmentText({
       </text>
       {sub && (
         <text
-          x="50%"
+          x={x}
           y={subY}
           textAnchor="middle"
-          dominantBaseline="central"
+          dominantBaseline="middle"
           fill={labelTheme.sub}
           style={{ font: `500 ${subSize}px JetBrains Mono, ui-monospace, monospace`, textTransform: "uppercase" }}
         >
@@ -728,7 +730,7 @@ function SubLabel({
       x={x}
       y={y}
       textAnchor="middle"
-      dominantBaseline="central"
+      dominantBaseline="middle"
       fill={labelTheme.sub}
       pointerEvents="none"
       style={{ font: "500 9px JetBrains Mono, ui-monospace, monospace", letterSpacing: "0.08em", textTransform: "uppercase" }}
