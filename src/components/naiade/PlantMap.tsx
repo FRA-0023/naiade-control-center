@@ -184,13 +184,14 @@ export function PlantMap({
   }
 
   // Recenter the zoom/pan view on mount and on company switch.
+  // We only reset the transform — the SVG's preserveAspectRatio="xMidYMid meet"
+  // already fits the content into the container, so forcing centerView() with
+  // a fixed scale would shrink the canvas instead of filling it.
   useEffect(() => {
     const t = transformRef.current;
     if (!t) return;
-    // Defer to next frame so the new SVG layout is measured first.
     const id = requestAnimationFrame(() => {
       t.resetTransform(0);
-      t.centerView(1, 0);
     });
     return () => cancelAnimationFrame(id);
   }, [activeCompany]);
