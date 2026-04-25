@@ -104,6 +104,11 @@ export const companies: Company[] = [
       blockHeightStart: 158_902,
       ramanShift: 12,
     },
+    thresholds: {
+      pressure: { min: 20, max: 25, label: "Target: 20–25 bar" },
+      flow: { min: 3.0, max: 5.0, label: "Target: 3.0–5.0 m³/h" },
+      conductivity: { min: 0, max: 90, label: "Target: < 90 µS/cm" },
+    },
   },
 ];
 
