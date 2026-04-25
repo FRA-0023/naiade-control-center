@@ -242,63 +242,58 @@ const nexus: PlantLayout = {
 
 /* ─────────────────────────────────────────────────────────────────────────
    Aegis Facilities — Heavy industrial dual-stage (very high pressure)
+   Spacing expanded ~1.5× — both stages spread across full canvas.
    ───────────────────────────────────────────────────────────────────────── */
 const aegis: PlantLayout = {
   title: "Heavy Industrial Skid · P&ID",
   subtitle: "Dual-stage high-pressure plant · 20–25 bar service",
-  viewBox: { w: 1200, h: 600 },
+  viewBox: { w: 1800, h: 880 },
   equipment: withDesc([
-    { id: "intake",     kind: "intake",     label: "PROCESS FEED",   sub: "Reservoir R-01",    x: 30,   y: 260, w: 110, h: 90,  tone: "muted" },
-    { id: "pump-1",     kind: "pump",       label: "P-01",           sub: "HP booster",        x: 200,  y: 270, w: 80,  h: 80 },
-    { id: "prefilter",  kind: "vessel",     label: "PRE-FILTER",     sub: "5 µm + carbon",     x: 320,  y: 260, w: 130, h: 100 },
-    { id: "go-1",       kind: "membrane",   label: "GO MEMBRANE M-01", sub: "Stage 1",         x: 500,  y: 160, w: 320, h: 60,  tone: "primary" },
-    { id: "go-2",       kind: "membrane",   label: "GO MEMBRANE M-02", sub: "Stage 2",         x: 500,  y: 380, w: 320, h: 60,  tone: "primary" },
-    { id: "buffer-1",   kind: "tank",       label: "INTERSTAGE T-01", sub: "HP buffer",        x: 600,  y: 240, w: 100, h: 120 },
-    { id: "pump-2",     kind: "pump",       label: "P-02",           sub: "Interstage",        x: 740,  y: 270, w: 70,  h: 70 },
-    { id: "uv",         kind: "vessel",     label: "UV + DEGAS",     sub: "Polishing",         x: 880,  y: 260, w: 130, h: 100 },
-    { id: "output",     kind: "output",     label: "UPW OUT",        sub: ">18.2 MΩ·cm",       x: 1080, y: 270, w: 90,  h: 80,  tone: "success" },
-    { id: "erd",        kind: "controller", label: "ERD ARRAY",      sub: "98% recovery",      x: 60,   y: 60,  w: 160, h: 70,  tone: "success" },
-    { id: "edge",       kind: "controller", label: "EDGE-AI",        sub: "Node #104",         x: 1000, y: 60,  w: 160, h: 70,  tone: "primary" },
+    { id: "intake",     kind: "intake",     label: "PROCESS FEED",   sub: "Reservoir R-01",    x: 60,   y: 380, w: 130, h: 100, tone: "muted" },
+    { id: "pump-1",     kind: "pump",       label: "P-01",           sub: "HP booster",        x: 290,  y: 390, w: 90,  h: 90 },
+    { id: "prefilter",  kind: "vessel",     label: "PRE-FILTER",     sub: "5 µm + carbon",     x: 470,  y: 380, w: 150, h: 110 },
+    { id: "go-1",       kind: "membrane",   label: "GO MEMBRANE M-01", sub: "Stage 1",         x: 720,  y: 200, w: 420, h: 65,  tone: "primary" },
+    { id: "go-2",       kind: "membrane",   label: "GO MEMBRANE M-02", sub: "Stage 2",         x: 720,  y: 600, w: 420, h: 65,  tone: "primary" },
+    { id: "buffer-1",   kind: "tank",       label: "INTERSTAGE T-01", sub: "HP buffer",        x: 870,  y: 350, w: 120, h: 160 },
+    { id: "pump-2",     kind: "pump",       label: "P-02",           sub: "Interstage",        x: 1060, y: 395, w: 80,  h: 80 },
+    { id: "uv",         kind: "vessel",     label: "UV + DEGAS",     sub: "Polishing",         x: 1280, y: 380, w: 160, h: 110 },
+    { id: "output",     kind: "output",     label: "UPW OUT",        sub: ">18.2 MΩ·cm",       x: 1620, y: 390, w: 110, h: 90,  tone: "success" },
+    { id: "erd",        kind: "controller", label: "ERD ARRAY",      sub: "98% recovery",      x: 80,   y: 90,  w: 180, h: 80,  tone: "success" },
+    { id: "edge",       kind: "controller", label: "EDGE-AI",        sub: "Node #104",         x: 1500, y: 90,  w: 180, h: 80,  tone: "primary" },
   ]),
   pipes: [
-    // Main horizontal feed line at y=310
-    { d: "M 140 310 H 200", flow: true },
-    { d: "M 280 310 H 320", flow: true },
-    // Prefilter out → up & over to M-01 (left cap @ cx=518, cy=190)
-    { d: "M 450 310 V 190 H 518", flow: true },
-    // M-01 right cap (cx=802, cy=190) → down to buffer top
-    { d: "M 802 190 V 240 H 700", flow: true },
-    // Buffer right (700, 300) → P-02 inlet (775, 305)
-    { d: "M 700 300 H 740", flow: true },
-    // P-02 outlet (810, 305) → down to M-02 inlet (left cap cx=518, cy=410)
-    { d: "M 810 305 V 410 H 518", flow: true },
-    // M-02 right cap (cx=802, cy=410) → up to spine then to UV inlet (880, 310)
-    { d: "M 802 410 V 310 H 880", flow: true },
+    // Main horizontal feed line at y=435 (intake → P-01 → PRE-FILTER)
+    { d: "M 190 435 H 290", flow: true },
+    { d: "M 380 435 H 470", flow: true },
+    // Prefilter out → up & over to M-01 (left cap @ cx=738, cy=232)
+    { d: "M 620 435 V 232 H 738", flow: true },
+    // M-01 right cap (cx=1122, cy=232) → down to buffer top (cx=930, cy=350)
+    { d: "M 1122 232 V 350 H 930", flow: true },
+    // Buffer right (990, 430) → P-02 inlet (1060, 435)
+    { d: "M 990 430 H 1060", flow: true },
+    // P-02 outlet (1140, 435) → down to M-02 inlet (left cap cx=738, cy=632)
+    { d: "M 1140 435 V 632 H 738", flow: true },
+    // M-02 right cap (cx=1122, cy=632) → up to spine y=435 then to UV inlet (1280, 435)
+    { d: "M 1122 632 V 435 H 1280", flow: true },
     // UV outlet → output
-    { d: "M 1010 310 H 1080", flow: true },
-    // ERD ARRAY signal/recovery line — bottom-center (140, 130)
-    // routes orthogonally down to the main spine at y=310 (lands left of P-01).
-    { d: "M 140 130 V 280 H 170 V 310", width: 1.2 },
-    // EDGE-AI signal line — bottom-center (1080, 130) routes down to UV top (945, 260)
-    // then onto the UV vessel inlet area (avoids floating endpoint).
-    { d: "M 1080 130 V 220 H 945 V 260", width: 1.2 },
+    { d: "M 1440 435 H 1620", flow: true },
+    // ERD ARRAY signal/recovery line — bottom-center (170, 170) → spine (170, 435)
+    { d: "M 170 170 V 410 H 240 V 435", width: 1.2 },
+    // EDGE-AI signal line — bottom-center (1590, 170) → UV top (1360, 380)
+    { d: "M 1590 170 V 320 H 1360 V 380", width: 1.2 },
   ],
   sensors: withDesc([
-    { id: "PR-01", kind: "pressure",     label: "Pump Discharge",     unit: "bar",   x: 170, y: 310, anchor: "bottom", labelDy: 8 },
-    // Raman sample tap on the prefilter top header
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks", x: 382, y: 250, anchor: "top", labelDy: -12 },
+    { id: "PR-01", kind: "pressure",     label: "Pump Discharge",     unit: "bar",   x: 240, y: 435, anchor: "bottom", labelDy: 8 },
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks", x: 545, y: 370, anchor: "top", labelDy: -12 },
     // Stage-1 pressure on the riser to M-01 (left of membrane label)
-    { id: "PR-12", kind: "pressure",     label: "M-01 Pressure",      unit: "bar",   x: 450, y: 245, anchor: "left", labelDx: -6, labelGap: 24 },
-    // Interstage temperature on the buffer→P-02 pipe segment (y=300)
-    { id: "TM-09", kind: "temperature",  label: "Interstage Temp",    unit: "°C",    x: 760, y: 300, anchor: "top", labelDy: -8 },
-    // Stage-2 pressure on the riser between M-02 and the spine (x=802 riser)
-    { id: "PR-22", kind: "pressure",     label: "M-02 Pressure",      unit: "bar",   x: 802, y: 360, anchor: "right", labelDx: 8, labelGap: 26 },
-    // Permeate flow on the UV→OUT pipe
-    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",  x: 1045, y: 310, anchor: "top", labelDy: -8 },
-    // Conductivity on the output entry
-    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm", x: 1130, y: 310, anchor: "top", labelDy: -8 },
-    // pH on the M-02 inlet horizontal pipe (y=410)
-    { id: "PH-02", kind: "ph",           label: "pH",                 unit: "pH",    x: 660, y: 410, anchor: "bottom", labelDy: 8 },
+    { id: "PR-12", kind: "pressure",     label: "M-01 Pressure",      unit: "bar",   x: 620, y: 285, anchor: "left", labelDx: -6, labelGap: 24 },
+    // Interstage temperature on the buffer→P-02 pipe segment (y=430)
+    { id: "TM-09", kind: "temperature",  label: "Interstage Temp",    unit: "°C",    x: 1025, y: 430, anchor: "top", labelDy: -8 },
+    // Stage-2 pressure on the riser between M-02 and the spine
+    { id: "PR-22", kind: "pressure",     label: "M-02 Pressure",      unit: "bar",   x: 1122, y: 540, anchor: "right", labelDx: 8, labelGap: 26 },
+    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",  x: 1530, y: 435, anchor: "top", labelDy: -8 },
+    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm", x: 1660, y: 370, anchor: "top", labelDy: -8 },
+    { id: "PH-02", kind: "ph",           label: "pH",                 unit: "pH",    x: 900, y: 632, anchor: "bottom", labelDy: 8 },
   ]),
 };
 
