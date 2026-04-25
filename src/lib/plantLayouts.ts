@@ -148,11 +148,9 @@ const acme: PlantLayout = {
     { id: "buffer-1",   kind: "tank",       label: "BUFFER T-01",   sub: "Surge dampener",      x: 445,  y: 165, w: 90,  h: 200 },
     { id: "go-1",       kind: "membrane",   label: "GO MEMBRANE M-01", sub: "d-spacing 0.45 nm", x: 565,  y: 235, w: 245, h: 60, tone: "primary" },
     { id: "uv",         kind: "vessel",     label: "UV + DEGAS",    sub: "Polishing",           x: 835,  y: 215, w: 130, h: 95 },
-    { id: "output",     kind: "output",     label: "UPW OUT",       sub: ">18.2 MΩ·cm",         x: 1000, y: 220, w: 0,   h: 0,  tone: "success" }, // hidden, replaced below
+    { id: "output",     kind: "output",     label: "UPW OUT",       sub: ">18.2 MΩ·cm",         x: 905,  y: 220, w: 70,  h: 80, tone: "success" },
     { id: "edge",       kind: "controller", label: "EDGE-AI",       sub: "Node #451",           x: 615,  y: 50,  w: 150, h: 60, tone: "primary" },
     { id: "erd",        kind: "controller", label: "ERD ISOBARIC",  sub: "98% recovery",        x: 615,  y: 410, w: 150, h: 60, tone: "success" },
-  ]).filter(e => e.id !== "output").concat([
-    { id: "output",     kind: "output",     label: "UPW OUT",       sub: ">18.2 MΩ·cm",         x: 905,  y: 220, w: 70,  h: 80, tone: "success", description: EQUIP_DESC.output },
   ]),
   pipes: [
     // main horizontal spine ~ y=263
