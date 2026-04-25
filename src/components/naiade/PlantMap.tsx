@@ -370,7 +370,7 @@ function PlantSvg({
       {/* Layer 1 — Pipes (drawn first so labels & pins render on top) */}
       <g>
         {layout.pipes.map((p, i) => {
-          const w = p.width ?? 2;
+          const w = p.width ?? 3;
           return (
             <g key={i}>
               <path
