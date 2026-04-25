@@ -59,10 +59,7 @@ export function SystemOverview({
         eyebrow="NAIADE EXECUTIVE SCHEMA · DWP v3.2"
         title="Physical Process Flow"
         subtitle="End-to-end water treatment chain — Edge-AI supervises the GO membrane while ERD recovers pressure energy."
-        meta="click any node to inspect"
-        padded={false}
-        className="!overflow-visible"
-        action={
+        meta={
           <button
             type="button"
             onClick={() => onNavigate("plant")}
@@ -74,6 +71,8 @@ export function SystemOverview({
             <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
           </button>
         }
+        padded={false}
+        className="!overflow-visible"
       >
         <ExecutiveSchema onNavigate={onNavigate} />
       </BentoCard>
