@@ -291,15 +291,19 @@ const aegis: PlantLayout = {
   ],
   sensors: withDesc([
     { id: "PR-01", kind: "pressure",     label: "Pump Discharge",     unit: "bar",   x: 240, y: 435, anchor: "bottom", labelDy: 8 },
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks", x: 545, y: 370, anchor: "top", labelDy: -12 },
-    // Stage-1 pressure on the riser to M-01 (left of membrane label)
-    { id: "PR-12", kind: "pressure",     label: "M-01 Pressure",      unit: "bar",   x: 620, y: 285, anchor: "left", labelDx: -6, labelGap: 24 },
+    // Raman tap on the prefilter→M-01 horizontal segment (y=232, x:620-738)
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks", x: 700, y: 232, anchor: "top", labelDy: -8 },
+    // Stage-1 pressure on the vertical riser at x=620 (y:232-435)
+    { id: "PR-12", kind: "pressure",     label: "M-01 Pressure",      unit: "bar",   x: 620, y: 340, anchor: "left", labelDx: -6, labelGap: 24 },
     // Interstage temperature on the buffer→P-02 pipe segment (y=430)
     { id: "TM-09", kind: "temperature",  label: "Interstage Temp",    unit: "°C",    x: 1025, y: 430, anchor: "top", labelDy: -8 },
-    // Stage-2 pressure on the riser between M-02 and the spine
+    // Stage-2 pressure on the riser between M-02 and the spine (x=1122, y:435-632)
     { id: "PR-22", kind: "pressure",     label: "M-02 Pressure",      unit: "bar",   x: 1122, y: 540, anchor: "right", labelDx: 8, labelGap: 26 },
+    // Permeate flow on UV → OUT pipe (x:1440-1620, y=435)
     { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",  x: 1530, y: 435, anchor: "top", labelDy: -8 },
-    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm", x: 1660, y: 370, anchor: "top", labelDy: -8 },
+    // Conductivity on the same UV → OUT pipe near the output
+    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm", x: 1600, y: 435, anchor: "bottom", labelDy: 8 },
+    // pH tap on the M-02 inlet horizontal pipe (x:738-1140, y=632)
     { id: "PH-02", kind: "ph",           label: "pH",                 unit: "pH",    x: 900, y: 632, anchor: "bottom", labelDy: 8 },
   ]),
 };
