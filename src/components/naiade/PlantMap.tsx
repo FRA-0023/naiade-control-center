@@ -11,11 +11,11 @@ import { Button } from "@/components/ui/button";
 import {
   plantLayouts,
   type PlantEquipment,
+  type EquipmentKind,
   type PlantLayout,
   type SensorPin,
 } from "@/lib/plantLayouts";
 import { getCompany, type CompanyId } from "@/lib/companies";
-import { useTheme } from "@/components/naiade/ThemeProvider";
 import type { useMockData } from "@/hooks/useMockData";
 
 type LiveData = ReturnType<typeof useMockData>;
@@ -294,14 +294,11 @@ function PlantSvg({
   onSelectSensor: (pin: SensorPin, r: Resolved) => void;
   onSelectEquipment: (eq: PlantEquipment) => void;
 }) {
-  const { theme } = useTheme();
-  // Theme-aware label palette so labels read clearly in both modes
-  // and never look like "redacted black boxes" on a light background.
   const labelTheme = {
-    bg: theme === "light" ? "hsl(0 0% 100%)" : "hsl(222 47% 11%)",
-    border: theme === "light" ? "hsl(214 32% 88%)" : "hsl(217 33% 22%)",
-    text: theme === "light" ? "hsl(222 47% 11%)" : "hsl(210 40% 98%)",
-    sub: theme === "light" ? "hsl(215 16% 35%)" : "hsl(215 20% 65%)",
+    bg: "hsl(var(--background))",
+    border: "hsl(var(--border))",
+    text: "hsl(var(--foreground))",
+    sub: "hsl(var(--muted-foreground))",
   };
 
   return (
@@ -384,6 +381,42 @@ type LabelTheme = {
   text: string;
   sub: string;
 };
+
+function getEquipmentCenter(eq: PlantEquipment) {
+  return {
+    x: eq.x + eq.w / 2,
+    y: eq.y + eq.h / 2,
+  };
+}
+
+function getEquipmentTextGeometry(eq: PlantEquipment) {
+  const center = getEquipmentCenter(eq);
+
+  if (!eq.sub || eq.kind === "pump") {
+    return {
+      labelX: center.x,
+      labelY: center.y,
+      subY: undefined,
+    };
+  }
+
+  const config: Record<Exclude<EquipmentKind, "pump">, { labelOffset: number; subOffset: number }> = {
+    tank: { labelOffset: 18, subOffset: 20 },
+    membrane: { labelOffset: 7, subOffset: 13 },
+    vessel: { labelOffset: 8, subOffset: 17 },
+    intake: { labelOffset: 8, subOffset: 17 },
+    output: { labelOffset: 8, subOffset: 17 },
+    controller: { labelOffset: 8, subOffset: 17 },
+  };
+
+  const offsets = config[eq.kind as Exclude<EquipmentKind, "pump">] ?? { labelOffset: 8, subOffset: 17 };
+
+  return {
+    labelX: center.x,
+    labelY: center.y - offsets.labelOffset / 2,
+    subY: center.y + offsets.subOffset / 2,
+  };
+}
 
 /* ─────────────── Equipment renderer ─────────────────────────────────────────
    STRICT GROUPING: every machine is wrapped in a single <g transform="translate">
