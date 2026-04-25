@@ -135,52 +135,46 @@ function withDesc<T extends { id: string; kind: string }>(items: T[]): T[] {
 
 /* ─────────────────────────────────────────────────────────────────────────
    Acme Gigafab — Linear horizontal P&ID train (high-pressure)
-   Spacing expanded ~1.5× to use the full canvas.
+   Compact "Control Panel" layout — viewBox 1000×500.
    ───────────────────────────────────────────────────────────────────────── */
 const acme: PlantLayout = {
   title: "Linear Industrial Train · P&ID",
   subtitle: "High-pressure single-pass UPW production · top-down view",
-  viewBox: { w: 1800, h: 760 },
+  viewBox: { w: 1000, h: 500 },
   equipment: withDesc([
-    { id: "intake",     kind: "intake",     label: "INTAKE",        sub: "Grey water",          x: 60,   y: 340, w: 130, h: 100, tone: "muted" },
-    { id: "pump-1",     kind: "pump",       label: "P-01",          sub: "Booster",             x: 290,  y: 350, w: 90,  h: 90 },
-    { id: "prefilter",  kind: "vessel",     label: "PRE-FILTER",    sub: "5 µm mech.",          x: 470,  y: 340, w: 150, h: 110 },
-    { id: "buffer-1",   kind: "tank",       label: "BUFFER T-01",   sub: "Surge dampener",      x: 720,  y: 250, w: 100, h: 280 },
-    { id: "go-1",       kind: "membrane",   label: "GO MEMBRANE M-01", sub: "d-spacing 0.45 nm", x: 920,  y: 365, w: 380, h: 65, tone: "primary" },
-    { id: "uv",         kind: "vessel",     label: "UV + DEGAS",    sub: "Polishing",           x: 1400, y: 340, w: 160, h: 110 },
-    { id: "output",     kind: "output",     label: "UPW OUT",       sub: ">18.2 MΩ·cm",         x: 1640, y: 350, w: 100, h: 90, tone: "success" },
-    { id: "edge",       kind: "controller", label: "EDGE-AI",       sub: "Node #451",           x: 1030, y: 80,  w: 180, h: 80, tone: "primary" },
-    { id: "erd",        kind: "controller", label: "ERD ISOBARIC",  sub: "98% recovery",        x: 1030, y: 620, w: 180, h: 80, tone: "success" },
+    { id: "intake",     kind: "intake",     label: "INTAKE",        sub: "Grey water",          x: 30,   y: 215, w: 110, h: 90, tone: "muted" },
+    { id: "pump-1",     kind: "pump",       label: "P-01",          sub: "Booster",             x: 175,  y: 220, w: 80,  h: 80 },
+    { id: "prefilter",  kind: "vessel",     label: "PRE-FILTER",    sub: "5 µm mech.",          x: 285,  y: 215, w: 130, h: 95 },
+    { id: "buffer-1",   kind: "tank",       label: "BUFFER T-01",   sub: "Surge dampener",      x: 445,  y: 165, w: 90,  h: 200 },
+    { id: "go-1",       kind: "membrane",   label: "GO MEMBRANE M-01", sub: "d-spacing 0.45 nm", x: 565,  y: 235, w: 245, h: 60, tone: "primary" },
+    { id: "uv",         kind: "vessel",     label: "UV + DEGAS",    sub: "Polishing",           x: 835,  y: 215, w: 130, h: 95 },
+    { id: "output",     kind: "output",     label: "UPW OUT",       sub: ">18.2 MΩ·cm",         x: 1000, y: 220, w: 0,   h: 0,  tone: "success" }, // hidden, replaced below
+    { id: "edge",       kind: "controller", label: "EDGE-AI",       sub: "Node #451",           x: 615,  y: 50,  w: 150, h: 60, tone: "primary" },
+    { id: "erd",        kind: "controller", label: "ERD ISOBARIC",  sub: "98% recovery",        x: 615,  y: 410, w: 150, h: 60, tone: "success" },
+  ]).filter(e => e.id !== "output").concat([
+    { id: "output",     kind: "output",     label: "UPW OUT",       sub: ">18.2 MΩ·cm",         x: 905,  y: 220, w: 70,  h: 80, tone: "success", description: EQUIP_DESC.output },
   ]),
   pipes: [
-    // main horizontal spine ~ y=395
-    { d: "M 190 395 H 290", flow: true },
-    { d: "M 380 395 H 470", flow: true },
-    { d: "M 620 395 H 720", flow: true },
-    { d: "M 820 395 H 920", flow: true },
-    { d: "M 1300 395 H 1400", flow: true },
-    { d: "M 1560 395 H 1640", flow: true },
+    // main horizontal spine ~ y=263
+    { d: "M 140 263 H 175", flow: true, width: 3 },
+    { d: "M 255 263 H 285", flow: true, width: 3 },
+    { d: "M 415 263 H 445", flow: true, width: 3 },
+    { d: "M 535 263 H 565", flow: true, width: 3 },
+    { d: "M 810 263 H 835", flow: true, width: 3 },
+    { d: "M 965 263 H 905", flow: true, width: 3 },
     // Edge-AI signal tap → membrane top
-    { d: "M 1120 160 V 365", width: 1.2 },
+    { d: "M 690 110 V 235", width: 2 },
     // ERD recovery loop → membrane bottom
-    { d: "M 1120 620 V 430", width: 1.2 },
+    { d: "M 690 410 V 295", width: 2 },
   ],
   sensors: withDesc([
-    { id: "PR-01", kind: "pressure",     label: "Inlet Pressure",     unit: "bar",    x: 240,  y: 395, anchor: "top", labelDy: -6 },
-    // Raman tap on the P-01 → PRE-FILTER pipe (between x:380-470 at y:395)
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks",  x: 425,  y: 395, anchor: "top", labelDy: -8 },
-    // Feed temperature on the PRE-FILTER → BUFFER pipe (x:620-720 at y:395)
-    { id: "TM-09", kind: "temperature",  label: "Feed Temperature",   unit: "°C",     x: 670,  y: 395, anchor: "bottom", labelDy: 8 },
-    // Membrane inlet pressure on the BUFFER → M-01 pipe (x:820-920 at y:395)
-    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure",  unit: "bar",    x: 880,  y: 395, anchor: "top", labelDy: -6 },
-    // Permeate flow on the M-01 → UV pipe (x:1300-1400 at y:395)
-    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",   x: 1340, y: 395, anchor: "top", labelDy: -6 },
-    // pH on the UV → OUT pipe segment (x:1560-1640 at y:395)
-    { id: "PH-02", kind: "ph",           label: "pH",                 unit: "pH",     x: 1580, y: 395, anchor: "bottom", labelDy: 8 },
-    // Conductivity on the same outlet pipe, closer to OUT
-    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm",  x: 1620, y: 395, anchor: "top", labelDy: -6 },
-    // Turbidity tap on the ERD recovery riser (x=1120, y:430-620)
-    { id: "TB-05", kind: "turbidity",    label: "Turbidity",          unit: "NTU",    x: 1120, y: 530, anchor: "right", labelDx: 8, labelGap: 22 },
+    { id: "PR-01", kind: "pressure",     label: "Inlet Pressure",     unit: "bar",    x: 158,  y: 263, anchor: "top", labelDy: -6 },
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks",  x: 270,  y: 263, anchor: "top", labelDy: -8 },
+    { id: "TM-09", kind: "temperature",  label: "Feed Temperature",   unit: "°C",     x: 430,  y: 263, anchor: "bottom", labelDy: 8 },
+    { id: "PR-12", kind: "pressure",     label: "Membrane Pressure",  unit: "bar",    x: 550,  y: 263, anchor: "top", labelDy: -6 },
+    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",   x: 822,  y: 263, anchor: "top", labelDy: -6 },
+    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm",  x: 935,  y: 263, anchor: "bottom", labelDy: 8 },
+    { id: "TB-05", kind: "turbidity",    label: "Turbidity",          unit: "NTU",    x: 690,  y: 350, anchor: "right", labelDx: 8, labelGap: 14 },
   ]),
 };
 
