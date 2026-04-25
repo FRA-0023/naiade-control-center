@@ -278,13 +278,21 @@ const aegis: PlantLayout = {
     { d: "M 995 110 V 200 H 885 V 245", width: 2 },
   ],
   sensors: withDesc([
+    // PR-01 on intake→P-01 spine (x:140-175, y=290).
     { id: "PR-01", kind: "pressure",     label: "Pump Discharge",     unit: "bar",   x: 158, y: 290, anchor: "bottom", labelDy: 8 },
-    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks", x: 600, y: 160, anchor: "top", labelDy: -8 },
-    { id: "PR-12", kind: "pressure",     label: "M-01 Pressure",      unit: "bar",   x: 415, y: 220, anchor: "left", labelDx: -6, labelGap: 14 },
-    { id: "TM-09", kind: "temperature",  label: "Interstage Temp",    unit: "°C",    x: 670, y: 285, anchor: "top", labelDy: -8 },
-    { id: "PR-22", kind: "pressure",     label: "M-02 Pressure",      unit: "bar",   x: 742, y: 360, anchor: "right", labelDx: 8, labelGap: 14 },
-    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",  x: 870, y: 290, anchor: "top", labelDy: -8 },
-    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm", x: 965, y: 290, anchor: "bottom", labelDy: 8 },
+    // RM-04 snapped onto the prefilter→M-01 horizontal pipe (x:415-478 at y=160).
+    { id: "RM-04", kind: "raman",        label: "Raman Spectro",      unit: "peaks", x: 445, y: 160, anchor: "top",    labelDy: -8 },
+    // PR-12 on the prefilter riser (x=415, y:160-290). Label pushed RIGHT to clear PRE-FILTER box (ends x=415).
+    { id: "PR-12", kind: "pressure",     label: "M-01 Pressure",      unit: "bar",   x: 415, y: 230, anchor: "right",  labelDx: 10, labelGap: 14 },
+    // TM-09 on buffer→P-02 segment (x:645-690 at y=285). Label below pipe (clear of pump-2 above).
+    { id: "TM-09", kind: "temperature",  label: "Interstage Temp",    unit: "°C",    x: 668, y: 285, anchor: "bottom", labelDy: 8 },
+    // PR-22 on the M-02→spine vertical riser (x=742, y:290-420). Label right (clear of any boxes).
+    { id: "PR-22", kind: "pressure",     label: "M-02 Pressure",      unit: "bar",   x: 742, y: 360, anchor: "right",  labelDx: 10, labelGap: 14 },
+    // FL-07 on M-02 return horizontal segment (x:742-820 at y=290). Label pushed FAR below to clear UV box (y:245-335).
+    { id: "FL-07", kind: "flow",         label: "Permeate Flow",      unit: "m³/h",  x: 790, y: 290, anchor: "bottom", labelDy: 0,  labelGap: 60 },
+    // EC-03 on UV→OUT pipe (x:950-980 at y=290). Label pushed FAR below to clear UV/output boxes.
+    { id: "EC-03", kind: "conductivity", label: "Conductivity",       unit: "µS/cm", x: 965, y: 290, anchor: "bottom", labelDy: 0,  labelGap: 60 },
+    // PH-02 on the P-02→M-02 horizontal pipe (x:478-760 at y=420).
     { id: "PH-02", kind: "ph",           label: "pH",                 unit: "pH",    x: 600, y: 420, anchor: "bottom", labelDy: 8 },
   ]),
 };
