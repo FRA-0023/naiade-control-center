@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { Radio, Wifi, type LucideIcon } from "lucide-react";
+import { Radio, Waves, Wifi, type LucideIcon } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { CompanySwitcher } from "./CompanySwitcher";
 import type { TabId } from "@/pages/Index";
+import type { CompanyId } from "@/lib/companies";
 
 type Tab = { id: TabId; label: string; sub: string; icon: LucideIcon };
 
@@ -12,11 +14,15 @@ export function TopBar({
   tabs,
   activeTab,
   onTabChange,
+  activeCompany,
+  onCompanyChange,
 }: {
   anomaly: boolean;
   tabs: Tab[];
   activeTab: TabId;
   onTabChange: (t: TabId) => void;
+  activeCompany: CompanyId;
+  onCompanyChange: (id: CompanyId) => void;
 }) {
   const [now, setNow] = useState(new Date());
   useEffect(() => {
@@ -29,18 +35,38 @@ export function TopBar({
   return (
     <header className="sticky top-0 z-30 border-b border-border/60 bg-background/85 backdrop-blur-md">
       {/* Row 1 — Identity + status */}
-      <div className="flex h-14 items-center gap-3 px-4">
+      <div className="flex h-14 items-center gap-2 px-3 sm:gap-3 sm:px-4">
+        {/* Sidebar trigger — hamburger on mobile, collapse toggle on desktop */}
         <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
-        <Separator orientation="vertical" className="h-6" />
-        <div className="flex flex-col leading-tight">
+        <Separator orientation="vertical" className="hidden h-6 md:block" />
+
+        {/* Mobile-only product mark */}
+        <div className="flex items-center gap-2 md:hidden">
+          <div className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-primary/10 ring-1 ring-primary/40">
+            <Waves className="h-3.5 w-3.5 text-primary" />
+          </div>
+          <span className="text-sm font-semibold tracking-tight text-foreground">NAIADE</span>
+        </div>
+
+        {/* Desktop: active page label */}
+        <div className="hidden flex-col leading-tight md:flex">
           <span className="text-sm font-semibold tracking-tight text-foreground">{current.label}</span>
           <span className="font-mono text-[10px] text-muted-foreground">{current.sub}</span>
         </div>
 
         <div className="ml-auto flex items-center gap-2">
+          {/* Mobile-only company switcher (collapsed icon) */}
+          <div className="md:hidden">
+            <CompanySwitcher
+              activeCompany={activeCompany}
+              onChange={onCompanyChange}
+              collapsed
+            />
+          </div>
+
           <div
             className={cn(
-              "flex items-center gap-2 rounded-full border px-3 py-1 font-mono text-[10px]",
+              "flex items-center gap-2 rounded-full border px-2.5 py-1 font-mono text-[10px] sm:px-3",
               anomaly
                 ? "border-destructive/50 bg-destructive/10 text-destructive animate-pulse-glow"
                 : "border-success/30 bg-success/10 text-success"
@@ -65,6 +91,13 @@ export function TopBar({
         </div>
       </div>
 
+      {/* Mobile-only sub-row showing the active page label */}
+      <div className="flex items-center justify-between border-t border-border/40 px-3 py-2 md:hidden">
+        <div className="flex flex-col leading-tight">
+          <span className="text-sm font-semibold tracking-tight text-foreground">{current.label}</span>
+          <span className="font-mono text-[10px] text-muted-foreground">{current.sub}</span>
+        </div>
+      </div>
     </header>
   );
 }

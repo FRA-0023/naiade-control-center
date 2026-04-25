@@ -197,17 +197,17 @@ export function PlantMap({
   }, [activeCompany]);
 
   return (
-    <div className="flex h-full w-full flex-col gap-3 animate-fade-in">
+    <div className="flex w-full flex-col gap-3 animate-fade-in md:h-full">
       {/* Header */}
       <div className="flex shrink-0 flex-wrap items-end justify-between gap-3">
         <div className="flex flex-col">
-          <span className="font-mono text-[11px] uppercase tracking-widest text-primary/80">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-primary/80 sm:text-[11px]">
             DIGITAL TWIN · {company.node} · {company.region}
           </span>
-          <h1>{layout.title}</h1>
-          <p className="mt-0.5 text-sm font-light text-muted-foreground">{layout.subtitle}</p>
+          <h1 className="text-xl sm:text-2xl">{layout.title}</h1>
+          <p className="mt-0.5 text-xs font-light text-muted-foreground sm:text-sm">{layout.subtitle}</p>
         </div>
-        <div className="flex items-center gap-2 font-mono text-[11px]">
+        <div className="flex flex-wrap items-center gap-1.5 font-mono text-[10px] sm:gap-2 sm:text-[11px]">
           <Legend tone="success" label={`${nominal} nominal`} />
           <Legend tone="warning" label={`${warn} warning`} />
           <Legend tone="destructive" label={`${offline} offline`} />
@@ -215,9 +215,9 @@ export function PlantMap({
       </div>
 
       {/* Map + Sidebar */}
-      <div className="flex min-h-0 flex-1 gap-3">
-        {/* Map surface */}
-        <div className="relative min-h-0 flex-1 overflow-hidden rounded-xl border border-border/60 bg-card/40 backdrop-blur-sm light:bg-card light:shadow-sm">
+      <div className="flex min-h-0 flex-1 flex-col gap-3 md:flex-row">
+        {/* Map surface — fixed viewport height on mobile so the page can still scroll */}
+        <div className="relative h-[60vh] min-h-[360px] w-full shrink-0 overflow-hidden rounded-xl border border-border/60 bg-card/40 backdrop-blur-sm light:bg-card light:shadow-sm md:h-auto md:min-h-0 md:flex-1 md:shrink">
           {/* Blueprint grid */}
           <div className="pointer-events-none absolute inset-0 grid-bg opacity-[0.18] light:opacity-[0.4]" />
           <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
@@ -228,8 +228,8 @@ export function PlantMap({
             minScale={0.5}
             maxScale={4}
             limitToBounds={false}
-            
             wheel={{ step: 0.15 }}
+            pinch={{ step: 5 }}
             doubleClick={{ disabled: true }}
             panning={{
               velocityDisabled: true,
@@ -260,7 +260,7 @@ export function PlantMap({
           </TransformWrapper>
         </div>
 
-        {/* Right details sidebar */}
+        {/* Right details sidebar (desktop) + mobile drawer */}
         <DetailsSidebar
           selection={selection}
           activeCompany={activeCompany}
@@ -920,7 +920,7 @@ function DetailsSidebar({
   const company = getCompany(activeCompany);
 
   return (
-    <aside className="hidden w-80 shrink-0 flex-col overflow-hidden rounded-xl border border-border/60 bg-card/60 backdrop-blur-sm md:flex">
+    <aside className="flex w-full shrink-0 flex-col overflow-hidden rounded-xl border border-border/60 bg-card/60 backdrop-blur-sm md:w-80">
       <header className="flex items-center justify-between border-b border-border/60 px-4 py-3">
         <div className="flex flex-col leading-tight">
           <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">

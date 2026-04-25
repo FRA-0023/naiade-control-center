@@ -22,7 +22,7 @@ export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
         {...props}
       >
         {(title || eyebrow || meta) && (
-          <div className="flex flex-col gap-1.5 px-6 pt-5">
+          <div className="flex flex-col gap-1.5 px-4 pt-4 md:px-6 md:pt-5">
             <div className="flex items-start justify-between gap-3">
               <div className="flex flex-col gap-1">
                 {eyebrow && (
@@ -41,7 +41,7 @@ export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
             )}
           </div>
         )}
-        <div className={cn("flex-1", padded ? "p-6" : "")}>{children}</div>
+        <div className={cn("flex-1", padded ? "p-4 md:p-6" : "")}>{children}</div>
       </div>
     );
   }

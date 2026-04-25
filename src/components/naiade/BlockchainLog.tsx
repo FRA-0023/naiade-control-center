@@ -30,7 +30,7 @@ export function BlockchainLog({ blocks }: { blocks: Block[] }) {
       }
       padded={false}
     >
-      <div className="grid grid-cols-3 gap-px border-b border-border/60 bg-border/60">
+      <div className="grid grid-cols-1 gap-px border-b border-border/60 bg-border/60 sm:grid-cols-3">
         <Stat label="Latest block" value={`#${last.height.toLocaleString()}`} />
         <Stat label="Total entries" value={`${blocks.length}`} />
         <Stat label="Last verdict" value={last.prediction} tone={last.prediction === "SAFE" ? "success" : "warning"} />
