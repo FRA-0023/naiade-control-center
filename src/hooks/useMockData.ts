@@ -90,8 +90,12 @@ export function useMockData(companyId: CompanyId = "acme") {
   // Keep a live ref to baseline so interval callbacks always read current company
   const baselineRef = useRef(b);
   baselineRef.current = b;
+  const peaksRef = useRef(company.spectralSignature.peaks);
+  peaksRef.current = company.spectralSignature.peaks;
 
-  const [raman, setRaman] = useState<SpectrogramPoint[]>(() => genRamanFrame(null, b.ramanShift));
+  const [raman, setRaman] = useState<SpectrogramPoint[]>(() =>
+    genRamanFrame(null, b.ramanShift, company.spectralSignature.peaks)
+  );
   const [pressure, setPressure] = useState<KPIPoint[]>([]);
   const [flow, setFlow] = useState<KPIPoint[]>([]);
   const [conductivity, setConductivity] = useState<KPIPoint[]>([]);
