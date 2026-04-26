@@ -120,14 +120,14 @@ export function PredictiveMaintenance({ dp }: { dp: DPPoint[] }) {
             <div className="flex items-center gap-2">
               <AlertTriangle className="h-4 w-4 text-warning" />
               <span className="font-mono text-[10px] uppercase tracking-widest text-warning">
-                Biofouling forecast
+                Wash forecast
               </span>
             </div>
             <div className="mt-2 font-mono text-2xl font-bold tracking-tight text-warning">
               {countdown}
             </div>
             <div className="mt-1 text-xs text-muted-foreground">
-              Predicted in 48–72h · automated wash scheduled
+              Predicted in 48–72h · automated CIP scheduled
             </div>
           </div>
 
