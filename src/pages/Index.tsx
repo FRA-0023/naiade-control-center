@@ -133,7 +133,7 @@ const Index = () => {
                     <AnomalyPanel anomaly={data.anomaly} latency={data.latency} logs={data.logs} />
                   </div>
                   <div className="col-span-12 lg:col-span-7">
-                    <PredictiveMaintenance dp={data.dp} />
+                    <PredictiveMaintenance dp={data.dp} company={data.company} />
                   </div>
                   </div>
                 </>
