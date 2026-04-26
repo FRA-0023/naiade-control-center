@@ -23,19 +23,23 @@ export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
       >
         {(title || eyebrow || meta) && (
           <div className="flex flex-col gap-1.5 px-4 pt-4 md:px-6 md:pt-5">
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex flex-col gap-1">
+            <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-2">
+              <div className="flex min-w-0 flex-col gap-1">
                 {eyebrow && (
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/80">
+                  <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-widest text-muted-foreground/80">
                     {eyebrow}
                   </span>
                 )}
-                {title && <h3>{title}</h3>}
+                {title && <h3 className="break-words">{title}</h3>}
               </div>
-              {meta && <div className="font-mono text-[10px] text-muted-foreground">{meta}</div>}
+              {meta && (
+                <div className="font-mono text-[10px] sm:text-[11px] text-muted-foreground">
+                  {meta}
+                </div>
+              )}
             </div>
             {subtitle && (
-              <p className="text-xs font-light leading-snug text-muted-foreground/80">
+              <p className="text-xs sm:text-sm font-light leading-snug text-muted-foreground/80">
                 {subtitle}
               </p>
             )}
