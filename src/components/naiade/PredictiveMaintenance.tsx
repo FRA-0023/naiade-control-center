@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Area, AreaChart, ReferenceArea, ResponsiveContainer } from "recharts";
 import { BentoCard } from "./BentoCard";
-import { AlertTriangle, Info } from "lucide-react";
+import { AlertTriangle, Info, Droplets } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import type { DPPoint } from "@/hooks/useMockData";
 
@@ -24,7 +24,7 @@ export function PredictiveMaintenance({ dp }: { dp: DPPoint[] }) {
   return (
     <BentoCard
       eyebrow="MOBILENETV3"
-      title="CNN Predictive Maintenance"
+      title="Membrane Clogging (Fouling) Forecast"
       meta="ΔP membrane · 24h"
       padded={false}
     >
@@ -32,13 +32,13 @@ export function PredictiveMaintenance({ dp }: { dp: DPPoint[] }) {
         {/* TOP: header text + current value */}
         <div>
           <p className="mb-3 text-sm font-light leading-snug text-muted-foreground">
-            MobileNetV3 analysis of ΔP (differential pressure) trend to forecast membrane biofouling 48–72h in advance.
+            MobileNetV3 analysis of Differential Pressure (ΔP) to predict when the membrane needs a chemical wash (CIP).
           </p>
           <div className="flex items-baseline gap-2">
             <span className="font-mono text-4xl font-bold tracking-tight text-foreground">
               {last.toFixed(2)}
             </span>
-            <span className="font-mono text-xs text-muted-foreground">bar · current ΔP</span>
+            <span className="font-mono text-xs text-muted-foreground">bar · Current Clogging Level (ΔP)</span>
             <TooltipProvider delayDuration={150}>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -55,6 +55,19 @@ export function PredictiveMaintenance({ dp }: { dp: DPPoint[] }) {
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
+          </div>
+        </div>
+
+        {/* ACTIONABLE METRIC: Time to wash */}
+        <div className="flex items-center gap-3 rounded-lg border border-primary/30 bg-primary/5 p-4">
+          <Droplets className="h-5 w-5 shrink-0 text-primary" />
+          <div className="flex flex-col">
+            <span className="font-mono text-[10px] uppercase tracking-widest text-primary">
+              Estimated Time to Wash
+            </span>
+            <span className="font-mono text-lg font-bold tracking-tight text-foreground">
+              48h – 72h
+            </span>
           </div>
         </div>
 
@@ -80,7 +93,7 @@ export function PredictiveMaintenance({ dp }: { dp: DPPoint[] }) {
                 strokeOpacity={0.3}
                 strokeDasharray="3 3"
                 label={{
-                  value: "WARNING ZONE",
+                  value: "CRITICAL FOULING (WASH REQUIRED)",
                   position: "insideTopRight",
                   fill: "hsl(var(--warning))",
                   fontSize: 9,
@@ -107,14 +120,14 @@ export function PredictiveMaintenance({ dp }: { dp: DPPoint[] }) {
             <div className="flex items-center gap-2">
               <AlertTriangle className="h-4 w-4 text-warning" />
               <span className="font-mono text-[10px] uppercase tracking-widest text-warning">
-                Biofouling forecast
+                Wash forecast
               </span>
             </div>
             <div className="mt-2 font-mono text-2xl font-bold tracking-tight text-warning">
               {countdown}
             </div>
             <div className="mt-1 text-xs text-muted-foreground">
-              Predicted in 48–72h · automated wash scheduled
+              Predicted in 48–72h · automated CIP scheduled
             </div>
           </div>
 
