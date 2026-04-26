@@ -195,7 +195,7 @@ function ExecutiveSchema({ onNavigate }: { onNavigate: (t: TabId) => void }) {
           return (
             <div
               key={s.label}
-              className="flex w-full flex-col items-stretch gap-1.5 md:w-auto md:flex-1 md:flex-row md:items-center md:min-w-[120px]"
+              className="flex w-full flex-col items-stretch gap-1.5 lg:w-auto lg:flex-1 lg:flex-row lg:items-center lg:min-w-[120px]"
             >
               {isCenter ? (
                 /* In-flow vertical column: Edge-AI ─ GO Membrane ─ ERD.
