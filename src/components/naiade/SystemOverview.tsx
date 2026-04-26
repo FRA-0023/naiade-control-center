@@ -340,7 +340,7 @@ function DashedConnector() {
 
 function FlowArrow() {
   return (
-    <div className="relative flex shrink-0 items-center">
+    <div className="relative flex shrink-0 items-center justify-center self-center rotate-90 py-1 md:rotate-0 md:py-0">
       <div className="relative h-px w-4 bg-border/60">
         <span className="absolute -top-[2.5px] h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_hsl(var(--primary))] animate-data-flow" />
       </div>
