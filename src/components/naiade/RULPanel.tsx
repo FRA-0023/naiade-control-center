@@ -1,7 +1,7 @@
 import { Area, AreaChart, ReferenceLine, ResponsiveContainer } from "recharts";
 import { BentoCard } from "./BentoCard";
 import { Progress } from "@/components/ui/progress";
-import { PackageCheck } from "lucide-react";
+import { CalendarClock, PackageCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 function buildCurve(currentRul: number) {
@@ -17,19 +17,42 @@ function buildCurve(currentRul: number) {
   return arr;
 }
 
+/** Convert remaining lifespan % into a friendly "X-Y Months" replacement window. */
+function formatReplacementWindow(rul: number) {
+  // Assume new membrane spec = 60 months (5 years) total life.
+  const totalMonths = 60;
+  const remaining = (rul / 100) * totalMonths;
+  if (remaining <= 0) return "REPLACE NOW";
+  const low = Math.max(1, Math.floor(remaining * 0.85));
+  const high = Math.max(low + 1, Math.ceil(remaining * 1.15));
+  return `${low}–${high} Months`;
+}
+
 export function RULPanel({ rul }: { rul: number }) {
   const data = buildCurve(rul);
   const critical = rul < 25;
+  const replacementWindow = formatReplacementWindow(rul);
+  const degradation = (100 - rul).toFixed(1);
 
   return (
     <BentoCard
-      eyebrow="LSTM"
-      title="Remaining Useful Life"
-      subtitle="Global time-series forecasting (LSTM) predicting structural degradation to automate supply chain."
+      eyebrow="LONG-TERM FORECAST"
+      title="Long-Term Component Degradation"
+      subtitle="Predictive neural network analyzing historical performance trends to forecast the total lifespan of the physical membranes."
       meta="membrane GO-04"
       padded={false}
     >
       <div className="p-4 pb-3 md:p-6 md:pb-3">
+        {/* Replacement window — the actionable headline */}
+        <div className="mb-4 flex items-center gap-3 rounded-lg border border-primary/30 bg-primary/5 p-4">
+          <CalendarClock className="h-5 w-5 shrink-0 text-primary" />
+          <div className="flex flex-col">
+            <span className="text-eyebrow text-primary">Estimated Replacement</span>
+            <span className="metric-stat text-foreground">{replacementWindow}</span>
+          </div>
+        </div>
+
+        {/* Degradation readout */}
         <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
           <span
             className={cn(
@@ -37,11 +60,11 @@ export function RULPanel({ rul }: { rul: number }) {
               critical ? "text-warning" : "text-foreground"
             )}
           >
-            {rul.toFixed(1)}
+            {degradation}
           </span>
-          <span className="text-unit">% lifespan</span>
+          <span className="text-unit">% Degradation · {rul.toFixed(1)}% life remaining</span>
           <span className="ml-auto font-mono text-[10px] sm:text-[11px] text-muted-foreground">
-            est. {Math.round((rul / 100) * 1825).toLocaleString()}d · ~{((rul / 100) * 5).toFixed(1)}y
+            ~{Math.round((rul / 100) * 1825).toLocaleString()}d
           </span>
         </div>
         <Progress value={rul} className="mt-3 h-1" />
@@ -60,7 +83,20 @@ export function RULPanel({ rul }: { rul: number }) {
                 <stop offset="100%" stopColor="hsl(var(--warning))" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <ReferenceLine y={15} stroke="hsl(var(--destructive))" strokeDasharray="3 3" strokeOpacity={0.5} />
+            <ReferenceLine
+              y={15}
+              stroke="hsl(var(--destructive))"
+              strokeDasharray="3 3"
+              strokeOpacity={0.5}
+              label={{
+                value: "REPLACE THRESHOLD",
+                position: "insideTopRight",
+                fill: "hsl(var(--destructive))",
+                fontSize: 9,
+                fontFamily: "JetBrains Mono, monospace",
+                opacity: 0.7,
+              }}
+            />
             <Area
               type="monotone"
               dataKey="v"
@@ -91,7 +127,7 @@ export function RULPanel({ rul }: { rul: number }) {
             Supply chain
           </div>
           <div className="mt-0.5 text-xs text-foreground">
-            Trending toward 15% threshold — spare parts dispatch armed
+            Spare membrane pre-ordered — automatic dispatch at 15% lifespan threshold
           </div>
         </div>
       </div>

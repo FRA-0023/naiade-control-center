@@ -211,9 +211,8 @@
     line-height: 1.2;
   }
   h3 {
-    /* BentoCard titles inherit this — bumped from text-base → text-lg
-       to match the visual weight of Edge-AI card titles. */
-    @apply text-base sm:text-lg font-semibold tracking-tight text-foreground;
+    /* BentoCard titles — compact baseline shared across all tabs */
+    @apply text-sm sm:text-base font-semibold tracking-tight text-foreground;
     line-height: 1.25;
   }
   h4 {
@@ -226,9 +225,9 @@
    Reusable classes that lock every metric, label, and description in the
    dashboard to the Edge-AI baseline. Use these instead of ad-hoc sizing. */
 @layer components {
-  /* Big hero numerics (PredictiveMaintenance, FederatedLearning, RUL, etc.) */
+  /* Hero numerics — kept compact to match Live Ingestion / System Overview baseline */
   .metric-hero {
-    @apply font-mono text-3xl sm:text-4xl font-bold leading-none tracking-tight;
+    @apply font-mono text-2xl sm:text-3xl font-bold leading-none tracking-tight;
   }
   /* Mid-size numerics (KPI cards, Stat tiles, Wash optimisation) */
   .metric-primary {
@@ -236,7 +235,7 @@
   }
   /* Small inline stat values inside cards (latency stats, facts) */
   .metric-stat {
-    @apply font-mono text-lg sm:text-xl font-semibold leading-none tracking-tight;
+    @apply font-mono text-base sm:text-lg font-semibold leading-none tracking-tight;
   }
   /* Card / section descriptions */
   .text-card-desc {

@@ -6,26 +6,30 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { ChevronDown, Cloud, Server, Terminal } from "lucide-react";
+import { ChevronDown, Cloud, Server, Terminal, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function FederatedLearning({ progress }: { progress: number }) {
   const [open, setOpen] = useState(false);
   const phase =
-    progress < 30 ? "Training local" : progress < 70 ? "Pushing weights" : "Global Model Sync";
+    progress < 30
+      ? "Training locally"
+      : progress < 70
+      ? "Uploading model weights"
+      : "Global knowledge merged";
 
   return (
     <BentoCard
-      eyebrow="FEDERATED"
-      title="Learning Sync"
-      subtitle="Local models trained on edge. Pushing updated weights to Cloud while keeping raw data strictly local."
-      meta="round #2814"
+      eyebrow="FLEET INTELLIGENCE"
+      title="Fleet-Wide AI Sync (Privacy-Preserving)"
+      subtitle="Local Edge nodes share only mathematical learnings (model weights) with the global network, never transmitting raw, sensitive plant telemetry."
+      meta="update #2,814"
       padded={false}
     >
       <div className="flex flex-col gap-5 p-4 md:p-6">
         {/* Diagram */}
         <div className="flex items-stretch gap-2">
-          <NodeBox label="Edge" name="Node #451" icon={Server} tone="primary" />
+          <NodeBox label="Local Plant" name="Node #451" icon={Server} tone="primary" />
           <div className="flex flex-1 items-center">
             <div className="relative h-px w-full overflow-visible bg-gradient-to-r from-primary/30 via-primary/60 to-primary/30 animate-pulse">
               <div className="absolute inset-y-0 -left-2 h-2 w-2 -translate-y-1/2 rounded-full bg-primary shadow-[0_0_8px_hsl(var(--primary))] animate-data-flow" />
@@ -39,28 +43,37 @@ export function FederatedLearning({ progress }: { progress: number }) {
               />
             </div>
           </div>
-          <NodeBox label="Cloud" name="Aggregator" icon={Cloud} tone="muted" />
+          <NodeBox label="Global Network" name="Aggregator" icon={Cloud} tone="muted" />
         </div>
 
-        {/* Hero metric */}
+        {/* Status badge */}
+        <div className="flex items-center gap-2 self-start rounded-full border border-success/40 bg-success/10 px-3 py-1">
+          <ShieldCheck className="h-3 w-3 text-success" />
+          <span className="font-mono text-[10px] uppercase tracking-widest text-success">
+            Network: Synchronized
+          </span>
+        </div>
+
+        {/* Hero metric — Global Knowledge Update progress */}
         <div>
+          <div className="text-eyebrow mb-1">Current Global Knowledge Update</div>
           <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
             <span className="metric-hero text-foreground">{Math.round(progress)}</span>
-            <span className="text-unit">% · {phase}</span>
+            <span className="text-unit">% complete · {phase}</span>
           </div>
           <Progress value={progress} className="mt-3 h-1" />
         </div>
 
-        {/* Quick facts */}
+        {/* Quick facts — operator-friendly */}
         <div className="grid grid-cols-2 gap-3 font-mono text-[10px]">
-          <Fact k="samples" v="3,402" />
-          <Fact k="payload" v="4.3 MB" />
-          <Fact k="ε privacy" v="1.2" />
-          <Fact k="raw data" v="local" tone="success" />
+          <Fact k="local lessons learned" v="3,402" />
+          <Fact k="weights uploaded" v="4.3 MB" />
+          <Fact k="plants in sync" v="412 / 412" tone="success" />
+          <Fact k="raw data shared" v="never" tone="success" />
         </div>
       </div>
 
-      {/* Collapsible terminal */}
+      {/* Collapsible technical log */}
       <Collapsible open={open} onOpenChange={setOpen} className="border-t border-border/60">
         <CollapsibleTrigger className="flex w-full items-center justify-between px-6 py-3 text-left transition-colors hover:bg-muted/20">
           <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
@@ -77,10 +90,10 @@ export function FederatedLearning({ progress }: { progress: number }) {
         <CollapsibleContent>
           <div className="terminal-surface max-h-48 overflow-y-auto px-6 pb-4 font-mono text-[11px] leading-relaxed">
             <div className="text-success">› Local model trained · 3,402 samples</div>
-            <div className="text-primary">› Pushing updated weights (4.3 MB) → Cloud</div>
-            <div className="text-muted-foreground">› Raw data kept local · privacy preserved</div>
+            <div className="text-primary">› Pushing updated weights (4.3 MB) → Global Aggregator</div>
+            <div className="text-muted-foreground">› Raw plant telemetry kept local · privacy preserved</div>
             <div className="text-muted-foreground">› Differential privacy ε = 1.2</div>
-            <div className="text-muted-foreground">› Round #2814 · 412 nodes participating</div>
+            <div className="text-muted-foreground">› Update #2,814 · 412 plants participating</div>
             <div className="text-success">› Acknowledged by aggregator · 142ms RTT</div>
           </div>
         </CollapsibleContent>
