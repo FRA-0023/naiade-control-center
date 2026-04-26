@@ -340,13 +340,15 @@ function ImpactCard({
     <button
       type="button"
       onClick={onClick}
-      className="group flex flex-col gap-1.5 rounded-xl border border-border/60 bg-card/40 p-4 text-left backdrop-blur-sm transition-all hover:border-primary/50 hover:bg-card/60"
+      className="group flex flex-col gap-2 rounded-xl border border-border/60 bg-card/40 p-4 sm:p-5 text-left backdrop-blur-sm transition-all hover:border-primary/50 hover:bg-card/60"
     >
       <div className="font-mono text-[11px] uppercase tracking-widest text-primary/80">
         {eyebrow}
       </div>
-      <div className="text-base font-semibold tracking-tight text-foreground">{title}</div>
-      <p className="text-sm font-light leading-relaxed text-muted-foreground">{body}</p>
+      <div className="text-base sm:text-lg font-semibold tracking-tight text-foreground">
+        {title}
+      </div>
+      <p className="text-card-desc">{body}</p>
       <div className="mt-1 font-mono text-[11px] uppercase tracking-widest text-muted-foreground transition-colors group-hover:text-primary">
         {cta} →
       </div>
