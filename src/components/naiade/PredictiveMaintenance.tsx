@@ -193,7 +193,7 @@ export function PredictiveMaintenance({
                 className={`h-4 w-4 ${isCritical ? "text-warning" : "text-primary"}`}
               />
               <span
-                className={`font-mono text-[10px] uppercase tracking-widest ${
+                className={`text-eyebrow ${
                   isCritical ? "text-warning" : "text-primary"
                 }`}
               >
@@ -201,7 +201,7 @@ export function PredictiveMaintenance({
               </span>
             </div>
             <div
-              className={`mt-2 font-mono text-2xl font-bold tracking-tight ${
+              className={`mt-2 metric-stat ${
                 isCritical ? "text-warning" : "text-foreground"
               }`}
             >
