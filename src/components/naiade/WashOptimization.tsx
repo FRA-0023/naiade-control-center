@@ -19,7 +19,7 @@ export function WashOptimization({ value }: { value: number }) {
       meta="every 38h"
       padded={false}
     >
-      <div className="flex flex-col items-center p-4 pb-2 md:p-6 md:pb-2">
+      <div className="flex flex-col items-center p-3 pb-2 md:p-4 md:pb-2">
         <div className="relative h-[160px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <RadialBarChart
@@ -36,7 +36,7 @@ export function WashOptimization({ value }: { value: number }) {
           {/* Only the large readout sits inside the donut hole */}
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
             <span className="metric-hero text-foreground">
-              42<span className="ml-0.5 text-base sm:text-lg text-muted-foreground">h</span>
+              42<span className="ml-0.5 text-sm sm:text-base text-muted-foreground">h</span>
             </span>
           </div>
         </div>
@@ -48,7 +48,7 @@ export function WashOptimization({ value }: { value: number }) {
         </div>
       </div>
 
-      <div className="space-y-2.5 border-t border-border/60 p-6">
+      <div className="space-y-2 border-t border-border/60 p-4">
         <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
           Feature importance
         </div>

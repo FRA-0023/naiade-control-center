@@ -92,7 +92,7 @@ export function PredictiveMaintenance({
       meta={`ΔP membrane · 24h · ${company.shortName}`}
       padded={false}
     >
-      <div className="flex flex-col gap-4 p-4 md:p-6">
+      <div className="flex flex-col gap-3 p-3 md:p-4">
         {/* TOP: header text + current value */}
         <div>
           <p className="mb-3 text-card-desc">

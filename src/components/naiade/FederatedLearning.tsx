@@ -26,7 +26,7 @@ export function FederatedLearning({ progress }: { progress: number }) {
       meta="update #2,814"
       padded={false}
     >
-      <div className="flex flex-col gap-5 p-4 md:p-6">
+      <div className="flex flex-col gap-3.5 p-3 md:p-4">
         {/* Diagram */}
         <div className="flex items-stretch gap-2">
           <NodeBox label="Local Plant" name="Node #451" icon={Server} tone="primary" />
