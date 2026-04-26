@@ -1,24 +1,36 @@
 import { Area, AreaChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import { BentoCard } from "./BentoCard";
 import type { SpectrogramPoint } from "@/hooks/useMockData";
+import type { Company } from "@/lib/companies";
 
-export function RamanSpectrogram({ data }: { data: SpectrogramPoint[] }) {
+export function RamanSpectrogram({
+  data,
+  company,
+}: {
+  data: SpectrogramPoint[];
+  company: Company;
+}) {
+  const peakCount = company.spectralSignature.peaks.length;
+  const matrix = company.spectralSignature.matrix;
+
   return (
     <BentoCard
       eyebrow="LIVE · 50ms"
       title="Raman Spectrogram"
-      meta="λ 200–4000 cm⁻¹ · sensor RM-04"
+      meta={`λ 200–4000 cm⁻¹ · sensor RM-04 · ${company.shortName}`}
       padded={false}
       className="flex-none"
     >
       <div className="flex flex-col gap-2 p-3">
         <div className="flex items-baseline gap-2">
-          <span className="font-mono text-xl font-semibold tracking-tight text-foreground">4</span>
+          <span className="font-mono text-xl font-semibold tracking-tight text-foreground">
+            {peakCount}
+          </span>
           <span className="text-xs text-muted-foreground">peaks detected</span>
           <span className="ml-auto font-mono text-[11px] text-success">SPECTRAL MATCH</span>
         </div>
         <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/70">
-          1.2M signatures · 50ms refresh
+          {matrix} · 1.2M signatures · 50ms refresh
         </div>
 
         <div className="relative mt-1 block h-[240px] min-h-[240px] w-full shrink-0">

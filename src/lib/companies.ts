@@ -22,6 +22,10 @@ export type Company = {
     federatedRound: number;
     blockHeightStart: number;
     ramanShift: number;   // shifts spectral peaks
+    /** ΔP membrane drift rate in bar / hour (used for time-to-wash). */
+    dpDriftPerHour: number;
+    /** ΔP membrane fouling threshold in bar — at/above this a CIP wash is required. */
+    dpWashThreshold: number;
   };
   /** Per-company nominal operating ranges shown on KPI cards. */
   thresholds: {
@@ -29,7 +33,15 @@ export type Company = {
     flow: { min: number; max: number; label: string };
     conductivity: { min: number; max: number; label: string };
   };
+  /** Per-company Raman spectral signature (peaks in Raman frame coordinates 0..180). */
+  spectralSignature: {
+    peaks: { c: number; w: number; h: number }[];
+    /** Operator-facing label for the chemical context. */
+    matrix: string;
+  };
 };
+
+export type RamanPeak = { c: number; w: number; h: number };
 
 export const companies: Company[] = [
   {
@@ -51,11 +63,23 @@ export const companies: Company[] = [
       federatedRound: 2814,
       blockHeightStart: 184_201,
       ramanShift: 0,
+      dpDriftPerHour: 0.012,
+      dpWashThreshold: 2.5,
     },
     thresholds: {
       pressure: { min: 8, max: 12, label: "Target: 8–12 bar" },
       flow: { min: 1.0, max: 2.5, label: "Target: 1.0–2.5 m³/h" },
       conductivity: { min: 0, max: 50, label: "Target: < 50 µS/cm" },
+    },
+    spectralSignature: {
+      matrix: "Ultra-pure semiconductor rinse",
+      // 4 moderate, well-separated peaks
+      peaks: [
+        { c: 30,  w: 8,  h: 60 },
+        { c: 70,  w: 12, h: 90 },
+        { c: 110, w: 6,  h: 50 },
+        { c: 145, w: 18, h: 75 },
+      ],
     },
   },
   {
@@ -77,11 +101,21 @@ export const companies: Company[] = [
       federatedRound: 2871,
       blockHeightStart: 201_864,
       ramanShift: -8,
+      dpDriftPerHour: 0.002,
+      dpWashThreshold: 1.0,
     },
     thresholds: {
       pressure: { min: 3, max: 4, label: "Target: 3–4 bar" },
       flow: { min: 0.5, max: 1.5, label: "Target: 0.5–1.5 m³/h" },
       conductivity: { min: 0, max: 20, label: "Target: < 20 µS/cm" },
+    },
+    spectralSignature: {
+      matrix: "Pure municipal supply",
+      // 2 clean, low-intensity peaks
+      peaks: [
+        { c: 55,  w: 10, h: 35 },
+        { c: 120, w: 14, h: 42 },
+      ],
     },
   },
   {
@@ -103,11 +137,26 @@ export const companies: Company[] = [
       federatedRound: 2756,
       blockHeightStart: 158_902,
       ramanShift: 12,
+      dpDriftPerHour: 0.025,
+      dpWashThreshold: 3.9,
     },
     thresholds: {
       pressure: { min: 20, max: 25, label: "Target: 20–25 bar" },
       flow: { min: 3.0, max: 5.0, label: "Target: 3.0–5.0 m³/h" },
       conductivity: { min: 0, max: 90, label: "Target: < 90 µS/cm" },
+    },
+    spectralSignature: {
+      matrix: "Heavy industrial chemical load",
+      // 7 dense, high-intensity peaks
+      peaks: [
+        { c: 18,  w: 5,  h: 95 },
+        { c: 38,  w: 6,  h: 120 },
+        { c: 60,  w: 7,  h: 105 },
+        { c: 82,  w: 5,  h: 140 },
+        { c: 105, w: 8,  h: 110 },
+        { c: 130, w: 6,  h: 130 },
+        { c: 158, w: 9,  h: 100 },
+      ],
     },
   },
 ];

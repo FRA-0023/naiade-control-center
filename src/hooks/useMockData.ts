@@ -26,17 +26,16 @@ function rand(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
 
-function genRamanFrame(prev: SpectrogramPoint[] | null, shift: number): SpectrogramPoint[] {
-  const peaks = [
-    { c: 30 + shift, w: 8, h: 60 },
-    { c: 70 + shift, w: 12, h: 90 },
-    { c: 110 + shift, w: 6, h: 50 },
-    { c: 145 + shift, w: 18, h: 75 },
-  ];
+function genRamanFrame(
+  prev: SpectrogramPoint[] | null,
+  shift: number,
+  peaks: { c: number; w: number; h: number }[]
+): SpectrogramPoint[] {
+  const shifted = peaks.map((p) => ({ c: p.c + shift, w: p.w, h: p.h }));
   return Array.from({ length: RAMAN_LEN }, (_, i) => {
     const base = 8 + Math.sin(i * 0.05 + Date.now() * 0.0003) * 4;
     const noise = rand(-3, 3);
-    const peakSum = peaks.reduce((acc, p) => {
+    const peakSum = shifted.reduce((acc, p) => {
       const d = i - p.c;
       return acc + p.h * Math.exp(-(d * d) / (2 * p.w * p.w));
     }, 0);
@@ -91,8 +90,12 @@ export function useMockData(companyId: CompanyId = "acme") {
   // Keep a live ref to baseline so interval callbacks always read current company
   const baselineRef = useRef(b);
   baselineRef.current = b;
+  const peaksRef = useRef(company.spectralSignature.peaks);
+  peaksRef.current = company.spectralSignature.peaks;
 
-  const [raman, setRaman] = useState<SpectrogramPoint[]>(() => genRamanFrame(null, b.ramanShift));
+  const [raman, setRaman] = useState<SpectrogramPoint[]>(() =>
+    genRamanFrame(null, b.ramanShift, company.spectralSignature.peaks)
+  );
   const [pressure, setPressure] = useState<KPIPoint[]>([]);
   const [flow, setFlow] = useState<KPIPoint[]>([]);
   const [conductivity, setConductivity] = useState<KPIPoint[]>([]);
@@ -117,7 +120,7 @@ export function useMockData(companyId: CompanyId = "acme") {
       firstRun.current = false;
       return;
     }
-    setRaman(genRamanFrame(null, b.ramanShift));
+    setRaman(genRamanFrame(null, b.ramanShift, company.spectralSignature.peaks));
     setPressure([]);
     setFlow([]);
     setConductivity([]);
@@ -137,7 +140,7 @@ export function useMockData(companyId: CompanyId = "acme") {
   // Raman 50ms
   useEffect(() => {
     const id = setInterval(() => {
-      setRaman((prev) => genRamanFrame(prev, baselineRef.current.ramanShift));
+      setRaman((prev) => genRamanFrame(prev, baselineRef.current.ramanShift, peaksRef.current));
     }, 50);
     return () => clearInterval(id);
   }, []);
