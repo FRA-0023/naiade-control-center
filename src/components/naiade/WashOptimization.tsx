@@ -50,6 +50,7 @@ export function WashOptimization({ value }: { value: number }) {
         <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
           Feature importance
         </div>
+        <p className="text-xs text-muted-foreground -mt-1 mb-2">Factors driving this recommendation:</p>
         {features.map((f) => (
           <div key={f.name} className="space-y-1">
             <div className="flex items-center justify-between text-xs">
