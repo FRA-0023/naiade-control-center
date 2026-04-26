@@ -22,7 +22,7 @@ export function FederatedLearning({ progress }: { progress: number }) {
       meta="round #2814"
       padded={false}
     >
-      <div className="flex flex-col gap-5 p-6">
+      <div className="flex flex-col gap-5 p-4 md:p-6">
         {/* Diagram */}
         <div className="flex items-stretch gap-2">
           <NodeBox label="Edge" name="Node #451" icon={Server} tone="primary" />
@@ -44,11 +44,9 @@ export function FederatedLearning({ progress }: { progress: number }) {
 
         {/* Hero metric */}
         <div>
-          <div className="flex items-baseline gap-2">
-            <span className="font-mono text-4xl font-bold tracking-tight text-foreground">
-              {Math.round(progress)}
-            </span>
-            <span className="font-mono text-xs text-muted-foreground">% · {phase}</span>
+          <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+            <span className="metric-hero text-foreground">{Math.round(progress)}</span>
+            <span className="text-unit">% · {phase}</span>
           </div>
           <Progress value={progress} className="mt-3 h-1" />
         </div>
