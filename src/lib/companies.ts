@@ -101,11 +101,21 @@ export const companies: Company[] = [
       federatedRound: 2871,
       blockHeightStart: 201_864,
       ramanShift: -8,
+      dpDriftPerHour: 0.002,
+      dpWashThreshold: 1.0,
     },
     thresholds: {
       pressure: { min: 3, max: 4, label: "Target: 3–4 bar" },
       flow: { min: 0.5, max: 1.5, label: "Target: 0.5–1.5 m³/h" },
       conductivity: { min: 0, max: 20, label: "Target: < 20 µS/cm" },
+    },
+    spectralSignature: {
+      matrix: "Pure municipal supply",
+      // 2 clean, low-intensity peaks
+      peaks: [
+        { c: 55,  w: 10, h: 35 },
+        { c: 120, w: 14, h: 42 },
+      ],
     },
   },
   {
