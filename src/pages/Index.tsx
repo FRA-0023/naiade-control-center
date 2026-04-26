@@ -109,7 +109,7 @@ const Index = () => {
 
                   <div className="grid grid-cols-1 items-start gap-3 lg:grid-cols-12">
                     <div className="flex flex-col gap-2 self-start lg:col-span-8">
-                      <RamanSpectrogram data={data.raman} />
+                      <RamanSpectrogram data={data.raman} company={data.company} />
                       <SensorStrip />
                     </div>
 
