@@ -140,7 +140,7 @@ export function useMockData(companyId: CompanyId = "acme") {
   // Raman 50ms
   useEffect(() => {
     const id = setInterval(() => {
-      setRaman((prev) => genRamanFrame(prev, baselineRef.current.ramanShift));
+      setRaman((prev) => genRamanFrame(prev, baselineRef.current.ramanShift, peaksRef.current));
     }, 50);
     return () => clearInterval(id);
   }, []);
