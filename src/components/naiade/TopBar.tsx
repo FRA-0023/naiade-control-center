@@ -33,7 +33,7 @@ export function TopBar({
   const current = tabs.find((t) => t.id === activeTab) ?? tabs[0];
 
   return (
-    <header className="sticky top-0 z-30 border-b border-border/60 bg-background/85 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/75">
       {/* Row 1 — Identity + status */}
       <div className="flex h-14 items-center gap-2 px-3 sm:gap-3 sm:px-4">
         {/* Sidebar trigger — hamburger on mobile, collapse toggle on desktop */}

@@ -123,14 +123,14 @@ function HealthStat({
   const ringClass =
     tone === "success" ? "ring-success/30 bg-success/10" : "ring-primary/30 bg-primary/10";
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-border/60 bg-card/40 p-3 sm:p-4 backdrop-blur-sm">
+    <div className="flex w-full min-w-0 max-w-full items-center gap-3 rounded-xl border border-border/60 bg-card/40 p-3 sm:p-4 backdrop-blur-sm">
       <div className={cn("flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-lg ring-1", ringClass)}>
         <Icon className={cn("h-4 w-4 sm:h-5 sm:w-5", toneClass)} />
       </div>
       <div className="min-w-0 flex-1">
-        <div className="text-eyebrow text-muted-foreground/80">{label}</div>
+        <div className="text-eyebrow truncate text-muted-foreground/80">{label}</div>
         <div className={cn("metric-stat truncate", toneClass)}>{value}</div>
-        <div className="font-mono text-[11px] text-muted-foreground/70">{sub}</div>
+        <div className="font-mono text-[11px] text-muted-foreground/70 truncate">{sub}</div>
       </div>
     </div>
   );
