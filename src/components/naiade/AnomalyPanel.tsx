@@ -33,14 +33,14 @@ export function AnomalyPanel({
   return (
     <BentoCard
       eyebrow="EDGE · CNN"
-      title="Anomaly Detection"
+      title="Emergency Shutoff & AI Reaction"
       meta="1.2M signatures"
       padded={false}
       className={cn(anomaly && "border-destructive/40")}
     >
       <div className="flex flex-col gap-5 p-6">
         <p className="-mt-2 text-sm font-light leading-snug text-muted-foreground">
-          Real-time Raman spectra comparison against 1.2M chemical signatures for instant valve shutoff.
+          Time required for the Edge node to analyze molecular Raman spectra and physically trigger a safety valve if toxins are detected.
         </p>
         {/* Hero status */}
         <div
