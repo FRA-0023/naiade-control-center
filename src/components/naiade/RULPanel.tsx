@@ -70,9 +70,10 @@ export function RULPanel({ rul }: { rul: number }) {
         <Progress value={rul} className="mt-3 h-1" />
       </div>
 
-      <div className="h-[140px] overflow-hidden min-w-0 pb-3">
-        <ResponsiveContainer width="99%" height="100%">
-          <AreaChart data={data} margin={{ top: 4, right: 12, bottom: 0, left: 0 }}>
+      {/* Strict wrapper: fixed height + hidden overflow + horizontal padding so chart respects card bounds */}
+      <div className="h-48 w-full overflow-hidden mb-4 px-6">
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart data={data} margin={{ top: 18, right: 12, bottom: 4, left: 0 }}>
             <defs>
               <linearGradient id="rulPast" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.4} />
@@ -90,11 +91,13 @@ export function RULPanel({ rul }: { rul: number }) {
               strokeOpacity={0.5}
               label={{
                 value: "REPLACE THRESHOLD",
-                position: "insideTopRight",
+                position: "insideBottomRight",
                 fill: "hsl(var(--destructive))",
                 fontSize: 9,
                 fontFamily: "JetBrains Mono, monospace",
-                opacity: 0.7,
+                opacity: 0.8,
+                dx: -8,
+                dy: -6,
               }}
             />
             <Area
