@@ -20,7 +20,7 @@ export function WashOptimization({ value }: { value: number }) {
       padded={false}
     >
       <div className="flex flex-col items-center p-4 pb-2 md:p-6 md:pb-2">
-        <div className="relative h-[200px] w-full">
+        <div className="relative h-[180px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <RadialBarChart
               innerRadius="78%"
@@ -33,13 +33,15 @@ export function WashOptimization({ value }: { value: number }) {
               <RadialBar background={{ fill: "hsl(var(--muted) / 0.4)" }} dataKey="value" cornerRadius={6} />
             </RadialBarChart>
           </ResponsiveContainer>
-          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-1 px-6 text-center">
-            <span className="text-eyebrow">AI RECOMMENDED WASH CYCLE</span>
+          {/* Only the large readout sits inside the donut hole */}
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
             <span className="metric-hero text-foreground">
               42<span className="ml-0.5 text-base sm:text-lg text-muted-foreground">h</span>
             </span>
           </div>
         </div>
+        {/* Label sits safely below the chart, not overlapping the ring */}
+        <p className="mt-3 text-eyebrow text-center">AI RECOMMENDED WASH CYCLE</p>
         <div className="mt-2 flex items-center gap-1.5 font-mono text-[10px] sm:text-[11px] text-primary">
           <span className="h-1 w-1 rounded-full bg-primary animate-tick" />
           Next wash in {(12.5 - ((value % 10) * 0.1)).toFixed(1)}h
