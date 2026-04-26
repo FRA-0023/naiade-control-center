@@ -137,11 +137,26 @@ export const companies: Company[] = [
       federatedRound: 2756,
       blockHeightStart: 158_902,
       ramanShift: 12,
+      dpDriftPerHour: 0.025,
+      dpWashThreshold: 3.9,
     },
     thresholds: {
       pressure: { min: 20, max: 25, label: "Target: 20–25 bar" },
       flow: { min: 3.0, max: 5.0, label: "Target: 3.0–5.0 m³/h" },
       conductivity: { min: 0, max: 90, label: "Target: < 90 µS/cm" },
+    },
+    spectralSignature: {
+      matrix: "Heavy industrial chemical load",
+      // 7 dense, high-intensity peaks
+      peaks: [
+        { c: 18,  w: 5,  h: 95 },
+        { c: 38,  w: 6,  h: 120 },
+        { c: 60,  w: 7,  h: 105 },
+        { c: 82,  w: 5,  h: 140 },
+        { c: 105, w: 8,  h: 110 },
+        { c: 130, w: 6,  h: 130 },
+        { c: 158, w: 9,  h: 100 },
+      ],
     },
   },
 ];
