@@ -92,17 +92,15 @@ export function PredictiveMaintenance({
       meta={`ΔP membrane · 24h · ${company.shortName}`}
       padded={false}
     >
-      <div className="flex flex-col gap-4 p-6">
+      <div className="flex flex-col gap-4 p-4 md:p-6">
         {/* TOP: header text + current value */}
         <div>
-          <p className="mb-3 text-sm font-light leading-snug text-muted-foreground">
+          <p className="mb-3 text-card-desc">
             MobileNetV3 analysis of Differential Pressure (ΔP) to predict when the membrane needs a chemical wash (CIP).
           </p>
-          <div className="flex items-baseline gap-2">
-            <span className="font-mono text-4xl font-bold tracking-tight text-foreground">
-              {last.toFixed(2)}
-            </span>
-            <span className="font-mono text-xs text-muted-foreground">
+          <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+            <span className="metric-hero text-foreground">{last.toFixed(2)}</span>
+            <span className="text-unit">
               / {dpWashThreshold.toFixed(2)} bar · Current Clogging Level (ΔP)
             </span>
             <TooltipProvider delayDuration={150}>
@@ -110,7 +108,7 @@ export function PredictiveMaintenance({
                 <TooltipTrigger asChild>
                   <button
                     type="button"
-                    className={`ml-auto flex items-center gap-1 font-mono text-[10px] transition-colors ${statusClass}`}
+                    className={`ml-auto flex items-center gap-1 font-mono text-[10px] sm:text-[11px] transition-colors ${statusClass}`}
                   >
                     {statusLabel}
                     <Info className="h-3 w-3 opacity-70" />
@@ -129,10 +127,10 @@ export function PredictiveMaintenance({
         <div className="flex items-center gap-3 rounded-lg border border-primary/30 bg-primary/5 p-4">
           <Droplets className="h-5 w-5 shrink-0 text-primary" />
           <div className="flex flex-col">
-            <span className="font-mono text-[10px] uppercase tracking-widest text-primary">
+            <span className="text-eyebrow text-primary">
               Estimated Time to Wash
             </span>
-            <span className="font-mono text-lg font-bold tracking-tight text-foreground">
+            <span className="metric-stat text-foreground">
               {washWindow}
             </span>
           </div>
