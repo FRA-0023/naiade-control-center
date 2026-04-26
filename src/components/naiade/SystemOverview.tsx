@@ -123,15 +123,13 @@ function HealthStat({
   const ringClass =
     tone === "success" ? "ring-success/30 bg-success/10" : "ring-primary/30 bg-primary/10";
   return (
-    <div className="flex items-center gap-3 rounded-xl border border-border/60 bg-card/40 p-3 backdrop-blur-sm">
-      <div className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ring-1", ringClass)}>
-        <Icon className={cn("h-4 w-4", toneClass)} />
+    <div className="flex items-center gap-3 rounded-xl border border-border/60 bg-card/40 p-3 sm:p-4 backdrop-blur-sm">
+      <div className={cn("flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-lg ring-1", ringClass)}>
+        <Icon className={cn("h-4 w-4 sm:h-5 sm:w-5", toneClass)} />
       </div>
       <div className="min-w-0 flex-1">
-        <div className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground/80">
-          {label}
-        </div>
-        <div className={cn("font-mono text-lg font-semibold tracking-tight", toneClass)}>{value}</div>
+        <div className="text-eyebrow text-muted-foreground/80">{label}</div>
+        <div className={cn("metric-stat truncate", toneClass)}>{value}</div>
         <div className="font-mono text-[11px] text-muted-foreground/70">{sub}</div>
       </div>
     </div>
@@ -254,8 +252,10 @@ function StageCard({ stage, onClick }: { stage: Stage; onClick?: () => void }) {
       >
         <Icon className={cn("h-4 w-4", toneIcon)} />
       </div>
-      <div className="text-sm font-semibold tracking-tight text-foreground">{stage.label}</div>
-      <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground/80">
+      <div className="text-sm sm:text-base font-semibold tracking-tight text-foreground">
+        {stage.label}
+      </div>
+      <div className="font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-muted-foreground/80">
         {stage.sub}
       </div>
     </Wrapper>
@@ -342,13 +342,15 @@ function ImpactCard({
     <button
       type="button"
       onClick={onClick}
-      className="group flex flex-col gap-1.5 rounded-xl border border-border/60 bg-card/40 p-4 text-left backdrop-blur-sm transition-all hover:border-primary/50 hover:bg-card/60"
+      className="group flex flex-col gap-2 rounded-xl border border-border/60 bg-card/40 p-4 sm:p-5 text-left backdrop-blur-sm transition-all hover:border-primary/50 hover:bg-card/60"
     >
       <div className="font-mono text-[11px] uppercase tracking-widest text-primary/80">
         {eyebrow}
       </div>
-      <div className="text-base font-semibold tracking-tight text-foreground">{title}</div>
-      <p className="text-sm font-light leading-relaxed text-muted-foreground">{body}</p>
+      <div className="text-base sm:text-lg font-semibold tracking-tight text-foreground">
+        {title}
+      </div>
+      <p className="text-card-desc">{body}</p>
       <div className="mt-1 font-mono text-[11px] uppercase tracking-widest text-muted-foreground transition-colors group-hover:text-primary">
         {cta} →
       </div>

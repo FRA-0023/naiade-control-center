@@ -38,8 +38,8 @@ export function AnomalyPanel({
       padded={false}
       className={cn(anomaly && "border-destructive/40")}
     >
-      <div className="flex flex-col gap-5 p-6">
-        <p className="-mt-2 text-sm font-light leading-snug text-muted-foreground">
+      <div className="flex flex-col gap-5 p-4 md:p-6">
+        <p className="-mt-2 text-card-desc">
           Time required for the Edge node to analyze molecular Raman spectra and physically trigger a safety valve if toxins are detected.
         </p>
         {/* Hero status */}
@@ -156,8 +156,8 @@ function Stat({
     tone === "primary" ? "text-primary" : tone === "success" ? "text-success" : "text-foreground";
   return (
     <div className="rounded-lg border border-border/50 bg-background/30 p-3">
-      <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
-      <div className={cn("mt-1 font-mono text-xl font-semibold", toneClass)}>
+      <div className="text-eyebrow">{label}</div>
+      <div className={cn("mt-1 metric-stat", toneClass)}>
         {value}
         <span className="ml-1 text-[10px] font-normal text-muted-foreground">{unit}</span>
       </div>

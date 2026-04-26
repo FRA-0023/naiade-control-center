@@ -103,8 +103,8 @@ function Stat({
     tone === "success" ? "text-success" : tone === "warning" ? "text-warning" : "text-foreground";
   return (
     <div className="bg-card/40 p-4">
-      <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>
-      <div className={cn("mt-1 font-mono text-lg font-semibold tracking-tight", toneClass)}>{value}</div>
+      <div className="text-eyebrow">{label}</div>
+      <div className={cn("mt-1 metric-stat", toneClass)}>{value}</div>
     </div>
   );
 }

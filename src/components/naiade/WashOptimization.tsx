@@ -19,7 +19,7 @@ export function WashOptimization({ value }: { value: number }) {
       meta="every 38h"
       padded={false}
     >
-      <div className="flex flex-col items-center p-6 pb-2">
+      <div className="flex flex-col items-center p-4 pb-2 md:p-6 md:pb-2">
         <div className="relative h-[200px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <RadialBarChart
@@ -34,15 +34,13 @@ export function WashOptimization({ value }: { value: number }) {
             </RadialBarChart>
           </ResponsiveContainer>
           <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-1 px-6 text-center">
-            <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
-              Optimal interval
-            </span>
-            <span className="font-mono text-3xl font-bold leading-none tracking-tight text-foreground">
-              42<span className="ml-0.5 text-xl text-muted-foreground">h</span>
+            <span className="text-eyebrow">Optimal interval</span>
+            <span className="metric-hero text-foreground">
+              42<span className="ml-0.5 text-xl sm:text-2xl text-muted-foreground">h</span>
             </span>
           </div>
         </div>
-        <div className="mt-2 flex items-center gap-1.5 font-mono text-[10px] text-primary">
+        <div className="mt-2 flex items-center gap-1.5 font-mono text-[10px] sm:text-[11px] text-primary">
           <span className="h-1 w-1 rounded-full bg-primary animate-tick" />
           Next wash in {(12.5 - ((value % 10) * 0.1)).toFixed(1)}h
         </div>
