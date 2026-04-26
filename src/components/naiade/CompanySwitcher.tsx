@@ -31,7 +31,7 @@ export function CompanySwitcher({
         >
           <Icon className="h-4 w-4 text-primary" />
         </DropdownMenuTrigger>
-        <SwitcherContent activeCompany={activeCompany} onChange={onChange} side="right" />
+        <SwitcherContent activeCompany={activeCompany} onChange={onChange} side="bottom" align="end" />
       </DropdownMenu>
     );
   }
