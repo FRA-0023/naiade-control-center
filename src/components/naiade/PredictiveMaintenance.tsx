@@ -1,31 +1,95 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Area, AreaChart, ReferenceArea, ResponsiveContainer } from "recharts";
 import { BentoCard } from "./BentoCard";
 import { AlertTriangle, Info, Droplets } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import type { DPPoint } from "@/hooks/useMockData";
+import type { Company } from "@/lib/companies";
 
-function useCountdown(initialHours: number) {
-  const [secs, setSecs] = useState(initialHours * 3600);
+/** Format seconds as HH:MM:SS, allowing 3-digit hours for long forecasts. */
+function formatHMS(totalSec: number) {
+  const s = Math.max(0, Math.floor(totalSec));
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+}
+
+/** Format hours as a friendly window like "48h – 72h" or "8h – 12h". */
+function formatWashWindow(hours: number) {
+  if (!isFinite(hours) || hours <= 0) return "WASH NOW";
+  // Show a ±25% window around the central forecast for realism.
+  const low = Math.max(1, Math.round(hours * 0.85));
+  const high = Math.max(low + 1, Math.round(hours * 1.2));
+  return `${low}h – ${high}h`;
+}
+
+export function PredictiveMaintenance({
+  dp,
+  company,
+}: {
+  dp: DPPoint[];
+  company: Company;
+}) {
+  const last = dp[dp.length - 1]?.dp ?? 0;
+  const { dpWashThreshold, dpDriftPerHour } = company.baseline;
+
+  // Dynamic time-to-wash in hours, based on remaining headroom and drift rate.
+  const hoursToWash = useMemo(() => {
+    const headroom = dpWashThreshold - last;
+    if (headroom <= 0) return 0;
+    return headroom / Math.max(0.0001, dpDriftPerHour);
+  }, [last, dpWashThreshold, dpDriftPerHour]);
+
+  // Live countdown (seconds) — re-seeded whenever the company or forecast jumps.
+  const [secs, setSecs] = useState(() => Math.round(hoursToWash * 3600));
+  const lastCompanyRef = useRef(company.id);
+  useEffect(() => {
+    // Reseed when switching company OR when forecast drifts >5% from countdown.
+    const target = Math.round(hoursToWash * 3600);
+    if (lastCompanyRef.current !== company.id) {
+      lastCompanyRef.current = company.id;
+      setSecs(target);
+      return;
+    }
+    setSecs((prev) => {
+      const drift = Math.abs(prev - target) / Math.max(1, target);
+      return drift > 0.05 ? target : prev;
+    });
+  }, [company.id, hoursToWash]);
+
   useEffect(() => {
     const id = setInterval(() => setSecs((s) => Math.max(0, s - 1)), 1000);
     return () => clearInterval(id);
   }, []);
-  const h = Math.floor(secs / 3600);
-  const m = Math.floor((secs % 3600) / 60);
-  const s = secs % 60;
-  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-}
 
-export function PredictiveMaintenance({ dp }: { dp: DPPoint[] }) {
-  const countdown = useCountdown(58);
-  const last = dp[dp.length - 1]?.dp ?? 0;
+  const countdown = formatHMS(secs);
+  const washWindow = formatWashWindow(hoursToWash);
+
+  // Status: warning only when current ΔP actually breaches the company threshold.
+  const isCritical = last >= dpWashThreshold;
+  const isApproaching = !isCritical && last >= dpWashThreshold * 0.92;
+  const statusClass = isCritical
+    ? "text-warning"
+    : isApproaching
+    ? "text-warning"
+    : "text-success";
+  const statusLabel = isCritical
+    ? "WASH REQUIRED"
+    : isApproaching
+    ? "APPROACHING WASH"
+    : "NOMINAL";
+
+  // Critical-zone reference area is anchored to the company-specific threshold,
+  // not a hardcoded Acme baseline.
+  const refY1 = dpWashThreshold;
+  const refY2 = dpWashThreshold + Math.max(0.4, dpWashThreshold * 0.15);
 
   return (
     <BentoCard
       eyebrow="MOBILENETV3"
       title="Membrane Clogging (Fouling) Forecast"
-      meta="ΔP membrane · 24h"
+      meta={`ΔP membrane · 24h · ${company.shortName}`}
       padded={false}
     >
       <div className="flex flex-col gap-4 p-6">
@@ -38,20 +102,23 @@ export function PredictiveMaintenance({ dp }: { dp: DPPoint[] }) {
             <span className="font-mono text-4xl font-bold tracking-tight text-foreground">
               {last.toFixed(2)}
             </span>
-            <span className="font-mono text-xs text-muted-foreground">bar · Current Clogging Level (ΔP)</span>
+            <span className="font-mono text-xs text-muted-foreground">
+              / {dpWashThreshold.toFixed(2)} bar · Current Clogging Level (ΔP)
+            </span>
             <TooltipProvider delayDuration={150}>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
                     type="button"
-                    className="ml-auto flex items-center gap-1 font-mono text-[10px] text-warning transition-colors hover:text-warning/80"
+                    className={`ml-auto flex items-center gap-1 font-mono text-[10px] transition-colors ${statusClass}`}
                   >
-                    DRIFT 0.3–0.5
-                    <Info className="h-3 w-3 text-warning/70" />
+                    {statusLabel}
+                    <Info className="h-3 w-3 opacity-70" />
                   </button>
                 </TooltipTrigger>
-                <TooltipContent side="left" className="max-w-[240px] text-xs font-normal">
-                  A drift of 0.3–0.5 bar in differential pressure triggers the automated preventative wash cycle.
+                <TooltipContent side="left" className="max-w-[260px] text-xs font-normal">
+                  Drift rate {dpDriftPerHour.toFixed(3)} bar/h · CIP wash triggered at {dpWashThreshold.toFixed(2)} bar
+                  for the {company.shortName} loop.
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -66,7 +133,7 @@ export function PredictiveMaintenance({ dp }: { dp: DPPoint[] }) {
               Estimated Time to Wash
             </span>
             <span className="font-mono text-lg font-bold tracking-tight text-foreground">
-              48h – 72h
+              {washWindow}
             </span>
           </div>
         </div>
@@ -86,8 +153,8 @@ export function PredictiveMaintenance({ dp }: { dp: DPPoint[] }) {
                 </linearGradient>
               </defs>
               <ReferenceArea
-                y1={1.8}
-                y2={2.2}
+                y1={refY1}
+                y2={refY2}
                 fill="url(#dpWarnZone)"
                 stroke="hsl(var(--warning))"
                 strokeOpacity={0.3}
@@ -116,26 +183,44 @@ export function PredictiveMaintenance({ dp }: { dp: DPPoint[] }) {
 
         {/* BOTTOM: 2-col grid */}
         <div className="grid shrink-0 grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
-          <div className="rounded-lg border border-warning/40 bg-warning/5 p-4">
+          <div
+            className={`rounded-lg border p-4 ${
+              isCritical
+                ? "border-warning/40 bg-warning/5"
+                : "border-primary/30 bg-primary/5"
+            }`}
+          >
             <div className="flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4 text-warning" />
-              <span className="font-mono text-[10px] uppercase tracking-widest text-warning">
-                Wash forecast
+              <AlertTriangle
+                className={`h-4 w-4 ${isCritical ? "text-warning" : "text-primary"}`}
+              />
+              <span
+                className={`font-mono text-[10px] uppercase tracking-widest ${
+                  isCritical ? "text-warning" : "text-primary"
+                }`}
+              >
+                Wash Countdown
               </span>
             </div>
-            <div className="mt-2 font-mono text-2xl font-bold tracking-tight text-warning">
+            <div
+              className={`mt-2 font-mono text-2xl font-bold tracking-tight ${
+                isCritical ? "text-warning" : "text-foreground"
+              }`}
+            >
               {countdown}
             </div>
             <div className="mt-1 text-xs text-muted-foreground">
-              Predicted in 48–72h · automated CIP scheduled
+              Forecast {washWindow} · automated CIP scheduled
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-y-2 self-stretch rounded-lg border border-border/50 bg-background/30 p-4 font-mono text-[10px]">
             <span className="text-muted-foreground">model</span>
             <span className="text-right text-foreground">MobileNetV3-S</span>
-            <span className="text-muted-foreground">params</span>
-            <span className="text-right text-foreground">1.2M · int8</span>
+            <span className="text-muted-foreground">drift rate</span>
+            <span className="text-right text-foreground">
+              {dpDriftPerHour.toFixed(3)} bar/h
+            </span>
             <span className="text-muted-foreground">F1 (val)</span>
             <span className="text-right text-success">0.947</span>
             <span className="text-muted-foreground">last retrain</span>
