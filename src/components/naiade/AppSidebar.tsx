@@ -37,8 +37,9 @@ export function AppSidebar({
   activeCompany: CompanyId;
   onCompanyChange: (id: CompanyId) => void;
 }) {
-  const { state } = useSidebar();
-  const collapsed = state === "collapsed";
+  const { state, isMobile } = useSidebar();
+  // Mobile drawer (Sheet) is always full-width — never apply icon-only collapsed styling there.
+  const collapsed = !isMobile && state === "collapsed";
   const company = getCompany(activeCompany);
 
   return (

@@ -163,23 +163,25 @@ const stages: Stage[] = [
 
 function ExecutiveSchema({ onNavigate }: { onNavigate: (t: TabId) => void }) {
   return (
-    <div className="relative w-full px-5 py-24">
+    /* Outer wrapper clips overflow and lets the pipeline scroll horizontally
+       inside the card on small screens — the page itself stays at 100vw. */
+    <div className="relative w-full max-w-full overflow-x-auto overflow-y-visible px-3 py-16 sm:px-5 sm:py-24">
       {/* Blueprint grid background */}
       <div className="pointer-events-none absolute inset-0 opacity-[0.10] grid-bg" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
 
       {/* MAIN horizontal pipeline — GO Membrane is the absolute center anchor */}
-      <div className="relative z-10 flex w-full flex-row items-center justify-center gap-2">
+      <div className="relative z-10 mx-auto flex w-max min-w-full flex-row items-center justify-center gap-2">
         {stages.map((s, i) => {
           const isCenter = s.label === "GO Membrane";
           return (
-            <div key={s.label} className="flex flex-1 min-w-[120px] items-center gap-1.5">
+            <div key={s.label} className="flex flex-1 min-w-[96px] sm:min-w-[120px] items-center gap-1.5">
               {isCenter ? (
                 <div className="relative flex flex-1 flex-col items-center justify-center">
                   {/* Vertical connector UP to Edge-AI Brain */}
                   <span className="pointer-events-none absolute bottom-[calc(100%+0.25rem)] left-1/2 h-8 -translate-x-1/2 border-l border-dashed border-primary/40" />
                   {/* Edge-AI Brain — absolutely centered above */}
-                  <div className="absolute bottom-[calc(100%+2rem)] left-1/2 -translate-x-1/2 whitespace-nowrap">
+                  <div className="absolute bottom-[calc(100%+1.5rem)] left-1/2 -translate-x-1/2 max-w-[90vw] sm:bottom-[calc(100%+2rem)]">
                     <SatelliteNode
                       label="Edge-AI Brain"
                       sub="CNN Predictive · Raman"
@@ -194,7 +196,7 @@ function ExecutiveSchema({ onNavigate }: { onNavigate: (t: TabId) => void }) {
                   {/* Vertical connector DOWN to ERD */}
                   <span className="pointer-events-none absolute top-[calc(100%+0.25rem)] left-1/2 h-8 -translate-x-1/2 border-l border-dashed border-success/40" />
                   {/* ERD Isobaric — absolutely centered below */}
-                  <div className="absolute top-[calc(100%+2rem)] left-1/2 -translate-x-1/2 whitespace-nowrap">
+                  <div className="absolute top-[calc(100%+1.5rem)] left-1/2 -translate-x-1/2 max-w-[90vw] sm:top-[calc(100%+2rem)]">
                     <SatelliteNode
                       label="ERD Isobaric"
                       sub="98% Energy Recovery"

@@ -160,6 +160,10 @@
   html.dark { color-scheme: dark; }
   html.light { color-scheme: light; }
 
+  html, body {
+    @apply overflow-x-hidden;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', system-ui, sans-serif;
