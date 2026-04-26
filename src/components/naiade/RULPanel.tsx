@@ -123,7 +123,7 @@ export function RULPanel({ rul }: { rul: number }) {
         </ResponsiveContainer>
       </div>
 
-      <div className="mx-6 mb-6 mt-2 flex items-start gap-3 rounded-lg border border-warning/40 bg-warning/5 p-4">
+      <div className="mx-4 mb-4 mt-1 flex items-start gap-2.5 rounded-lg border border-warning/40 bg-warning/5 p-3">
         <PackageCheck className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
         <div className="flex-1">
           <div className="font-mono text-[10px] uppercase tracking-widest text-warning">

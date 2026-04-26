@@ -28,7 +28,7 @@ export function SystemOverview({
   ledgerHeight: number;
 }) {
   return (
-    <div className="flex w-full flex-col gap-6">
+    <div className="flex w-full flex-col gap-4">
       {/* TOP — KPI strip */}
       <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
         <HealthStat
@@ -342,12 +342,12 @@ function ImpactCard({
     <button
       type="button"
       onClick={onClick}
-      className="group flex flex-col gap-2 rounded-xl border border-border/60 bg-card/40 p-4 sm:p-5 text-left backdrop-blur-sm transition-all hover:border-primary/50 hover:bg-card/60"
+      className="group flex flex-col gap-1.5 rounded-xl border border-border/60 bg-card/40 p-3 sm:p-4 text-left backdrop-blur-sm transition-all hover:border-primary/50 hover:bg-card/60"
     >
-      <div className="font-mono text-[11px] uppercase tracking-widest text-primary/80">
+      <div className="font-mono text-[10px] uppercase tracking-widest text-primary/80">
         {eyebrow}
       </div>
-      <div className="text-base sm:text-lg font-semibold tracking-tight text-foreground">
+      <div className="text-sm sm:text-base font-semibold tracking-tight text-foreground">
         {title}
       </div>
       <p className="text-card-desc">{body}</p>
