@@ -72,7 +72,7 @@ export function SystemOverview({
           </button>
         }
         padded={false}
-        className="!overflow-visible"
+        className="overflow-hidden md:!overflow-visible"
       >
         <ExecutiveSchema onNavigate={onNavigate} />
       </BentoCard>
