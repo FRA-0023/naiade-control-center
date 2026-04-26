@@ -2,9 +2,9 @@ import { PolarAngleAxis, RadialBar, RadialBarChart, ResponsiveContainer } from "
 import { BentoCard } from "./BentoCard";
 
 const features = [
-  { name: "Input quality", weight: 0.34 },
+  { name: "Raw Water Turbidity", weight: 0.34 },
   { name: "Temperature", weight: 0.27 },
-  { name: "Past washes", weight: 0.22 },
+  { name: "Recent CIP Effectiveness", weight: 0.22 },
   { name: "Pressure", weight: 0.17 },
 ];
 
