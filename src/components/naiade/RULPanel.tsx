@@ -70,8 +70,8 @@ export function RULPanel({ rul }: { rul: number }) {
         <Progress value={rul} className="mt-3 h-1" />
       </div>
 
-      <div className="h-[140px]">
-        <ResponsiveContainer width="100%" height="100%">
+      <div className="h-[140px] overflow-hidden min-w-0 pb-3">
+        <ResponsiveContainer width="99%" height="100%">
           <AreaChart data={data} margin={{ top: 4, right: 12, bottom: 0, left: 0 }}>
             <defs>
               <linearGradient id="rulPast" x1="0" y1="0" x2="0" y2="1">
