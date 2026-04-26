@@ -29,6 +29,16 @@ export function SystemOverview({
 }) {
   return (
     <div className="flex w-full flex-col gap-4">
+      {/* EXECUTIVE SUMMARY BANNER */}
+      <div className="w-full rounded-xl border border-border/60 bg-slate-800/30 p-4 sm:p-5 backdrop-blur-sm">
+        <h1 className="text-base sm:text-lg font-semibold tracking-tight text-foreground">
+          Naiade • Advanced Water Treatment System
+        </h1>
+        <p className="mt-2 text-sm leading-relaxed text-slate-300">
+          Welcome to the centralized management node. Naiade is a multi-tenant platform designed to supervise decentralized water purification plants. It integrates real-time molecular telemetry, on-device Edge-AI for predictive maintenance, and Federated MLOps to monitor water quality and hardware health across global facilities.
+        </p>
+      </div>
+
       {/* TOP — KPI strip */}
       <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
         <HealthStat
