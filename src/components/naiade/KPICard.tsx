@@ -66,8 +66,8 @@ export function KPICard({
           </span>
         )}
 
-        <div className="w-full mt-1 block">
-          <ResponsiveContainer width="100%" height={40}>
+        <div className="w-full mt-1 block overflow-hidden min-w-0">
+          <ResponsiveContainer width="99%" height={40}>
             <AreaChart data={data} margin={{ top: 2, right: 2, left: 2, bottom: 4 }}>
               <defs>
                 <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
