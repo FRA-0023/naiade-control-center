@@ -58,7 +58,7 @@ export function CompanySwitcher({
         </span>
         <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-muted-foreground transition-colors group-hover:text-foreground" />
       </DropdownMenuTrigger>
-      <SwitcherContent activeCompany={activeCompany} onChange={onChange} side="bottom" />
+      <SwitcherContent activeCompany={activeCompany} onChange={onChange} side="bottom" align="start" />
     </DropdownMenu>
   );
 }
@@ -67,17 +67,20 @@ function SwitcherContent({
   activeCompany,
   onChange,
   side,
+  align = "start",
 }: {
   activeCompany: CompanyId;
   onChange: (id: CompanyId) => void;
   side: "right" | "bottom";
+  align?: "start" | "center" | "end";
 }) {
   return (
     <DropdownMenuContent
       side={side}
-      align="start"
+      align={align}
       sideOffset={6}
-      className="w-64 border-border bg-popover"
+      collisionPadding={12}
+      className="w-64 max-w-[calc(100vw-1.5rem)] origin-top-left border-border bg-popover"
     >
       <DropdownMenuLabel className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
         Organizations
