@@ -93,7 +93,7 @@ export function PredictiveMaintenance({ dp }: { dp: DPPoint[] }) {
                 strokeOpacity={0.3}
                 strokeDasharray="3 3"
                 label={{
-                  value: "WARNING ZONE",
+                  value: "CRITICAL FOULING (WASH REQUIRED)",
                   position: "insideTopRight",
                   fill: "hsl(var(--warning))",
                   fontSize: 9,
