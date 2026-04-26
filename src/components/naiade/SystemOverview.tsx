@@ -213,6 +213,23 @@ function ExecutiveSchema({ onNavigate }: { onNavigate: (t: TabId) => void }) {
           );
         })}
       </div>
+
+      {/* Mobile-only compact satellite stack — keeps info visible without overflow */}
+      <div className="relative z-10 mt-5 flex flex-wrap items-center justify-center gap-2 sm:hidden">
+        <SatelliteNode
+          label="Edge-AI Brain"
+          sub="CNN Predictive · Raman"
+          icon={Brain}
+          tone="primary"
+          onClick={() => onNavigate("edge")}
+        />
+        <SatelliteNode
+          label="ERD Isobaric"
+          sub="98% Energy Recovery"
+          icon={Recycle}
+          tone="success"
+        />
+      </div>
     </div>
   );
 }
