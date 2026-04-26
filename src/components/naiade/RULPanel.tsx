@@ -42,7 +42,7 @@ export function RULPanel({ rul }: { rul: number }) {
       meta="membrane GO-04"
       padded={false}
     >
-      <div className="p-4 pb-3 md:p-6 md:pb-3">
+      <div className="overflow-hidden min-w-0 p-4 pb-3 md:p-6 md:pb-3">
         {/* Replacement window — the actionable headline */}
         <div className="mb-4 flex items-center gap-3 rounded-lg border border-primary/30 bg-primary/5 p-4">
           <CalendarClock className="h-5 w-5 shrink-0 text-primary" />
