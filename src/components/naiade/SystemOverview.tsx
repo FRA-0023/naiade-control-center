@@ -29,6 +29,16 @@ export function SystemOverview({
 }) {
   return (
     <div className="flex w-full flex-col gap-4">
+      {/* EXECUTIVE SUMMARY BANNER */}
+      <div className="w-full rounded-xl border border-border/60 bg-slate-800/30 p-4 sm:p-5 backdrop-blur-sm">
+        <h1 className="text-base sm:text-lg font-semibold tracking-tight text-foreground">
+          Naiade • Advanced Water Treatment System
+        </h1>
+        <p className="mt-2 text-sm leading-relaxed text-slate-300">
+          Welcome to the centralized management node. Naiade is a multi-tenant platform designed to supervise decentralized water purification plants. It integrates real-time molecular telemetry, on-device Edge-AI for predictive maintenance, and Federated MLOps to monitor water quality and hardware health across global facilities.
+        </p>
+      </div>
+
       {/* TOP — KPI strip */}
       <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
         <HealthStat
@@ -177,15 +187,15 @@ function ExecutiveSchema({ onNavigate }: { onNavigate: (t: TabId) => void }) {
       <div className="pointer-events-none absolute inset-0 opacity-[0.10] grid-bg" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
 
-      {/* MAIN pipeline — vertical stack on mobile, horizontal flow on desktop. */}
-      <div className="relative z-10 mx-auto flex w-full flex-col items-stretch justify-center gap-3 md:w-max md:min-w-full md:flex-row md:items-center md:gap-2">
+      {/* MAIN pipeline — vertical stack on mobile+tablet, horizontal flow on desktop (lg). */}
+      <div className="relative z-10 mx-auto flex w-full flex-col items-stretch justify-center gap-3 lg:w-max lg:min-w-full lg:flex-row lg:items-center lg:gap-2">
         {stages.map((s, i) => {
           const isCenter = s.label === "GO Membrane";
           const isLast = i === stages.length - 1;
           return (
             <div
               key={s.label}
-              className="flex w-full flex-col items-stretch gap-1.5 md:w-auto md:flex-1 md:flex-row md:items-center md:min-w-[120px]"
+              className="flex w-full flex-col items-stretch gap-1.5 lg:w-auto lg:flex-1 lg:flex-row lg:items-center lg:min-w-[120px]"
             >
               {isCenter ? (
                 /* In-flow vertical column: Edge-AI ─ GO Membrane ─ ERD.
@@ -320,7 +330,7 @@ function DashedConnector() {
 
 function FlowArrow() {
   return (
-    <div className="relative flex shrink-0 items-center justify-center self-center rotate-90 py-1 md:rotate-0 md:py-0">
+    <div className="relative flex shrink-0 items-center justify-center self-center rotate-90 py-1 lg:rotate-0 lg:py-0">
       <div className="relative h-px w-4 bg-border/60">
         <span className="absolute -top-[2.5px] h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_hsl(var(--primary))] animate-data-flow" />
       </div>
