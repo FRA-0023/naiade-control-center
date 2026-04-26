@@ -34,7 +34,7 @@ export function WashOptimization({ value }: { value: number }) {
             </RadialBarChart>
           </ResponsiveContainer>
           <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-1 px-6 text-center">
-            <span className="text-eyebrow">Optimal interval</span>
+            <span className="text-eyebrow">AI RECOMMENDED WASH CYCLE</span>
             <span className="metric-hero text-foreground">
               42<span className="ml-0.5 text-base sm:text-lg text-muted-foreground">h</span>
             </span>
