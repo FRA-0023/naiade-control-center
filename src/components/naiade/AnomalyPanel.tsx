@@ -156,8 +156,8 @@ function Stat({
     tone === "primary" ? "text-primary" : tone === "success" ? "text-success" : "text-foreground";
   return (
     <div className="rounded-lg border border-border/50 bg-background/30 p-3">
-      <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
-      <div className={cn("mt-1 font-mono text-xl font-semibold", toneClass)}>
+      <div className="text-eyebrow">{label}</div>
+      <div className={cn("mt-1 metric-stat", toneClass)}>
         {value}
         <span className="ml-1 text-[10px] font-normal text-muted-foreground">{unit}</span>
       </div>
