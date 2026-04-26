@@ -163,25 +163,31 @@ const stages: Stage[] = [
 
 function ExecutiveSchema({ onNavigate }: { onNavigate: (t: TabId) => void }) {
   return (
-    /* Outer wrapper clips overflow and lets the pipeline scroll horizontally
-       inside the card on small screens — the page itself stays at 100vw. */
-    <div className="relative w-full max-w-full overflow-x-auto overflow-y-visible px-3 py-6 sm:px-5 sm:py-24">
+    /* Height grows naturally on desktop so the absolutely-positioned Edge-AI
+       (top) and ERD Isobaric (bottom) satellites are never clipped. No
+       vertical scrollbar — generous py on desktop reserves vertical room. */
+    <div className="relative w-full max-w-full h-auto overflow-visible px-3 py-6 md:px-6 md:py-20 lg:py-24">
       {/* Blueprint grid background */}
       <div className="pointer-events-none absolute inset-0 opacity-[0.10] grid-bg" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
 
-      {/* MAIN horizontal pipeline — GO Membrane is the absolute center anchor */}
-      <div className="relative z-10 mx-auto flex w-max min-w-full flex-row items-center justify-center gap-2">
+      {/* MAIN pipeline — vertical stack on mobile, horizontal flow on desktop.
+         GO Membrane stays the central anchor with absolute satellites on md+. */}
+      <div className="relative z-10 mx-auto flex w-full flex-col items-stretch justify-center gap-3 md:w-max md:min-w-full md:flex-row md:items-center md:gap-2">
         {stages.map((s, i) => {
           const isCenter = s.label === "GO Membrane";
+          const isLast = i === stages.length - 1;
           return (
-            <div key={s.label} className="flex flex-1 min-w-[96px] sm:min-w-[120px] items-center gap-1.5">
+            <div
+              key={s.label}
+              className="flex w-full flex-col items-stretch gap-1.5 md:w-auto md:flex-1 md:flex-row md:items-center md:min-w-[120px]"
+            >
               {isCenter ? (
                 <div className="relative flex flex-1 flex-col items-center justify-center">
                   {/* Vertical connector UP to Edge-AI Brain — desktop only */}
-                  <span className="pointer-events-none absolute bottom-[calc(100%+0.25rem)] left-1/2 hidden h-8 -translate-x-1/2 border-l border-dashed border-primary/40 sm:block" />
+                  <span className="pointer-events-none absolute bottom-[calc(100%+0.25rem)] left-1/2 hidden h-8 -translate-x-1/2 border-l border-dashed border-primary/40 md:block" />
                   {/* Edge-AI Brain — absolutely centered above (desktop only) */}
-                  <div className="absolute bottom-[calc(100%+2rem)] left-1/2 hidden -translate-x-1/2 sm:block">
+                  <div className="absolute bottom-[calc(100%+2rem)] left-1/2 hidden -translate-x-1/2 md:block">
                     <SatelliteNode
                       label="Edge-AI Brain"
                       sub="CNN Predictive · Raman"
@@ -194,9 +200,9 @@ function ExecutiveSchema({ onNavigate }: { onNavigate: (t: TabId) => void }) {
                   <StageCard stage={s} onClick={s.tab ? () => onNavigate(s.tab!) : undefined} />
 
                   {/* Vertical connector DOWN to ERD — desktop only */}
-                  <span className="pointer-events-none absolute top-[calc(100%+0.25rem)] left-1/2 hidden h-8 -translate-x-1/2 border-l border-dashed border-success/40 sm:block" />
+                  <span className="pointer-events-none absolute top-[calc(100%+0.25rem)] left-1/2 hidden h-8 -translate-x-1/2 border-l border-dashed border-success/40 md:block" />
                   {/* ERD Isobaric — absolutely centered below (desktop only) */}
-                  <div className="absolute top-[calc(100%+2rem)] left-1/2 hidden -translate-x-1/2 sm:block">
+                  <div className="absolute top-[calc(100%+2rem)] left-1/2 hidden -translate-x-1/2 md:block">
                     <SatelliteNode
                       label="ERD Isobaric"
                       sub="98% Energy Recovery"
@@ -208,14 +214,14 @@ function ExecutiveSchema({ onNavigate }: { onNavigate: (t: TabId) => void }) {
               ) : (
                 <StageCard stage={s} onClick={s.tab ? () => onNavigate(s.tab!) : undefined} />
               )}
-              {i < stages.length - 1 && <FlowArrow />}
+              {!isLast && <FlowArrow />}
             </div>
           );
         })}
       </div>
 
       {/* Mobile-only compact satellite stack — keeps info visible without overflow */}
-      <div className="relative z-10 mt-5 flex flex-wrap items-center justify-center gap-2 sm:hidden">
+      <div className="relative z-10 mt-5 flex flex-wrap items-center justify-center gap-2 md:hidden">
         <SatelliteNode
           label="Edge-AI Brain"
           sub="CNN Predictive · Raman"
@@ -334,7 +340,7 @@ function DashedConnector() {
 
 function FlowArrow() {
   return (
-    <div className="relative flex shrink-0 items-center">
+    <div className="relative flex shrink-0 items-center justify-center self-center rotate-90 py-1 md:rotate-0 md:py-0">
       <div className="relative h-px w-4 bg-border/60">
         <span className="absolute -top-[2.5px] h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_hsl(var(--primary))] animate-data-flow" />
       </div>
