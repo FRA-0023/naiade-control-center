@@ -252,8 +252,10 @@ function StageCard({ stage, onClick }: { stage: Stage; onClick?: () => void }) {
       >
         <Icon className={cn("h-4 w-4", toneIcon)} />
       </div>
-      <div className="text-sm font-semibold tracking-tight text-foreground">{stage.label}</div>
-      <div className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground/80">
+      <div className="text-sm sm:text-base font-semibold tracking-tight text-foreground">
+        {stage.label}
+      </div>
+      <div className="font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-muted-foreground/80">
         {stage.sub}
       </div>
     </Wrapper>
