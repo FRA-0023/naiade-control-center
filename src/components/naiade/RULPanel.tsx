@@ -29,18 +29,18 @@ export function RULPanel({ rul }: { rul: number }) {
       meta="membrane GO-04"
       padded={false}
     >
-      <div className="p-6 pb-3">
-        <div className="flex items-baseline gap-2">
+      <div className="p-4 pb-3 md:p-6 md:pb-3">
+        <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
           <span
             className={cn(
-              "font-mono text-4xl font-bold tracking-tight",
+              "metric-hero",
               critical ? "text-warning" : "text-foreground"
             )}
           >
             {rul.toFixed(1)}
           </span>
-          <span className="font-mono text-xs text-muted-foreground">% lifespan</span>
-          <span className="ml-auto font-mono text-[10px] text-muted-foreground">
+          <span className="text-unit">% lifespan</span>
+          <span className="ml-auto font-mono text-[10px] sm:text-[11px] text-muted-foreground">
             est. {Math.round((rul / 100) * 1825).toLocaleString()}d · ~{((rul / 100) * 5).toFixed(1)}y
           </span>
         </div>
