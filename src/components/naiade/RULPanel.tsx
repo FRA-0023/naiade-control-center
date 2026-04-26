@@ -42,7 +42,7 @@ export function RULPanel({ rul }: { rul: number }) {
       meta="membrane GO-04"
       padded={false}
     >
-      <div className="p-4 pb-3 md:p-6 md:pb-3">
+      <div className="overflow-hidden min-w-0 p-4 pb-3 md:p-6 md:pb-3">
         {/* Replacement window — the actionable headline */}
         <div className="mb-4 flex items-center gap-3 rounded-lg border border-primary/30 bg-primary/5 p-4">
           <CalendarClock className="h-5 w-5 shrink-0 text-primary" />
@@ -70,8 +70,8 @@ export function RULPanel({ rul }: { rul: number }) {
         <Progress value={rul} className="mt-3 h-1" />
       </div>
 
-      <div className="h-[140px]">
-        <ResponsiveContainer width="100%" height="100%">
+      <div className="h-[140px] overflow-hidden min-w-0 pb-3">
+        <ResponsiveContainer width="99%" height="100%">
           <AreaChart data={data} margin={{ top: 4, right: 12, bottom: 0, left: 0 }}>
             <defs>
               <linearGradient id="rulPast" x1="0" y1="0" x2="0" y2="1">
@@ -120,7 +120,7 @@ export function RULPanel({ rul }: { rul: number }) {
         </ResponsiveContainer>
       </div>
 
-      <div className="m-6 mt-2 flex items-start gap-3 rounded-lg border border-warning/40 bg-warning/5 p-4">
+      <div className="mx-6 mb-6 mt-2 flex items-start gap-3 rounded-lg border border-warning/40 bg-warning/5 p-4">
         <PackageCheck className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
         <div className="flex-1">
           <div className="font-mono text-[10px] uppercase tracking-widest text-warning">

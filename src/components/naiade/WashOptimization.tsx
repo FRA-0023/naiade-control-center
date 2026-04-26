@@ -2,9 +2,9 @@ import { PolarAngleAxis, RadialBar, RadialBarChart, ResponsiveContainer } from "
 import { BentoCard } from "./BentoCard";
 
 const features = [
-  { name: "Input quality", weight: 0.34 },
+  { name: "Raw Water Turbidity", weight: 0.34 },
   { name: "Temperature", weight: 0.27 },
-  { name: "Past washes", weight: 0.22 },
+  { name: "Recent CIP Effectiveness", weight: 0.22 },
   { name: "Pressure", weight: 0.17 },
 ];
 
@@ -34,7 +34,7 @@ export function WashOptimization({ value }: { value: number }) {
             </RadialBarChart>
           </ResponsiveContainer>
           <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-1 px-6 text-center">
-            <span className="text-eyebrow">Optimal interval</span>
+            <span className="text-eyebrow">AI RECOMMENDED WASH CYCLE</span>
             <span className="metric-hero text-foreground">
               42<span className="ml-0.5 text-base sm:text-lg text-muted-foreground">h</span>
             </span>
@@ -50,6 +50,7 @@ export function WashOptimization({ value }: { value: number }) {
         <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
           Feature importance
         </div>
+        <p className="text-xs text-muted-foreground -mt-1 mb-2">Factors driving this recommendation:</p>
         {features.map((f) => (
           <div key={f.name} className="space-y-1">
             <div className="flex items-center justify-between text-xs">
