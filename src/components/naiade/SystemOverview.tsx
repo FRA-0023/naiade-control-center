@@ -187,8 +187,8 @@ function ExecutiveSchema({ onNavigate }: { onNavigate: (t: TabId) => void }) {
       <div className="pointer-events-none absolute inset-0 opacity-[0.10] grid-bg" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
 
-      {/* MAIN pipeline — vertical stack on mobile, horizontal flow on desktop. */}
-      <div className="relative z-10 mx-auto flex w-full flex-col items-stretch justify-center gap-3 md:w-max md:min-w-full md:flex-row md:items-center md:gap-2">
+      {/* MAIN pipeline — vertical stack on mobile+tablet, horizontal flow on desktop (lg). */}
+      <div className="relative z-10 mx-auto flex w-full flex-col items-stretch justify-center gap-3 lg:w-max lg:min-w-full lg:flex-row lg:items-center lg:gap-2">
         {stages.map((s, i) => {
           const isCenter = s.label === "GO Membrane";
           const isLast = i === stages.length - 1;
