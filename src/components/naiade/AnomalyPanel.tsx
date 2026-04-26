@@ -85,9 +85,9 @@ export function AnomalyPanel({
 
         {/* Latency stats */}
         <div className="grid grid-cols-3 gap-2 sm:gap-3">
-          <Stat label="Latency" value={lastMs.toFixed(1)} unit="ms" tone="primary" />
+          <Stat label="Current Reaction Time" value={lastMs.toFixed(1)} unit="ms" tone="primary" />
           <Stat label="Avg 30s" value={avgMs.toFixed(1)} unit="ms" />
-          <Stat label="Target" value="<10" unit="ms" tone="success" />
+          <Stat label="Safety Threshold" value="<10" unit="ms" tone="success" />
         </div>
 
         {/* Latency chart */}
