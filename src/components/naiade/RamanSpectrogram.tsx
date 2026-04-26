@@ -21,15 +21,15 @@ export function RamanSpectrogram({
       padded={false}
       className="flex-none"
     >
-      <div className="flex flex-col gap-2 p-3">
-        <div className="flex items-baseline gap-2">
-          <span className="font-mono text-xl font-semibold tracking-tight text-foreground">
-            {peakCount}
+      <div className="flex flex-col gap-3 p-4 md:p-5">
+        <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+          <span className="metric-hero text-foreground">{peakCount}</span>
+          <span className="text-unit">peaks detected</span>
+          <span className="ml-auto font-mono text-[11px] sm:text-xs text-success">
+            SPECTRAL MATCH
           </span>
-          <span className="text-xs text-muted-foreground">peaks detected</span>
-          <span className="ml-auto font-mono text-[11px] text-success">SPECTRAL MATCH</span>
         </div>
-        <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/70">
+        <div className="text-eyebrow text-muted-foreground/70">
           {matrix} · 1.2M signatures · 50ms refresh
         </div>
 
