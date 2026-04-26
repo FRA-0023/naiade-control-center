@@ -20,7 +20,7 @@ export function WashOptimization({ value }: { value: number }) {
       padded={false}
     >
       <div className="flex flex-col items-center p-4 pb-2 md:p-6 md:pb-2">
-        <div className="relative h-[180px] w-full">
+        <div className="relative h-[160px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <RadialBarChart
               innerRadius="78%"

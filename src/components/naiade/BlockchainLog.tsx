@@ -51,7 +51,7 @@ export function BlockchainLog({ blocks }: { blocks: Block[] }) {
         <CollapsibleContent>
           <div
             ref={ref}
-            className="terminal-surface max-h-64 overflow-y-auto px-6 pb-4 font-mono text-[11px] leading-relaxed"
+            className="terminal-surface max-h-56 overflow-y-auto px-4 pb-3 font-mono text-[11px] leading-relaxed"
           >
             {blocks.map((b) => (
               <div key={b.height} className="mb-3 border-l-2 border-border/60 pl-3">

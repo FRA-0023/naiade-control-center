@@ -34,7 +34,7 @@ export function KPICard({
   const gradId = `kpi-${label.replace(/\s+/g, "-")}-${outOfRange ? "warn" : "ok"}`;
 
   return (
-    <BentoCard padded={false} className="h-[180px] sm:h-[188px]">
+    <BentoCard padded={false} className="h-[160px] sm:h-[170px]">
       <div className="flex h-full flex-col justify-between p-3 sm:p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5 text-muted-foreground">

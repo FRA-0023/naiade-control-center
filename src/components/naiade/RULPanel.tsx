@@ -71,7 +71,7 @@ export function RULPanel({ rul }: { rul: number }) {
       </div>
 
       {/* Strict wrapper: fixed height + hidden overflow + horizontal padding so chart respects card bounds */}
-      <div className="h-48 w-full overflow-hidden mb-4 px-6">
+      <div className="h-44 w-full overflow-hidden mb-3 px-4 md:px-5">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 18, right: 12, bottom: 4, left: 0 }}>
             <defs>

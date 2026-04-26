@@ -137,7 +137,7 @@ export function PredictiveMaintenance({
         </div>
 
         {/* MIDDLE: restricted-height chart */}
-        <div className="relative w-full h-[240px] shrink-0 overflow-hidden min-w-0 pb-3">
+        <div className="relative w-full h-[210px] shrink-0 overflow-hidden min-w-0 pb-3">
           <ResponsiveContainer width="99%" height="100%">
             <AreaChart data={dp} margin={{ top: 10, right: 10, left: 10, bottom: 20 }}>
               <defs>

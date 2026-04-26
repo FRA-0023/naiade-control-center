@@ -124,7 +124,7 @@ export function AnomalyPanel({
           />
         </CollapsibleTrigger>
         <CollapsibleContent>
-          <div className="terminal-surface max-h-64 overflow-y-auto px-6 pb-4 pt-2 font-mono text-[11px] leading-relaxed">
+          <div className="terminal-surface max-h-56 overflow-y-auto px-4 pb-3 pt-2 font-mono text-[11px] leading-relaxed">
             {[...logs].reverse().map((l, i) => (
               <div key={i} className="flex gap-2">
                 <span className="shrink-0 text-muted-foreground/50">{l.t}</span>
