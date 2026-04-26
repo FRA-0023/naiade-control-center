@@ -56,16 +56,16 @@ export function AppSidebar({
         {/* Product identity */}
         <div
           className={cn(
-            "flex items-center gap-3 py-2",
+            "flex items-center gap-2 py-1.5",
             collapsed ? "justify-center px-0" : "px-2"
           )}
         >
-          <div className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-primary/10 ring-1 ring-primary/40">
-            <Waves className="h-4 w-4 text-primary" />
+          <div className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-primary/10 ring-1 ring-primary/40">
+            <Waves className="h-3.5 w-3.5 text-primary" />
           </div>
           {!collapsed && (
             <div className="flex flex-col leading-tight">
-              <span className="text-sm font-semibold tracking-wide text-foreground">NAIADE</span>
+              <span className="text-xs font-semibold tracking-wide text-foreground">NAIADE</span>
               <span className="font-mono text-[10px] text-muted-foreground">v3.2.1</span>
             </div>
           )}
@@ -88,22 +88,22 @@ export function AppSidebar({
                       tooltip={s.title}
                       isActive={active}
                       className={cn(
-                        "transition-colors",
+                        "h-7 px-1.5 text-xs transition-colors",
                         active && "bg-primary/10 text-primary hover:bg-primary/15"
                       )}
                     >
                       <button
                         type="button"
                         onClick={() => onTabChange(s.id)}
-                        className="group flex w-full items-center gap-3"
+                        className="group flex w-full items-center gap-2"
                       >
                         <s.icon className={cn("h-4 w-4", active ? "text-primary" : "text-muted-foreground")} />
                         {!collapsed && (
                           <>
-                            <span className="flex-1 text-left text-sm">{s.title}</span>
+                            <span className="flex-1 text-left text-xs">{s.title}</span>
                             <span
                               className={cn(
-                                "rounded border px-1.5 py-0.5 font-mono text-[9px]",
+                                "rounded border px-1 py-0.5 font-mono text-[9px]",
                                 active
                                   ? "border-primary/40 bg-primary/10 text-primary"
                                   : "border-border/60 bg-muted/40 text-muted-foreground"

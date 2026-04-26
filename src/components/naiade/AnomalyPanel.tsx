@@ -38,7 +38,7 @@ export function AnomalyPanel({
       padded={false}
       className={cn(anomaly && "border-destructive/40")}
     >
-      <div className="flex flex-col gap-5 p-4 md:p-6">
+      <div className="flex flex-col gap-3.5 p-3 md:p-4">
         <p className="-mt-2 text-card-desc">
           Time required for the Edge node to analyze molecular Raman spectra and physically trigger a safety valve if toxins are detected.
         </p>
@@ -124,7 +124,7 @@ export function AnomalyPanel({
           />
         </CollapsibleTrigger>
         <CollapsibleContent>
-          <div className="terminal-surface max-h-64 overflow-y-auto px-6 pb-4 pt-2 font-mono text-[11px] leading-relaxed">
+          <div className="terminal-surface max-h-56 overflow-y-auto px-4 pb-3 pt-2 font-mono text-[11px] leading-relaxed">
             {[...logs].reverse().map((l, i) => (
               <div key={i} className="flex gap-2">
                 <span className="shrink-0 text-muted-foreground/50">{l.t}</span>

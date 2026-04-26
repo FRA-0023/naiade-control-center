@@ -22,30 +22,30 @@ export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
         {...props}
       >
         {(title || eyebrow || meta) && (
-          <div className="flex flex-col gap-1.5 px-4 pt-4 md:px-6 md:pt-5">
-            <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-2">
-              <div className="flex min-w-0 flex-col gap-1">
+          <div className="flex flex-col gap-1 px-3 pt-3 md:px-4 md:pt-4">
+            <div className="flex flex-wrap items-start justify-between gap-x-2 gap-y-1.5">
+              <div className="flex min-w-0 flex-col gap-0.5">
                 {eyebrow && (
-                  <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-widest text-muted-foreground/80">
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground/80">
                     {eyebrow}
                   </span>
                 )}
                 {title && <h3 className="break-words">{title}</h3>}
               </div>
               {meta && (
-                <div className="font-mono text-[10px] sm:text-[11px] text-muted-foreground">
+                <div className="font-mono text-[10px] text-muted-foreground">
                   {meta}
                 </div>
               )}
             </div>
             {subtitle && (
-              <p className="text-xs sm:text-sm font-light leading-snug text-muted-foreground/80">
+              <p className="text-xs font-light leading-snug text-muted-foreground/80">
                 {subtitle}
               </p>
             )}
           </div>
         )}
-        <div className={cn("flex-1", padded ? "p-4 md:p-6" : "")}>{children}</div>
+        <div className={cn("flex-1", padded ? "p-3 md:p-4" : "")}>{children}</div>
       </div>
     );
   }

@@ -92,7 +92,7 @@ export function PredictiveMaintenance({
       meta={`ΔP membrane · 24h · ${company.shortName}`}
       padded={false}
     >
-      <div className="flex flex-col gap-4 p-4 md:p-6">
+      <div className="flex flex-col gap-3 p-3 md:p-4">
         {/* TOP: header text + current value */}
         <div>
           <p className="mb-3 text-card-desc">
@@ -137,7 +137,7 @@ export function PredictiveMaintenance({
         </div>
 
         {/* MIDDLE: restricted-height chart */}
-        <div className="relative w-full h-[240px] shrink-0 overflow-hidden min-w-0 pb-3">
+        <div className="relative w-full h-[210px] shrink-0 overflow-hidden min-w-0 pb-3">
           <ResponsiveContainer width="99%" height="100%">
             <AreaChart data={dp} margin={{ top: 10, right: 10, left: 10, bottom: 20 }}>
               <defs>

@@ -42,7 +42,7 @@ export function RULPanel({ rul }: { rul: number }) {
       meta="membrane GO-04"
       padded={false}
     >
-      <div className="overflow-hidden min-w-0 p-4 pb-3 md:p-6 md:pb-3">
+      <div className="overflow-hidden min-w-0 p-3 pb-2 md:p-4 md:pb-2">
         {/* Replacement window — the actionable headline */}
         <div className="mb-4 flex items-center gap-3 rounded-lg border border-primary/30 bg-primary/5 p-4">
           <CalendarClock className="h-5 w-5 shrink-0 text-primary" />
@@ -71,7 +71,7 @@ export function RULPanel({ rul }: { rul: number }) {
       </div>
 
       {/* Strict wrapper: fixed height + hidden overflow + horizontal padding so chart respects card bounds */}
-      <div className="h-48 w-full overflow-hidden mb-4 px-6">
+      <div className="h-44 w-full overflow-hidden mb-3 px-4 md:px-5">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 18, right: 12, bottom: 4, left: 0 }}>
             <defs>
@@ -123,7 +123,7 @@ export function RULPanel({ rul }: { rul: number }) {
         </ResponsiveContainer>
       </div>
 
-      <div className="mx-6 mb-6 mt-2 flex items-start gap-3 rounded-lg border border-warning/40 bg-warning/5 p-4">
+      <div className="mx-4 mb-4 mt-1 flex items-start gap-2.5 rounded-lg border border-warning/40 bg-warning/5 p-3">
         <PackageCheck className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
         <div className="flex-1">
           <div className="font-mono text-[10px] uppercase tracking-widest text-warning">

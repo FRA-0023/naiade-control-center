@@ -200,54 +200,54 @@
   }
 
   /* Global typographic hierarchy — applied across every page.
-     Baseline extracted from the Edge-AI tab so every tab feels cohesive.
+     Compressed ~10% for the high-density Enterprise Control Center look.
      Mobile-first: smaller on phones, scaling up at sm/md breakpoints. */
   h1 {
-    @apply text-2xl sm:text-3xl font-semibold tracking-tight text-foreground;
+    @apply text-xl sm:text-2xl font-semibold tracking-tight text-foreground;
     line-height: 1.15;
   }
   h2 {
-    @apply text-xl sm:text-2xl font-semibold tracking-tight text-foreground;
+    @apply text-lg sm:text-xl font-semibold tracking-tight text-foreground;
     line-height: 1.2;
   }
   h3 {
     /* BentoCard titles — compact baseline shared across all tabs */
-    @apply text-sm sm:text-base font-semibold tracking-tight text-foreground;
+    @apply text-xs sm:text-sm font-semibold tracking-tight text-foreground;
     line-height: 1.25;
   }
   h4 {
-    @apply text-sm sm:text-base font-semibold tracking-tight text-foreground;
+    @apply text-xs sm:text-sm font-semibold tracking-tight text-foreground;
     line-height: 1.3;
   }
 }
 
 /* ─── Naiade typography utilities ───
    Reusable classes that lock every metric, label, and description in the
-   dashboard to the Edge-AI baseline. Use these instead of ad-hoc sizing. */
+   dashboard to the compact Control-Center baseline. */
 @layer components {
-  /* Hero numerics — kept compact to match Live Ingestion / System Overview baseline */
+  /* Hero numerics — compact, dense */
   .metric-hero {
-    @apply font-mono text-2xl sm:text-3xl font-bold leading-none tracking-tight;
+    @apply font-mono text-xl sm:text-2xl font-bold leading-none tracking-tight;
   }
   /* Mid-size numerics (KPI cards, Stat tiles, Wash optimisation) */
   .metric-primary {
-    @apply font-mono text-2xl sm:text-3xl font-bold leading-none tracking-tight;
+    @apply font-mono text-xl sm:text-2xl font-bold leading-none tracking-tight;
   }
   /* Small inline stat values inside cards (latency stats, facts) */
   .metric-stat {
-    @apply font-mono text-base sm:text-lg font-semibold leading-none tracking-tight;
+    @apply font-mono text-sm sm:text-base font-semibold leading-none tracking-tight;
   }
   /* Card / section descriptions */
   .text-card-desc {
-    @apply text-sm font-light leading-snug text-muted-foreground;
+    @apply text-xs font-light leading-snug text-muted-foreground;
   }
   /* Eyebrow / stat label / micro caption */
   .text-eyebrow {
-    @apply font-mono text-[10px] sm:text-[11px] uppercase tracking-widest text-muted-foreground;
+    @apply font-mono text-[10px] uppercase tracking-widest text-muted-foreground;
   }
   /* Unit suffix next to a numeric (bar, m³/h, %, ms…) */
   .text-unit {
-    @apply font-mono text-xs text-muted-foreground;
+    @apply font-mono text-[11px] text-muted-foreground;
   }
 }
 

@@ -21,9 +21,9 @@ export type TabId = "overview" | "ingestion" | "edge" | "mlops" | "plant";
 
 function PageHeader({ title, subtitle }: { title: string; subtitle: string }) {
   return (
-    <div className="mb-5 shrink-0">
+    <div className="mb-3 shrink-0">
       <h1>{title}</h1>
-      <p className="mt-1 text-sm font-light leading-snug text-muted-foreground">
+      <p className="mt-0.5 text-xs font-light leading-snug text-muted-foreground">
         {subtitle}
       </p>
     </div>
@@ -66,10 +66,10 @@ const Index = () => {
           <main
             className={
               tab === "plant"
-                ? "flex flex-1 flex-col p-3 sm:p-4 md:overflow-hidden md:p-6"
+                ? "flex flex-1 flex-col p-3 sm:p-4 md:overflow-hidden md:p-5"
                 : tab === "ingestion"
-                ? "flex-1 overflow-y-auto p-3 sm:p-4 md:p-6"
-                : "flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 lg:p-8"
+                ? "flex-1 overflow-y-auto p-3 sm:p-4 md:p-5"
+                : "flex-1 overflow-y-auto p-3 sm:p-4 md:p-5 lg:p-6"
             }
           >
             <div
@@ -128,7 +128,7 @@ const Index = () => {
                     title="Edge-AI Diagnostics"
                     subtitle="On-device anomaly detection and CNN-based predictive maintenance."
                   />
-                  <div className="grid grid-cols-12 gap-4 md:gap-5">
+                  <div className="grid grid-cols-12 gap-3 md:gap-4">
                   <div className="col-span-12 lg:col-span-5">
                     <AnomalyPanel anomaly={data.anomaly} latency={data.latency} logs={data.logs} />
                   </div>
@@ -145,7 +145,7 @@ const Index = () => {
                     title="Global MLOps"
                     subtitle="Federated learning across the fleet and tamper-proof blockchain audit."
                   />
-                  <div className="grid grid-cols-12 gap-4 md:gap-5">
+                  <div className="grid grid-cols-12 gap-3 md:gap-4">
                   <div className="col-span-12 lg:col-span-4">
                     <FederatedLearning progress={data.federatedProgress} />
                   </div>
@@ -175,7 +175,7 @@ const Index = () => {
               )}
 
               {tab !== "plant" && (
-                <footer className="mt-6 border-t border-border/40 pt-4 text-center font-mono text-[10px] text-muted-foreground">
+                <footer className="mt-4 border-t border-border/40 pt-3 text-center font-mono text-[10px] text-muted-foreground">
                   NAIADE · Decentralized Water Filtration · Graphene Oxide × Edge-AI
                 </footer>
               )}
