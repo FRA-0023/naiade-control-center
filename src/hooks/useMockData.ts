@@ -120,7 +120,7 @@ export function useMockData(companyId: CompanyId = "acme") {
       firstRun.current = false;
       return;
     }
-    setRaman(genRamanFrame(null, b.ramanShift));
+    setRaman(genRamanFrame(null, b.ramanShift, company.spectralSignature.peaks));
     setPressure([]);
     setFlow([]);
     setConductivity([]);
