@@ -22,6 +22,10 @@ export type Company = {
     federatedRound: number;
     blockHeightStart: number;
     ramanShift: number;   // shifts spectral peaks
+    /** ΔP membrane drift rate in bar / hour (used for time-to-wash). */
+    dpDriftPerHour: number;
+    /** ΔP membrane fouling threshold in bar — at/above this a CIP wash is required. */
+    dpWashThreshold: number;
   };
   /** Per-company nominal operating ranges shown on KPI cards. */
   thresholds: {
@@ -29,7 +33,15 @@ export type Company = {
     flow: { min: number; max: number; label: string };
     conductivity: { min: number; max: number; label: string };
   };
+  /** Per-company Raman spectral signature (peaks in Raman frame coordinates 0..180). */
+  spectralSignature: {
+    peaks: { c: number; w: number; h: number }[];
+    /** Operator-facing label for the chemical context. */
+    matrix: string;
+  };
 };
+
+export type RamanPeak = { c: number; w: number; h: number };
 
 export const companies: Company[] = [
   {
