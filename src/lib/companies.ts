@@ -63,11 +63,23 @@ export const companies: Company[] = [
       federatedRound: 2814,
       blockHeightStart: 184_201,
       ramanShift: 0,
+      dpDriftPerHour: 0.012,
+      dpWashThreshold: 2.5,
     },
     thresholds: {
       pressure: { min: 8, max: 12, label: "Target: 8–12 bar" },
       flow: { min: 1.0, max: 2.5, label: "Target: 1.0–2.5 m³/h" },
       conductivity: { min: 0, max: 50, label: "Target: < 50 µS/cm" },
+    },
+    spectralSignature: {
+      matrix: "Ultra-pure semiconductor rinse",
+      // 4 moderate, well-separated peaks
+      peaks: [
+        { c: 30,  w: 8,  h: 60 },
+        { c: 70,  w: 12, h: 90 },
+        { c: 110, w: 6,  h: 50 },
+        { c: 145, w: 18, h: 75 },
+      ],
     },
   },
   {
