@@ -53,7 +53,7 @@ const Index = () => {
           activeCompany={activeCompany}
           onCompanyChange={setActiveCompany}
         />
-        <SidebarInset className="flex min-h-screen flex-1 flex-col md:h-full md:min-h-0 md:overflow-hidden">
+        <SidebarInset className="flex min-h-screen flex-1 flex-col min-w-0 max-w-full overflow-x-hidden md:h-full md:min-h-0 md:overflow-hidden">
           <TopBar
             anomaly={data.anomaly}
             tabs={tabs}
