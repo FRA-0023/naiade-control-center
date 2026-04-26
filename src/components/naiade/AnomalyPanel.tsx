@@ -68,7 +68,7 @@ export function AnomalyPanel({
               </span>
               <span
                 className={cn(
-                  "text-xl font-bold tracking-tight",
+                  "metric-stat",
                   anomaly ? "text-destructive" : "text-success"
                 )}
               >
