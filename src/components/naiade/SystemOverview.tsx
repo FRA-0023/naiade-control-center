@@ -77,8 +77,8 @@ export function SystemOverview({
         <ExecutiveSchema onNavigate={onNavigate} />
       </BentoCard>
 
-      {/* BOTTOM — 3 impact cards */}
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+      {/* BOTTOM — 4 impact cards */}
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <ImpactCard
           eyebrow="L1 · INGESTION"
           title="Every building, a source"
@@ -99,6 +99,13 @@ export function SystemOverview({
           body="Federated learning across the fleet drives global optimization — energy pushed below 0.65 kWh/m³."
           cta="View MLOps"
           onClick={() => onNavigate("mlops")}
+        />
+        <ImpactCard
+          eyebrow="L4 · DIGITAL TWIN"
+          title="Interactive Plant Map"
+          body="Spatial 2D P&ID representation of the physical facility with live sensor telemetry and hardware status."
+          cta="View plant map"
+          onClick={() => onNavigate("plant")}
         />
       </div>
     </div>
