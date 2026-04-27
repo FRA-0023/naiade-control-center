@@ -34,7 +34,7 @@ export function TopBar({
 
   return (
     <>
-      <div className="fixed top-0 inset-x-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/95 md:hidden">
+      <div className="fixed top-0 inset-x-0 z-50 border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-950 md:hidden">
         <div className="flex h-14 items-center gap-2 px-3">
           <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
 
