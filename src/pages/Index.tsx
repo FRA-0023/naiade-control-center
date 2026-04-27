@@ -66,17 +66,17 @@ const Index = () => {
           <main
             className={
               tab === "plant"
-                ? "flex flex-1 flex-col overflow-x-hidden px-3 pb-3 pt-[72px] sm:px-4 sm:pb-4 md:overflow-hidden md:p-5 md:pt-5"
+                ? "flex flex-1 flex-col overflow-x-hidden px-3 pb-3 pt-[88px] sm:px-4 sm:pb-4 md:overflow-hidden md:p-5 md:pt-8"
                 : tab === "ingestion"
-                ? "flex-1 overflow-x-hidden overflow-y-auto px-3 pb-3 pt-[72px] sm:px-4 sm:pb-4 md:p-5 md:pt-5"
-                : "flex-1 overflow-x-hidden overflow-y-auto px-3 pb-3 pt-[72px] sm:px-4 sm:pb-4 md:p-5 md:pt-5 lg:p-6 lg:pt-6"
+                ? "flex-1 overflow-x-hidden overflow-y-auto px-3 pb-3 pt-[88px] sm:px-4 sm:pb-4 md:p-5 md:pt-8"
+                : "flex-1 overflow-x-hidden overflow-y-auto px-3 pb-3 pt-[88px] sm:px-4 sm:pb-4 md:p-5 md:pt-8 lg:p-6 lg:pt-8"
             }
           >
             <div
               className={
                 tab === "plant"
                   ? "flex h-full w-full min-w-0 flex-col"
-                  : "mx-auto flex w-full min-w-0 max-w-[1600px] flex-col gap-6 md:gap-8"
+                  : "mx-auto flex w-full min-w-0 max-w-[1600px] flex-col"
               }
             >
               {tab === "overview" && (
