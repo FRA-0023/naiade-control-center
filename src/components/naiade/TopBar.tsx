@@ -53,13 +53,6 @@ export function TopBar({
             />
           </div>
         </div>
-
-        <div className="flex items-center justify-between border-t border-border/40 px-3 py-2">
-          <div className="flex flex-col leading-tight">
-            <span className="text-sm font-semibold tracking-tight text-foreground">{current.label}</span>
-            <span className="font-mono text-[10px] text-muted-foreground">{current.sub}</span>
-          </div>
-        </div>
       </div>
 
       <header className="hidden w-full border-b border-border/60 bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/75 md:sticky md:top-0 md:z-50 md:block">
