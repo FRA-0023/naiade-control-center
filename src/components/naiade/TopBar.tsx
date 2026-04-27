@@ -30,7 +30,9 @@ export function TopBar({
     return () => clearInterval(id);
   }, []);
 
-  const current = tabs.find((t) => t.id === activeTab) ?? tabs[0];
+  void tabs;
+  void activeTab;
+  void onTabChange;
 
   return (
     <>
