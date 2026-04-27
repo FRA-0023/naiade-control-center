@@ -30,7 +30,9 @@ export function TopBar({
     return () => clearInterval(id);
   }, []);
 
-  const current = tabs.find((t) => t.id === activeTab) ?? tabs[0];
+  void tabs;
+  void activeTab;
+  void onTabChange;
 
   return (
     <>
@@ -53,13 +55,6 @@ export function TopBar({
             />
           </div>
         </div>
-
-        <div className="flex items-center justify-between border-t border-border/40 px-3 py-2">
-          <div className="flex flex-col leading-tight">
-            <span className="text-sm font-semibold tracking-tight text-foreground">{current.label}</span>
-            <span className="font-mono text-[10px] text-muted-foreground">{current.sub}</span>
-          </div>
-        </div>
       </div>
 
       <header className="hidden w-full border-b border-border/60 bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/75 md:sticky md:top-0 md:z-50 md:block">
@@ -67,9 +62,11 @@ export function TopBar({
           <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
           <Separator orientation="vertical" className="hidden h-6 md:block" />
 
-          <div className="hidden flex-col leading-tight md:flex">
-            <span className="text-sm font-semibold tracking-tight text-foreground">{current.label}</span>
-            <span className="font-mono text-[10px] text-muted-foreground">{current.sub}</span>
+          <div className="hidden items-center gap-2 md:flex">
+            <div className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-primary/10 ring-1 ring-primary/40">
+              <Waves className="h-3.5 w-3.5 text-primary" />
+            </div>
+            <span className="text-sm font-semibold tracking-tight text-foreground">NAIADE</span>
           </div>
 
           <div className="ml-auto flex items-center gap-2">

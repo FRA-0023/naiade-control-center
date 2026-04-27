@@ -21,12 +21,12 @@ export type TabId = "overview" | "ingestion" | "edge" | "mlops" | "plant";
 
 function PageHeader({ title, subtitle }: { title: string; subtitle: string }) {
   return (
-    <header className="relative w-full flex flex-col gap-2 mb-6">
+    <div className="relative w-full flex flex-col gap-2 pt-6 pb-6">
       <h1 className="break-words">{title}</h1>
       <p className="text-sm font-light leading-relaxed text-muted-foreground break-words">
         {subtitle}
       </p>
-    </header>
+    </div>
   );
 }
 
@@ -66,10 +66,10 @@ const Index = () => {
           <main
             className={
               tab === "plant"
-                ? "flex flex-1 flex-col overflow-x-hidden px-3 pb-3 pt-[88px] sm:px-4 sm:pb-4 md:overflow-hidden md:p-5 md:pt-8"
+                ? "flex flex-1 flex-col overflow-x-hidden px-3 pb-3 pt-14 sm:px-4 sm:pb-4 md:overflow-hidden md:p-5 md:pt-0"
                 : tab === "ingestion"
-                ? "flex-1 overflow-x-hidden overflow-y-auto px-3 pb-3 pt-[88px] sm:px-4 sm:pb-4 md:p-5 md:pt-8"
-                : "flex-1 overflow-x-hidden overflow-y-auto px-3 pb-3 pt-[88px] sm:px-4 sm:pb-4 md:p-5 md:pt-8 lg:p-6 lg:pt-8"
+                ? "flex-1 overflow-x-hidden overflow-y-auto px-3 pb-3 pt-14 sm:px-4 sm:pb-4 md:p-5 md:pt-0"
+                : "flex-1 overflow-x-hidden overflow-y-auto px-3 pb-3 pt-14 sm:px-4 sm:pb-4 md:p-5 md:pt-0 lg:p-6 lg:pt-0"
             }
           >
             <div
