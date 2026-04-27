@@ -21,7 +21,7 @@ export type TabId = "overview" | "ingestion" | "edge" | "mlops" | "plant";
 
 function PageHeader({ title, subtitle }: { title: string; subtitle: string }) {
   return (
-    <div className="relative flex w-full flex-col gap-2 pb-2 pt-2 md:pb-6 md:pt-0">
+    <div className="relative flex w-full flex-col gap-2 mb-4 md:mb-12">
       <h1 className="break-words">{title}</h1>
       <p className="text-sm font-light leading-relaxed text-muted-foreground break-words">
         {subtitle}
