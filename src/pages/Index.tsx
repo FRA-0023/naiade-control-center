@@ -76,7 +76,7 @@ const Index = () => {
               className={
                 tab === "plant"
                   ? "flex h-full w-full min-w-0 flex-col"
-                  : "mx-auto flex w-full min-w-0 max-w-[1600px] flex-col"
+                  : "mx-auto flex w-full min-w-0 max-w-[1600px] flex-col gap-4 lg:gap-10"
               }
             >
               {tab === "overview" && (
