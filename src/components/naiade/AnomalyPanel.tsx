@@ -39,7 +39,7 @@ export function AnomalyPanel({
       className={cn(anomaly && "border-destructive/40")}
     >
       <div className="flex flex-col gap-3.5 p-3 md:p-4">
-        <p className="-mt-2 text-card-desc">
+        <p className="text-card-desc">
           Time required for the Edge node to analyze molecular Raman spectra and physically trigger a safety valve if toxins are detected.
         </p>
         {/* Hero status */}

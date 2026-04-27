@@ -21,7 +21,7 @@ export type TabId = "overview" | "ingestion" | "edge" | "mlops" | "plant";
 
 function PageHeader({ title, subtitle }: { title: string; subtitle: string }) {
   return (
-    <div className="flex h-auto flex-col gap-2 mb-6">
+    <div className="relative w-full flex h-auto flex-col gap-2">
       <h1 className="break-words">{title}</h1>
       <p className="text-sm font-light leading-relaxed text-muted-foreground break-words">
         {subtitle}
@@ -76,9 +76,7 @@ const Index = () => {
               className={
                 tab === "plant"
                   ? "flex h-full w-full min-w-0 flex-col"
-                  : tab === "ingestion"
-                  ? "mx-auto flex w-full min-w-0 max-w-[1600px] flex-col"
-                  : "mx-auto w-full min-w-0 max-w-[1600px]"
+                  : "mx-auto flex w-full min-w-0 max-w-[1600px] flex-col gap-6 md:gap-8"
               }
             >
               {tab === "overview" && (
@@ -117,47 +115,59 @@ const Index = () => {
               )}
 
               {tab === "edge" && (
-                <div className="grid grid-cols-12 gap-3 md:gap-4">
-                  <div className="col-span-12 lg:col-span-5">
-                    <AnomalyPanel anomaly={data.anomaly} latency={data.latency} logs={data.logs} />
+                <>
+                  <PageHeader
+                    title="Edge-AI Diagnostics"
+                    subtitle="On-device anomaly detection and CNN-based predictive maintenance."
+                  />
+                  <div className="grid grid-cols-12 gap-3 md:gap-4">
+                    <div className="col-span-12 lg:col-span-5">
+                      <AnomalyPanel anomaly={data.anomaly} latency={data.latency} logs={data.logs} />
+                    </div>
+                    <div className="col-span-12 lg:col-span-7">
+                      <PredictiveMaintenance dp={data.dp} company={data.company} />
+                    </div>
                   </div>
-                  <div className="col-span-12 lg:col-span-7">
-                    <PredictiveMaintenance dp={data.dp} company={data.company} />
-                  </div>
-                </div>
+                </>
               )}
 
               {tab === "mlops" && (
-                <div className="grid grid-cols-12 gap-3 md:gap-4">
-                  <div className="col-span-12 lg:col-span-4">
-                    <FederatedLearning progress={data.federatedProgress} />
+                <>
+                  <PageHeader
+                    title="Global MLOps"
+                    subtitle="Federated learning across the fleet and tamper-proof blockchain audit."
+                  />
+                  <div className="grid grid-cols-12 gap-3 md:gap-4">
+                    <div className="col-span-12 lg:col-span-4">
+                      <FederatedLearning progress={data.federatedProgress} />
+                    </div>
+                    <div className="col-span-12 md:col-span-6 lg:col-span-4">
+                      <WashOptimization value={data.washFreq} />
+                    </div>
+                    <div className="col-span-12 md:col-span-6 lg:col-span-4">
+                      <RULPanel rul={data.rul} />
+                    </div>
+                    <div className="col-span-12">
+                      <BlockchainLog blocks={data.blocks} />
+                    </div>
+                    <div className="col-span-12 mt-2 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-success/30 bg-success/5 px-4 py-2.5 font-mono text-[11px]">
+                      <span className="flex items-center gap-2 text-success">
+                        <span className="h-1.5 w-1.5 rounded-full bg-success animate-tick" />
+                        Blockchain Integrity: 100%
+                      </span>
+                      <span className="text-muted-foreground">
+                        Last Hash: <span className="text-foreground">0x8F2{data.blocks[data.blocks.length - 1]?.hash?.slice(0, 4) ?? "a91c"}…</span>
+                      </span>
+                      <span className="text-muted-foreground">
+                        Verified by <span className="text-foreground">Sanitary Authority</span>
+                      </span>
+                    </div>
                   </div>
-                  <div className="col-span-12 md:col-span-6 lg:col-span-4">
-                    <WashOptimization value={data.washFreq} />
-                  </div>
-                  <div className="col-span-12 md:col-span-6 lg:col-span-4">
-                    <RULPanel rul={data.rul} />
-                  </div>
-                  <div className="col-span-12">
-                    <BlockchainLog blocks={data.blocks} />
-                  </div>
-                  <div className="col-span-12 mt-2 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-success/30 bg-success/5 px-4 py-2.5 font-mono text-[11px]">
-                    <span className="flex items-center gap-2 text-success">
-                      <span className="h-1.5 w-1.5 rounded-full bg-success animate-tick" />
-                      Blockchain Integrity: 100%
-                    </span>
-                    <span className="text-muted-foreground">
-                      Last Hash: <span className="text-foreground">0x8F2{data.blocks[data.blocks.length - 1]?.hash?.slice(0, 4) ?? "a91c"}…</span>
-                    </span>
-                    <span className="text-muted-foreground">
-                      Verified by <span className="text-foreground">Sanitary Authority</span>
-                    </span>
-                  </div>
-                </div>
+                </>
               )}
 
               {tab !== "plant" && (
-                <footer className="mt-4 border-t border-border/40 pt-3 text-center font-mono text-[10px] text-muted-foreground">
+                <footer className="border-t border-border/40 pt-3 text-center font-mono text-[10px] text-muted-foreground">
                   NAIADE · Decentralized Water Filtration · Graphene Oxide × Edge-AI
                 </footer>
               )}
