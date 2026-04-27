@@ -21,7 +21,7 @@ export type TabId = "overview" | "ingestion" | "edge" | "mlops" | "plant";
 
 function PageHeader({ title, subtitle }: { title: string; subtitle: string }) {
   return (
-    <div className="relative flex w-full flex-col gap-2 mb-4 md:mb-12">
+    <div className="relative flex w-full flex-col gap-2 mb-2 lg:mb-10">
       <h1 className="break-words">{title}</h1>
       <p className="text-sm font-light leading-relaxed text-muted-foreground break-words">
         {subtitle}
@@ -76,7 +76,7 @@ const Index = () => {
               className={
                 tab === "plant"
                   ? "flex h-full w-full min-w-0 flex-col"
-                  : "mx-auto flex w-full min-w-0 max-w-[1600px] flex-col"
+                  : "mx-auto flex w-full min-w-0 max-w-[1600px] flex-col gap-4 lg:gap-10"
               }
             >
               {tab === "overview" && (
