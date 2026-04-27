@@ -60,9 +60,11 @@ export function TopBar({
           <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
           <Separator orientation="vertical" className="hidden h-6 md:block" />
 
-          <div className="hidden flex-col leading-tight md:flex">
-            <span className="text-sm font-semibold tracking-tight text-foreground">{current.label}</span>
-            <span className="font-mono text-[10px] text-muted-foreground">{current.sub}</span>
+          <div className="hidden items-center gap-2 md:flex">
+            <div className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-primary/10 ring-1 ring-primary/40">
+              <Waves className="h-3.5 w-3.5 text-primary" />
+            </div>
+            <span className="text-sm font-semibold tracking-tight text-foreground">NAIADE</span>
           </div>
 
           <div className="ml-auto flex items-center gap-2">
