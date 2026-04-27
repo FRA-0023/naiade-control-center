@@ -66,10 +66,10 @@ const Index = () => {
           <main
             className={
               tab === "plant"
-                ? "flex flex-1 flex-col overflow-x-hidden px-3 pb-3 pt-24 sm:px-4 sm:pb-4 md:overflow-hidden md:p-5 md:pt-5"
+                ? "flex flex-1 flex-col overflow-x-hidden px-3 pb-3 pt-[72px] sm:px-4 sm:pb-4 md:overflow-hidden md:p-5 md:pt-5"
                 : tab === "ingestion"
-                ? "flex-1 overflow-x-hidden overflow-y-auto px-3 pb-3 pt-24 sm:px-4 sm:pb-4 md:p-5 md:pt-5"
-                : "flex-1 overflow-x-hidden overflow-y-auto px-3 pb-3 pt-24 sm:px-4 sm:pb-4 md:p-5 md:pt-5 lg:p-6 lg:pt-6"
+                ? "flex-1 overflow-x-hidden overflow-y-auto px-3 pb-3 pt-[72px] sm:px-4 sm:pb-4 md:p-5 md:pt-5"
+                : "flex-1 overflow-x-hidden overflow-y-auto px-3 pb-3 pt-[72px] sm:px-4 sm:pb-4 md:p-5 md:pt-5 lg:p-6 lg:pt-6"
             }
           >
             <div
@@ -82,18 +82,12 @@ const Index = () => {
               }
             >
               {tab === "overview" && (
-                <>
-                  <PageHeader
-                    title="System Overview"
-                    subtitle="Topology, health, and global impact across all NAIADE nodes."
-                  />
-                  <SystemOverview
+                <SystemOverview
                   onNavigate={setTab}
                   totalRegenerated={2_840_000 + ledgerHeight * 12}
                   efficiencyMultiplier={5.4}
                   ledgerHeight={ledgerHeight}
-                  />
-                </>
+                />
               )}
 
               {tab === "plant" && (
@@ -123,29 +117,18 @@ const Index = () => {
               )}
 
               {tab === "edge" && (
-                <>
-                  <PageHeader
-                    title="Edge-AI Diagnostics"
-                    subtitle="On-device anomaly detection and CNN-based predictive maintenance."
-                  />
-                  <div className="grid grid-cols-12 gap-3 md:gap-4">
+                <div className="grid grid-cols-12 gap-3 md:gap-4">
                   <div className="col-span-12 lg:col-span-5">
                     <AnomalyPanel anomaly={data.anomaly} latency={data.latency} logs={data.logs} />
                   </div>
                   <div className="col-span-12 lg:col-span-7">
                     <PredictiveMaintenance dp={data.dp} company={data.company} />
                   </div>
-                  </div>
-                </>
+                </div>
               )}
 
               {tab === "mlops" && (
-                <>
-                  <PageHeader
-                    title="Global MLOps"
-                    subtitle="Federated learning across the fleet and tamper-proof blockchain audit."
-                  />
-                  <div className="grid grid-cols-12 gap-3 md:gap-4">
+                <div className="grid grid-cols-12 gap-3 md:gap-4">
                   <div className="col-span-12 lg:col-span-4">
                     <FederatedLearning progress={data.federatedProgress} />
                   </div>
@@ -170,8 +153,7 @@ const Index = () => {
                       Verified by <span className="text-foreground">Sanitary Authority</span>
                     </span>
                   </div>
-                  </div>
-                </>
+                </div>
               )}
 
               {tab !== "plant" && (
