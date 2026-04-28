@@ -66,10 +66,10 @@ const Index = () => {
           <main
             className={
               tab === "plant"
-                ? "flex flex-1 flex-col overflow-x-hidden px-3 pt-[112px] pb-6 sm:px-4 md:overflow-hidden md:px-5 md:pt-[80px] md:pb-8"
+                ? "flex flex-1 flex-col overflow-x-hidden px-3 pt-[112px] pb-6 sm:px-4 md:overflow-hidden md:px-5 md:pt-6 md:pb-8"
                 : tab === "ingestion"
-                ? "flex-1 overflow-x-hidden overflow-y-auto px-3 pt-[112px] pb-6 sm:px-4 md:px-5 md:pt-[80px] md:pb-8"
-                : "flex-1 overflow-x-hidden overflow-y-auto px-3 pt-[112px] pb-6 sm:px-4 md:px-5 md:pt-[80px] md:pb-8 lg:px-6"
+                ? "flex-1 overflow-x-hidden overflow-y-auto px-3 pt-[112px] pb-6 sm:px-4 md:px-5 md:pt-6 md:pb-8"
+                : "flex-1 overflow-x-hidden overflow-y-auto px-3 pt-[112px] pb-6 sm:px-4 md:px-5 md:pt-6 md:pb-8 lg:px-6"
             }
           >
             <div
