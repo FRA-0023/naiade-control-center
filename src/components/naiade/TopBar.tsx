@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Radio, Waves, Wifi, type LucideIcon } from "lucide-react";
+import { Radio, Wifi, type LucideIcon } from "lucide-react";
+import naiadeLogo from "@/assets/naiade-logo.png";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -41,8 +42,8 @@ export function TopBar({
           <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
 
           <div className="flex items-center gap-2">
-            <div className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-primary/10 ring-1 ring-primary/40">
-              <Waves className="h-3.5 w-3.5 text-primary" />
+            <div className="relative flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-md bg-white ring-1 ring-primary/40">
+              <img src={naiadeLogo} alt="Naiade logo" className="h-full w-full object-contain" />
             </div>
             <span className="text-sm font-semibold tracking-tight text-foreground">NAIADE</span>
           </div>
@@ -63,8 +64,8 @@ export function TopBar({
           <Separator orientation="vertical" className="hidden h-6 md:block" />
 
           <div className="hidden items-center gap-2 md:flex">
-            <div className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-primary/10 ring-1 ring-primary/40">
-              <Waves className="h-3.5 w-3.5 text-primary" />
+            <div className="relative flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-md bg-white ring-1 ring-primary/40">
+              <img src={naiadeLogo} alt="Naiade logo" className="h-full w-full object-contain" />
             </div>
             <span className="text-sm font-semibold tracking-tight text-foreground">NAIADE</span>
           </div>
