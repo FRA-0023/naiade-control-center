@@ -1,4 +1,5 @@
-import { Activity, Cloud, Cpu, LayoutGrid, Map, Waves, CircleDot } from "lucide-react";
+import { Activity, Cloud, Cpu, LayoutGrid, Map, CircleDot } from "lucide-react";
+import naiadeLogo from "@/assets/naiade-logo.png";
 import {
   Sidebar,
   SidebarContent,
@@ -61,8 +62,8 @@ export function AppSidebar({
             collapsed ? "justify-center px-0" : "px-2"
           )}
         >
-          <div className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-primary/10 ring-1 ring-primary/40">
-            <Waves className="h-3.5 w-3.5 text-primary" />
+          <div className="relative flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-md bg-white ring-1 ring-primary/40">
+            <img src={naiadeLogo} alt="Naiade logo" className="h-full w-full object-contain" />
           </div>
           {!collapsed && (
             <div className="flex flex-col leading-tight">

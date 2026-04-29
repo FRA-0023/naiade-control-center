@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Radio, Waves, Wifi, type LucideIcon } from "lucide-react";
+import { Radio, Wifi, type LucideIcon } from "lucide-react";
+import naiadeLogo from "@/assets/naiade-logo.png";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
