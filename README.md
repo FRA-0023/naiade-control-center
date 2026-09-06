@@ -1,53 +1,95 @@
-# Naiade • Advanced Water Treatment Management System
-Naiade is a high-performance, multi-tenant industrial dashboard designed for the supervision of decentralized water treatment plants. It integrates real-time molecular telemetry, Edge-AI inference, and Federated MLOps into a single-screen "Digital Twin" environment.
+﻿# 💧 Naiade Control Center: Industrial Digital Twin & Edge-AI Water Treatment System
 
-## Module Breakdown
-### 1. System Overview (DWP - Decentralized Water Protocol)
-This tab provides a high-level schematic of the physical process flow. It visualizes the end-to-end treatment chain, focusing on:
+[![Language](https://img.shields.io/badge/Language-TypeScript-3178C6?style=flat&logo=typescript)](https://www.typescriptlang.org/)
+[![Framework](https://img.shields.io/badge/Framework-React%2018%20%7C%20Vite-61DAFB?logo=react)](#)
+[![Styling](https://img.shields.io/badge/Styling-Tailwind%20CSS%20%7C%20shadcn--ui-38B2AC?logo=tailwind-css)](#)
+[![AI & MLOps](https://img.shields.io/badge/Edge--AI-Local%20CNN%20%7C%20Federated%20Learning-blue)](#)
+[![Audit](https://img.shields.io/badge/Compliance-Blockchain--Backed%20Audit%20Trail-orange)](#)
 
-Process Chain: Supervision of Graphene-Oxide (GO) membranes and Energy Recovery Devices (ERD).
+> Decentralized industrial water treatment supervision. Real-time molecular Raman telemetry, interactive SVG P&ID digital twins, local edge inference, and federated predictive maintenance.
 
-Energy Efficiency: Real-time monitoring of pressure energy recovery.
+---
 
-Operational Schema: A logical flow from Grey Water input to Ultra-Pure Water (UPW) output.
+## 📌 Executive Summary
 
-### 2. Plant Map (Interactive Digital Twin)
-A comprehensive P&ID (Piping and Instrumentation Diagram) interface that offers a spatial representation of the specific facility (Acme, Nexus, or Aegis).
+Traditional water treatment infrastructure relies on centralized, delayed laboratory sampling that fails to prevent membrane fouling or trace chemical contamination in real time.
 
-Physical Topology: Blueprint-style SVG layouts adapted to each tenant's infrastructure (Linear, U-Loop, or Industrial Skid).
+Naiade is an enterprise-grade industrial digital twin and supervision cockpit for decentralized water treatment plants (DWP - Decentralized Water Protocol).
 
-Live Sensor Pins: Real-time anchoring of sensors (PR, FL, RM, EC, TM) directly on the piping paths.
+The platform integrates 50ms Raman molecular spectroscopy, interactive P&ID blueprints, local Edge-AI autonomous response (<10ms CNN classification), and Federated MLOps for Graphene-Oxide membrane optimization.
 
-Component Details: An interactive sidebar providing technical descriptions, maintenance logs, and live telemetry for every vessel, pump, and sensor.
+---
 
-UX Features: Full Zoom and Pan capabilities for navigating complex industrial environments.
+## 🏛️ Digital Twin Topology
 
-### 3. Live Ingestion (Real-Time Telemetry)
-The "Cockpit" view for high-frequency monitoring of physical and molecular data.
+```
+                         NAIADE CONTROL CENTER
+                                   │
+              Industrial Water Filtration Facilities (Skids)
+                                   │
+                                   ▼
+       ┌───────────────────────────────────────────────────────┐
+       │               REAL-TIME INGESTION LAYER               │
+       │       50ms Raman Spectroscopy, Pressure, Flow Rate    │
+       └───────────────────────────┬───────────────────────────┘
+                                   │
+                     ┌─────────────┴─────────────┐
+                     ▼                           ▼
+       ┌───────────────────────────┐ ┌───────────────────────────┐
+       │    LOCAL EDGE-AI ENGINE   │ │    FEDERATED MLOps HUB    │
+       │  Sub-10ms CNN Anomaly Det │ │ Decentralized Weights Agg │
+       │  Auto CIP / Backwash Trig │ │ LSTM Remaining Useful Life│
+       └─────────────┬─────────────┘ └─────────────┬─────────────┘
+                     │                             │
+                     └─────────────┬───────────────┘
+                                   │
+                                   ▼
+       ┌───────────────────────────────────────────────────────┐
+       │             SUPERVISION & COMPLIANCE UI               │
+       │    Interactive SVG P&ID Map, Cryptographic Audit Trail│
+       └───────────────────────────────────────────────────────┘
+```
 
-Raman Spectrogram: Real-time molecular certification via 50ms refresh Raman spectroscopy, detecting chemical signatures and molecular peaks.
+The system provides complete multi-tenancy, enabling operators to switch between facility topologies (Linear, U-Loop, Skid) with dynamic baseline telemetry.
 
-Critical Metrics: Live monitoring of Pressure (bar), Flow Rate (m³/h), and Conductivity (µS/cm) with dynamic, tenant-specific safety thresholds.
+---
 
-Sensor Health: A grid-based status panel for all individual hardware channels.
+## ⚙️ Core Architectural Modules
 
-### 4. Edge-AI (Decentralized Intelligence)
-This module monitors the "Brain" of each individual treatment node. Unlike traditional cloud-based systems, Naiade performs **Local Inference** at the edge to ensure zero-latency response times.
+### Verified Frontend Components
+- **System Overview ([`src/components/naiade/SystemOverview.tsx`](src/components/naiade/SystemOverview.tsx)):** Process flow schematic supervising greywater input to Ultra-Pure Water (UPW) output with energy recovery metrics.
+- **Interactive P&ID Map ([`src/components/naiade/PlantMap.tsx`](src/components/naiade/PlantMap.tsx)):** Blueprint-style SVG topology with live sensor pins, pan-zoom controls, and equipment telemetry sidebars.
+- **Molecular Telemetry ([`src/components/naiade/RamanSpectrogram.tsx`](src/components/naiade/RamanSpectrogram.tsx)):** Real-time molecular certification via 50ms refresh Raman spectroscopy detecting chemical peaks.
+- **Edge-AI Anomaly Engine ([`src/components/naiade/AnomalyPanel.tsx`](src/components/naiade/AnomalyPanel.tsx)):** Autonomous local CNN inference executing clean-in-place (CIP) and backwash remediations before manual alarms trigger.
+- **Federated MLOps ([`src/components/naiade/FederatedLearning.tsx`](src/components/naiade/FederatedLearning.tsx)):** Decentralized model gradient aggregation preserving raw data privacy across the fleet.
+- **Predictive Maintenance ([`src/components/naiade/PredictiveMaintenance.tsx`](src/components/naiade/PredictiveMaintenance.tsx)):** LSTM networks forecasting the Remaining Useful Life (RUL) of Graphene-Oxide membranes.
+- **Cryptographic Audit Log ([`src/components/naiade/BlockchainLog.tsx`](src/components/naiade/BlockchainLog.tsx)):** Tamper-proof, SHA-256 hashed audit trail certifying water quality and model update provenance.
 
-- **Real-time Classification**: Uses a specialized CNN (Convolutional Neural Network) to analyze high-dimensional Raman data. It identifies molecular contaminants and water quality grades in <10ms.
-- **Autonomous Edge Response**: The AI doesn't just monitor; it takes action. If an anomaly is detected, the Edge node can independently trigger a "Backwash" or "CIP" (Clean-In-Place) cycle to protect the GO membranes before a human operator even sees the alert.
-- **Data Privacy**: By processing sensitive raw data locally, the system ensures that only anonymized "model weights" are ever transmitted externally, maintaining strict industrial security.
+---
 
-### 5. Global MLOps (Federated Learning & Audit)
-The MLOps layer represents the "Collective Intelligence" of the entire fleet. It manages the lifecycle of the AI models without ever moving raw water data from the plant.
+## 🛠️ Production Quickstart
 
-- **Federated Learning Protocol**: Instead of sending raw telemetry to the cloud, each node trains locally and only shares its "learnings" (gradients). The Global MLOps aggregator combines these updates into a "Master Model" and redeploys it to all nodes, allowing an improvement in one plant to benefit the entire global network.
-- **Predictive Maintenance (LSTM)**: Utilizes Long Short-Term Memory (LSTM) networks to analyze historical trends. It predicts the Remaining Useful Life (RUL) of membranes by recognizing subtle patterns of structural degradation that are invisible to standard sensors.
-- **Blockchain-Backed Audit Trail**: Every model update, quality certification, and critical system change is hashed and recorded on a Private Blockchain. This creates an immutable, tamper-proof audit log for regulatory authorities (e.g., environmental or health agencies), proving that the water quality certification has never been altered.
+### 1. Installation & Environment Setup
+Clone the repository and install dependencies using npm:
+```powershell
+# Install node packages
+npm install
+```
 
-## Key Features
-Multi-Tenancy: Instant context switching between different industrial nodes (Acme, Nexus, Aegis) with dedicated data baselines.
+### 2. Development & Production Build
+Launch the high-speed Vite development server or compile the production bundle:
+```powershell
+# Start local development server with hot-reload
+npm run dev
 
-Dual-Theme UI: Optimized for both high-light office environments (Light Mode) and low-light control rooms (Dark Mode).
+# Run TypeScript typecheck and production build
+npm run build
 
-Digital Twin Sync: Full alignment between physical sensor locations and digital data representation.
+# Preview production build locally
+npm run preview
+```
+
+---
+
+**Author:** Francesco Colombini  
+[GitHub Profile](https://github.com/FRA-0023) · [LinkedIn](https://www.linkedin.com/in/francescocolombini/)
