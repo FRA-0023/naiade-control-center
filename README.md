@@ -1,10 +1,11 @@
-﻿# 💧 Naiade Control Center: Industrial Digital Twin & Edge-AI Water Treatment System
+# 💧 Naiade Control Center: Industrial Digital Twin & Edge-AI Water Treatment System
 
 [![Language](https://img.shields.io/badge/Language-TypeScript-3178C6?style=flat&logo=typescript)](https://www.typescriptlang.org/)
 [![Framework](https://img.shields.io/badge/Framework-React%2018%20%7C%20Vite-61DAFB?logo=react)](#)
 [![Styling](https://img.shields.io/badge/Styling-Tailwind%20CSS%20%7C%20shadcn--ui-38B2AC?logo=tailwind-css)](#)
 [![AI & MLOps](https://img.shields.io/badge/Edge--AI-Local%20CNN%20%7C%20Federated%20Learning-blue)](#)
 [![Audit](https://img.shields.io/badge/Compliance-Blockchain--Backed%20Audit%20Trail-orange)](#)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
 > Decentralized industrial water treatment supervision. Real-time molecular Raman telemetry, interactive SVG P&ID digital twins, local edge inference, and federated predictive maintenance.
 
